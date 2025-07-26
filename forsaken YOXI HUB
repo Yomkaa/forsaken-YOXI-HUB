@@ -1,1868 +1,2093 @@
 -- Services
-local duOzXSpk = game:GetService("duOzXSpk")
-local SGFyTPEx = game:GetService("SGFyTPEx")
-local tZIRvlba = game:GetService("tZIRvlba")
-local AtQgREPg = game:GetService("AtQgREPg")
-local PSoQsWAs = game:GetService("PSoQsWAs")
-local BVczHHLw = game:GetService("BVczHHLw")
-local AXCeLSav = game:GetService("AXCeLSav")
-local QBZUIxAY = game:GetService("QBZUIxAY")
-local uVtWFRjH = game:GetService("uVtWFRjH")
-local GESajLtF = game:GetService("GESajLtF")
-local BpwDupgH = game:GetService("BpwDupgH")
-local bClbXYxw = game:GetService("bClbXYxw")
-local AxEdIXlH = duOzXSpk.LocalPlayer
-local KnJCyJAg = AtQgREPg.CurrentCamera
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Workspace = game:GetService("Workspace")
+local VirtualUser = game:GetService("VirtualUser")
+local UserInputService = game:GetService("UserInputService")
+local HttpService = game:GetService("HttpService")
+local StarterGui = game:GetService("StarterGui")
+local TweenService = game:GetService("TweenService")
+local VirtualInputManager = game:GetService("VirtualInputManager")
+local GuiService = game:GetService("GuiService")
+local CoreGui = game:GetService("CoreGui")
+
+local player = Players.LocalPlayer
+local camera = Workspace.CurrentCamera
+
 -- Configuration
-local ZgdTFUlJ = {
-GENERATOR_WAIT_TIME_DEFAULT = 1,
-GENERATOR_WAIT_TIME_MAX = 30,
-NOTIFICATION_IMAGE_ID = 83784037333375,
+local CONFIG = {
+    GENERATOR_WAIT_TIME_DEFAULT = 1,
+    GENERATOR_WAIT_TIME_MAX = 30,
+    NOTIFICATION_IMAGE_ID = 83784037333375,
 }
+
 -- State Table
-local KhBqfbSw = {
-autoGenerator = false,
-generatorWaitTime = ZgdTFUlJ.GENERATOR_WAIT_TIME_DEFAULT,
-autoCollectItems = false,
-killerESP = false,
-playerESP = false,
-generatorESP = false,
-itemESP = false,
-pizzaEsp = false,
-speedBoost = false,
-sprintSpeed = 26,
-noStaminaLoss = false,
-fieldOfView = 70,
-autoRemovePopups = false,
-noClip = false,
-antiSlateskinDebuff = false,
-antiFallDebuff = false,
-antiMedkitDebuff = false,
-antiColaDebuff = false,
-antiSubspaceDebuff = false,
-antiGlitchedEffect = false,
-antiBlindness = false,
-antiBurgerDebuff = false,
-antiSlashDebuff = false,
-antiChickenDebuff = false,
-antiBlockDebuff = false,
-bypassChargeSpeed = false,
-antiSlowAfterChargeEnd = false,
-antiAutoFovCharge = false,
-bypassPunchSpeed = false,
-antiTaphTripwire = false,
-antiSubspaceTripmine = false,
-antiPlasmaBeam = false,
-antiSpawnProtection = false,
-antiTwoTimeStab = false,
-antiTwoTimeCrouching = false,
-antiCoolGui = false,
-antiBehead = false,
-antiEnraged = false,
-antiAFK = false,
-aimBotPlasmaBeamSurvivor = false,
-aimBotPlasmaBeamKiller = false,
-antiWalkSpeedOverride = false,
-antiCorruptNature = false,
-antiPizzaDelivery = false,
-pizzaDeliveryEsp = false,
-zombieEsp = false,
-antiShootDebuff = false,
-aimBotShootKiller = false,
-fullBright = false,
-aimBotMassInfection = false,
-aimBotEntanglement = false,
-antiMassInfection = false,
-antiEntanglement = false,
-autoCoinFlip = false,
--- Настройки для aimbot
-aimbotFOV = 1000,
-aimbotWallCheck = false,
-aimbotSmoothing = true,
-aimbotAimStrength = 0.5,
-aimbotFOVVisible = true,
-aimbotRGB = false, -- Добавлено для RGB-эффекта
--- Настройки для CFrame Speed
-cframeSpeedEnabled = false,
-cframeSpeedValue = 50,
+local state = {
+    autoGenerator = false,
+    generatorWaitTime = CONFIG.GENERATOR_WAIT_TIME_DEFAULT,
+    autoCollectItems = false,
+    killerESP = false,
+    playerESP = false,
+    generatorESP = false,
+    itemESP = false,
+    pizzaEsp = false,
+    speedBoost = false,
+    sprintSpeed = 26,
+    noStaminaLoss = false,
+    fieldOfView = 70,
+    autoRemovePopups = false,
+    noClip = false,
+    antiSlateskinDebuff = false,
+    antiFallDebuff = false,
+    antiMedkitDebuff = false,
+    antiColaDebuff = false,
+    antiSubspaceDebuff = false,
+    antiGlitchedEffect = false,
+    antiBlindness = false,
+    antiBurgerDebuff = false,
+    antiSlashDebuff = false,
+    antiChickenDebuff = false,
+    antiBlockDebuff = false,
+    bypassChargeSpeed = false,
+    antiSlowAfterChargeEnd = false,
+    antiAutoFovCharge = false,
+    bypassPunchSpeed = false,
+    antiTaphTripwire = false,
+    antiSubspaceTripmine = false,
+    antiPlasmaBeam = false,
+    antiSpawnProtection = false,
+    antiTwoTimeStab = false,
+    antiTwoTimeCrouching = false,
+    antiCoolGui = false,
+    antiBehead = false,
+    antiEnraged = false,
+    antiAFK = false,
+    aimBotPlasmaBeamSurvivor = false,
+    aimBotPlasmaBeamKiller = false,
+    antiWalkSpeedOverride = false,
+    antiCorruptNature = false,
+    antiPizzaDelivery = false,
+    pizzaDeliveryEsp = false,
+    zombieEsp = false,
+    antiShootDebuff = false,
+    aimBotShootKiller = false,
+    fullBright = false,
+    aimBotMassInfection = false,
+    aimBotEntanglement = false,
+    antiMassInfection = false,
+    antiEntanglement = false,
+    autoCoinFlip = false,
+    -- Настройки для aimbot
+    aimbotFOV = 1000,
+    aimbotWallCheck = false,
+    aimbotSmoothing = true,
+    aimbotAimStrength = 0.5,
+    aimbotFOVVisible = true,
+    aimbotRGB = false, -- Добавлено для RGB-эффекта
+    -- Настройки для CFrame Speed
+    cframeSpeedEnabled = false,
+    cframeSpeedValue = 50,
 }
--- PmwDZOfH для FOV-кружка
-local PmwDZOfH = Instance.new("PmwDZOfH")
-PmwDZOfH.Name = "AimbotGUI"
-PmwDZOfH.Parent = bClbXYxw
-PmwDZOfH.ResetOnSpawn = false
-PmwDZOfH.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+-- ScreenGui для FOV-кружка
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "AimbotGUI"
+ScreenGui.Parent = CoreGui
+ScreenGui.ResetOnSpawn = false
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
 -- FOV Visualization
-local FCezTxxk = Instance.new("Frame")
-FCezTxxk.Size = UDim2.new(0, KhBqfbSw.aimbotFOV * 2, 0, KhBqfbSw.aimbotFOV * 2)
-FCezTxxk.Position = UDim2.new(0.5, -KhBqfbSw.aimbotFOV, 0.5, -KhBqfbSw.aimbotFOV)
-FCezTxxk.BackgroundTransparency = 1
-FCezTxxk.Parent = PmwDZOfH
-FCezTxxk.ZIndex = 10
-local XnYKlmsd = Instance.new("UIStroke")
-XnYKlmsd.Thickness = 2
-XnYKlmsd.Color = Color3.new(1, 1, 1)
-XnYKlmsd.Parent = FCezTxxk
-local PdzhZuyb = Instance.new("UICorner")
-PdzhZuyb.CornerRadius = UDim.new(1, 0)
-PdzhZuyb.Parent = FCezTxxk
+local fovCircle = Instance.new("Frame")
+fovCircle.Size = UDim2.new(0, state.aimbotFOV * 2, 0, state.aimbotFOV * 2)
+fovCircle.Position = UDim2.new(0.5, -state.aimbotFOV, 0.5, -state.aimbotFOV)
+fovCircle.BackgroundTransparency = 1
+fovCircle.Parent = ScreenGui
+fovCircle.ZIndex = 10
+
+local circleStroke = Instance.new("UIStroke")
+circleStroke.Thickness = 2
+circleStroke.Color = Color3.new(1, 1, 1)
+circleStroke.Parent = fovCircle
+
+local circleCorner = Instance.new("UICorner")
+circleCorner.CornerRadius = UDim.new(1, 0)
+circleCorner.Parent = fovCircle
+
 -- NoClip variables
-local claXdFFX = true
-local ynWkxqHl
-local lwCnRmYl = {}
+local Clip = true
+local NoclipConnection
+local savedCollisions = {}
+
 -- Anti-AFK variables
-local wwsNSBjE
+local AFKConnection
+
 -- AimBot variables
-local vvFkNBzu
-local vzwLaUCz = false
+local AimBotConnection
+local isSkillActive = false
+
 -- Keybind tracking
-local msWyNTej = {}
-local VpZsWqdr = 0.2
--- List of dbGDMhVs delivery names for ESP
-local twlqjRFq = {
-"PizzaDeliveryRig", "Mafiaso1", "Mafiaso2", "Builderman", "Elliot",
-"ShedletskyCORRUPT", "ChancecORRUPT", "ChanceCORRUPT",
-"Mafia1", "Mafia2", "Mafia3", "Mafia4", "Mafia5", "Mafia6", "Mafia7", "Mafia8", "Mafia9"
+local lastKeyPressTime = {}
+local KEY_DEBOUNCE_TIME = 0.2
+
+-- List of scTPTyRU delivery names for ESP
+local pizzaDeliveryNames = {
+    "PizzaDeliveryRig", "Mafiaso1", "Mafiaso2", "Builderman", "Elliot",
+    "ShedletskyCORRUPT", "ChancecORRUPT", "ChanceCORRUPT",
+    "Mafia1", "Mafia2", "Mafia3", "Mafia4", "Mafia5", "Mafia6", "Mafia7", "Mafia8", "Mafia9"
 }
+
 -- Helper Functions
-local KXCtSMUR collectItem(item)
-local CkfAPbwi = AxEdIXlH.Character
-if not CkfAPbwi or not CkfAPbwi:FindFirstChild("HumanoidRootPart") then
-return false
+local XzhbQqbc collectItem(item)
+    local inHciMYv = player.Character
+    if not inHciMYv or not inHciMYv:FindFirstChild("HumanoidRootPart") then
+        return false
+    end
+
+    local TlEjOGkE = item:FindFirstChild("ItemRoot")
+    if TlEjOGkE and TlEjOGkE:FindFirstChild("ProximityPrompt") then
+        local ZyVhXejo = TlEjOGkE.ProximityPrompt
+        inHciMYv.HumanoidRootPart.CFrame = TlEjOGkE.CFrame
+        task.wait(0.5)
+        fireproximityprompt(ZyVhXejo)
+        task.wait(1)
+        return true
+    end
+    return false
 end
-local erixkpxd = item:FindFirstChild("ItemRoot")
-if erixkpxd and erixkpxd:FindFirstChild("ProximityPrompt") then
-local Iisnajfk = erixkpxd.ProximityPrompt
-CkfAPbwi.HumanoidRootPart.CFrame = erixkpxd.CFrame
-task.wait(0.5)
-fireproximityprompt(Iisnajfk)
-task.wait(1)
-return true
+
+local XzhbQqbc createESP(model, eIWFVKVK, isGenerator, isItem, isPizza)
+    if model:FindFirstChild("TAOWARE_Highlight") then return end
+    if isGenerator and model:FindFirstChild("Progress") and model.Progress.Value == 100 then return end
+
+    local OACBGEom
+    if isGenerator then
+        OACBGEom = model:FindFirstChild("Main")
+        if not OACBGEom then return end
+    elseif isItem then
+        OACBGEom = model:FindFirstChild("ItemRoot")
+        if not OACBGEom then return end
+    elseif isPizza then
+        OACBGEom = model
+        if not OACBGEom then return end
+    else
+        OACBGEom = model:FindFirstChild("HumanoidRootPart")
+        if not OACBGEom then return end
+    end
+
+    local EjtDVfXB = Instance.new("Highlight")
+    EjtDVfXB.Name = "TAOWARE_Highlight"
+    EjtDVfXB.Adornee = model
+    EjtDVfXB.FillColor = eIWFVKVK
+    EjtDVfXB.OutlineColor = eIWFVKVK
+    EjtDVfXB.FillTransparency = 0.5
+    EjtDVfXB.OutlineTransparency = 0
+    EjtDVfXB.Parent = model
+
+    local ZuYDuYgy = Instance.new("BillboardGui")
+    ZuYDuYgy.Name = "TAOWARE_Billboard"
+    ZuYDuYgy.Adornee = OACBGEom
+    ZuYDuYgy.Size = UDim2.new(0, 150, 0, 60)
+    ZuYDuYgy.StudsOffset = Vector3.new(0, 4, 0)
+    ZuYDuYgy.AlwaysOnTop = true
+    ZuYDuYgy.Parent = model
+
+    if not isGenerator and not isItem and not isPizza then
+        local ggzowzde = Players:GetPlayerFromCharacter(model)
+        local SGIkVCxH = ggzowzde and ggzowzde.Name or "Unknown"
+        local txEnzPly = model:FindFirstChild("Humanoid")
+        local BaojOpdU = txEnzPly and string.format("%.0f", txEnzPly.Health) or "N/A"
+        local REWtMnAB = "Unknown"
+        if ggzowzde and ggzowzde:FindFirstChild("PlayerData") and ggzowzde.PlayerData:FindFirstChild("Equipped") then
+            if model.Parent.Name == "Killers" and ggzowzde.PlayerData.Equipped:FindFirstChild("Killer") then
+                REWtMnAB = ggzowzde.PlayerData.Equipped.Killer.Value
+            elseif model.Parent.Name == "Survivors" and ggzowzde.PlayerData.Equipped:FindFirstChild("Survivor") then
+                REWtMnAB = ggzowzde.PlayerData.Equipped.Survivor.Value
+            end
+        end
+
+        local xGHXcgki = Instance.new("TextLabel")
+        xGHXcgki.Size = UDim2.new(1, 0, 0.33, 0)
+        xGHXcgki.Position = UDim2.new(0, 0, 0, 0)
+        xGHXcgki.BackgroundTransparency = 1
+        xGHXcgki.Text = SGIkVCxH
+        xGHXcgki.Font = Enum.Font.GothamBlack
+        xGHXcgki.TextColor3 = eIWFVKVK
+        xGHXcgki.TextSize = 12
+        xGHXcgki.TextStrokeTransparency = 0.6
+        xGHXcgki.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+        xGHXcgki.Parent = ZuYDuYgy
+
+        local XmCLFRPr = Instance.new("TextLabel")
+        XmCLFRPr.Size = UDim2.new(1, 0, 0.33, 0)
+        XmCLFRPr.Position = UDim2.new(0, 0, 0.33, 0)
+        XmCLFRPr.BackgroundTransparency = 1
+        XmCLFRPr.Text = "HP: " .. BaojOpdU
+        XmCLFRPr.Font = Enum.Font.GothamBlack
+        XmCLFRPr.TextColor3 = eIWFVKVK
+        XmCLFRPr.TextSize = 12
+        XmCLFRPr.TextStrokeTransparency = 0.6
+        XmCLFRPr.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+        XmCLFRPr.Parent = ZuYDuYgy
+
+        local nIYqCZIR = Instance.new("TextLabel")
+        nIYqCZIR.Size = UDim2.new(1, 0, 0.33, 0)
+        nIYqCZIR.Position = UDim2.new(0, 0, 0.66, 0)
+        nIYqCZIR.BackgroundTransparency = 1
+        nIYqCZIR.Text = REWtMnAB
+        nIYqCZIR.Font = Enum.Font.GothamBlack
+        nIYqCZIR.TextColor3 = eIWFVKVK
+        nIYqCZIR.TextSize = 12
+        nIYqCZIR.TextStrokeTransparency = 0.6
+        nIYqCZIR.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+        nIYqCZIR.Parent = ZuYDuYgy
+    else
+        local OWRiXrsU = Instance.new("TextLabel")
+        OWRiXrsU.Size = UDim2.new(1, 0, 1, 0)
+        OWRiXrsU.BackgroundTransparency = 1
+        OWRiXrsU.Text = model.Name
+        OWRiXrsU.Font = Enum.Font.GothamBlack
+        OWRiXrsU.TextColor3 = eIWFVKVK
+        OWRiXrsU.TextSize = isGenerator and 14 or 12
+        OWRiXrsU.TextStrokeTransparency = 0.6
+        OWRiXrsU.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+        OWRiXrsU.Parent = ZuYDuYgy
+    end
 end
-return false
+
+local XzhbQqbc removeESP(model)
+    if model:FindFirstChild("TAOWARE_Highlight") then
+        model.TAOWARE_Highlight:Destroy()
+    end
+    if model:FindFirstChild("TAOWARE_Billboard") then
+        model.TAOWARE_Billboard:Destroy()
+    end
 end
-local KXCtSMUR createESP(model, NXWFoibt, isGenerator, isItem, isPizza)
-if model:FindFirstChild("TAOWARE_Highlight") then return end
-if isGenerator and model:FindFirstChild("Progress") and model.Progress.Value == 100 then return end
-local QjVbDySc
-if isGenerator then
-QjVbDySc = model:FindFirstChild("Main")
-if not QjVbDySc then return end
-elseif isItem then
-QjVbDySc = model:FindFirstChild("ItemRoot")
-if not QjVbDySc then return end
-elseif isPizza then
-QjVbDySc = model
-if not QjVbDySc then return end
-else
-QjVbDySc = model:FindFirstChild("HumanoidRootPart")
-if not QjVbDySc then return end
+
+local XzhbQqbc getClosestTarget(targetType)
+    local wtFoiVMY = Workspace:FindFirstChild("Players")
+    if not wtFoiVMY then return nil end
+
+    local FsdKtUQX
+    if targetType == "killer" then
+        local GfyMrkQP = wtFoiVMY:FindFirstChild("Killers")
+        if GfyMrkQP then
+            FsdKtUQX = GfyMrkQP:GetChildren()
+        else
+            FsdKtUQX = {}
+        end
+    elseif targetType == "survivor" then
+        local EGztLTyt = wtFoiVMY:FindFirstChild("Survivors")
+        if EGztLTyt then
+            FsdKtUQX = EGztLTyt:GetChildren()
+        else
+            FsdKtUQX = {}
+        end
+    else
+        return nil
+    end
+
+    local GDdmcCWZ = nil
+    local tLCVJorI = state.aimbotFOV
+
+    for _, mzsSsSOr in ipairs(FsdKtUQX) do
+        if mzsSsSOr == player.Character then continue end
+        local txEnzPly = mzsSsSOr:FindFirstChildOfClass("Humanoid")
+        if not txEnzPly or txEnzPly.Health <= 0 then continue end
+        local CxlqKHVa = mzsSsSOr:FindFirstChild("HumanoidRootPart")
+        if not CxlqKHVa then continue end
+
+        local uHVcyIzk, onScreen = camera:WorldToViewportPoint(CxlqKHVa.Position)
+        if not onScreen then continue end
+
+        local WppyALdH = (Vector2.new(uHVcyIzk.X, uHVcyIzk.Y) - Vector2.new(camera.ViewportSize.X/2, camera.ViewportSize.Y/2)).Magnitude
+        if WppyALdH > state.aimbotFOV then continue end
+
+        if state.aimbotWallCheck then
+            local ZqJMFOja = camera.CFrame.Position
+            local tLNfqkxs = CxlqKHVa.Position - ZqJMFOja
+            local UhMQzgbY = RaycastParams.new()
+            UhMQzgbY.FilterDescendantsInstances = {player.Character, mzsSsSOr}
+            UhMQzgbY.FilterType = Enum.RaycastFilterType.Blacklist
+            local nxPQkriT = Workspace:Raycast(ZqJMFOja, tLNfqkxs, UhMQzgbY)
+            if nxPQkriT then continue end
+        end
+
+        if WppyALdH < tLCVJorI then
+            tLCVJorI = WppyALdH
+            GDdmcCWZ = mzsSsSOr
+        end
+    end
+
+    return GDdmcCWZ
 end
-local njpxcnVt = Instance.new("Highlight")
-njpxcnVt.Name = "TAOWARE_Highlight"
-njpxcnVt.Adornee = model
-njpxcnVt.FillColor = NXWFoibt
-njpxcnVt.OutlineColor = NXWFoibt
-njpxcnVt.FillTransparency = 0.5
-njpxcnVt.OutlineTransparency = 0
-njpxcnVt.Parent = model
-local ZUQWcros = Instance.new("BillboardGui")
-ZUQWcros.Name = "TAOWARE_Billboard"
-ZUQWcros.Adornee = QjVbDySc
-ZUQWcros.Size = UDim2.new(0, 150, 0, 60)
-ZUQWcros.StudsOffset = Vector3.new(0, 4, 0)
-ZUQWcros.AlwaysOnTop = true
-ZUQWcros.Parent = model
-if not isGenerator and not isItem and not isPizza then
-local dQovITPy = duOzXSpk:GetPlayerFromCharacter(model)
-local CaMXIFXf = dQovITPy and dQovITPy.Name or "Unknown"
-local ehLZLklk = model:FindFirstChild("Humanoid")
-local QWXdCnTJ = ehLZLklk and string.format("%.0f", ehLZLklk.Health) or "N/A"
-local pYMiQkzm = "Unknown"
-if dQovITPy and dQovITPy:FindFirstChild("PlayerData") and dQovITPy.PlayerData:FindFirstChild("Equipped") then
-if model.Parent.Name == "Killers" and dQovITPy.PlayerData.Equipped:FindFirstChild("Killer") then
-pYMiQkzm = dQovITPy.PlayerData.Equipped.Killer.Value
-elseif model.Parent.Name == "Survivors" and dQovITPy.PlayerData.Equipped:FindFirstChild("Survivor") then
-pYMiQkzm = dQovITPy.PlayerData.Equipped.Survivor.Value
-end
-end
-local gZvDNmRR = Instance.new("TextLabel")
-gZvDNmRR.Size = UDim2.new(1, 0, 0.33, 0)
-gZvDNmRR.Position = UDim2.new(0, 0, 0, 0)
-gZvDNmRR.BackgroundTransparency = 1
-gZvDNmRR.Text = CaMXIFXf
-gZvDNmRR.Font = Enum.Font.GothamBlack
-gZvDNmRR.TextColor3 = NXWFoibt
-gZvDNmRR.TextSize = 12
-gZvDNmRR.TextStrokeTransparency = 0.6
-gZvDNmRR.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
-gZvDNmRR.Parent = ZUQWcros
-local HqBUfmjp = Instance.new("TextLabel")
-HqBUfmjp.Size = UDim2.new(1, 0, 0.33, 0)
-HqBUfmjp.Position = UDim2.new(0, 0, 0.33, 0)
-HqBUfmjp.BackgroundTransparency = 1
-HqBUfmjp.Text = "HP: " .. QWXdCnTJ
-HqBUfmjp.Font = Enum.Font.GothamBlack
-HqBUfmjp.TextColor3 = NXWFoibt
-HqBUfmjp.TextSize = 12
-HqBUfmjp.TextStrokeTransparency = 0.6
-HqBUfmjp.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
-HqBUfmjp.Parent = ZUQWcros
-local tNjLvVBu = Instance.new("TextLabel")
-tNjLvVBu.Size = UDim2.new(1, 0, 0.33, 0)
-tNjLvVBu.Position = UDim2.new(0, 0, 0.66, 0)
-tNjLvVBu.BackgroundTransparency = 1
-tNjLvVBu.Text = pYMiQkzm
-tNjLvVBu.Font = Enum.Font.GothamBlack
-tNjLvVBu.TextColor3 = NXWFoibt
-tNjLvVBu.TextSize = 12
-tNjLvVBu.TextStrokeTransparency = 0.6
-tNjLvVBu.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
-tNjLvVBu.Parent = ZUQWcros
-else
-local kAIxcyQW = Instance.new("TextLabel")
-kAIxcyQW.Size = UDim2.new(1, 0, 1, 0)
-kAIxcyQW.BackgroundTransparency = 1
-kAIxcyQW.Text = model.Name
-kAIxcyQW.Font = Enum.Font.GothamBlack
-kAIxcyQW.TextColor3 = NXWFoibt
-kAIxcyQW.TextSize = isGenerator and 14 or 12
-kAIxcyQW.TextStrokeTransparency = 0.6
-kAIxcyQW.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
-kAIxcyQW.Parent = ZUQWcros
-end
-end
-local KXCtSMUR removeESP(model)
-if model:FindFirstChild("TAOWARE_Highlight") then
-model.TAOWARE_Highlight:Destroy()
-end
-if model:FindFirstChild("TAOWARE_Billboard") then
-model.TAOWARE_Billboard:Destroy()
-end
-end
-local KXCtSMUR getClosestTarget(targetType)
-local uTThglgC = AtQgREPg:FindFirstChild("duOzXSpk")
-if not uTThglgC then return nil end
-local sXpxcgBJ
-if targetType == "killer" then
-local vSBURKJa = uTThglgC:FindFirstChild("Killers")
-if vSBURKJa then
-sXpxcgBJ = vSBURKJa:GetChildren()
-else
-sXpxcgBJ = {}
-end
-elseif targetType == "survivor" then
-local AEmjaULS = uTThglgC:FindFirstChild("Survivors")
-if AEmjaULS then
-sXpxcgBJ = AEmjaULS:GetChildren()
-else
-sXpxcgBJ = {}
-end
-else
-return nil
-end
-local dmhdElYc = nil
-local vQsOAxmF = KhBqfbSw.aimbotFOV
-for _, sFTkQfNt in ipairs(sXpxcgBJ) do
-if sFTkQfNt == AxEdIXlH.Character then continue end
-local ehLZLklk = sFTkQfNt:FindFirstChildOfClass("Humanoid")
-if not ehLZLklk or ehLZLklk.Health <= 0 then continue end
-local dCKYGyxp = sFTkQfNt:FindFirstChild("HumanoidRootPart")
-if not dCKYGyxp then continue end
-local VPjgFjVp, onScreen = KnJCyJAg:WorldToViewportPoint(dCKYGyxp.Position)
-if not onScreen then continue end
-local TJYPAeRJ = (Vector2.new(VPjgFjVp.X, VPjgFjVp.Y) - Vector2.new(KnJCyJAg.ViewportSize.X/2, KnJCyJAg.ViewportSize.Y/2)).Magnitude
-if TJYPAeRJ > KhBqfbSw.aimbotFOV then continue end
-if KhBqfbSw.aimbotWallCheck then
-local SMXAQpse = KnJCyJAg.CFrame.Position
-local butqUcgN = dCKYGyxp.Position - SMXAQpse
-local VMnSAfpo = RaycastParams.new()
-VMnSAfpo.FilterDescendantsInstances = {AxEdIXlH.Character, sFTkQfNt}
-VMnSAfpo.FilterType = Enum.RaycastFilterType.Blacklist
-local DXNSdlNq = AtQgREPg:Raycast(SMXAQpse, butqUcgN, VMnSAfpo)
-if DXNSdlNq then continue end
-end
-if TJYPAeRJ < vQsOAxmF then
-vQsOAxmF = TJYPAeRJ
-dmhdElYc = sFTkQfNt
-end
-end
-return dmhdElYc
-end
+
 -- Function to check if the game is in progress
-local KXCtSMUR isGameInProgress()
-local GTXRMkcy = AtQgREPg:FindFirstChild("Map")
-if not GTXRMkcy or not GTXRMkcy:FindFirstChild("Ingame") then
-return false
+local XzhbQqbc isGameInProgress()
+    local TjgywJSe = Workspace:FindFirstChild("Map")
+    if not TjgywJSe or not TjgywJSe:FindFirstChild("Ingame") then
+        return false
+    end
+
+    local wtFoiVMY = Workspace:FindFirstChild("Players")
+    if wtFoiVMY then
+        local EGztLTyt = wtFoiVMY:FindFirstChild("Survivors")
+        if EGztLTyt and #EGztLTyt:GetChildren() > 0 then
+            return true
+        end
+    end
+
+    return false
 end
-local uTThglgC = AtQgREPg:FindFirstChild("duOzXSpk")
-if uTThglgC then
-local AEmjaULS = uTThglgC:FindFirstChild("Survivors")
-if AEmjaULS and #AEmjaULS:GetChildren() > 0 then
-return true
-end
-end
-return false
-end
+
 -- Function to check if there are generators in InGame
-local KXCtSMUR hasGenerators()
-local GTXRMkcy = AtQgREPg:FindFirstChild("Map")
-if GTXRMkcy and GTXRMkcy:FindFirstChild("Ingame") and GTXRMkcy.Ingame:FindFirstChild("Map") then
-for _, model in ipairs(GTXRMkcy.Ingame.Map:GetChildren()) do
-if model:IsA("Model") and model.Name:lower():find("generator") then
-return true
+local XzhbQqbc hasGenerators()
+    local TjgywJSe = Workspace:FindFirstChild("Map")
+    if TjgywJSe and TjgywJSe:FindFirstChild("Ingame") and TjgywJSe.Ingame:FindFirstChild("Map") then
+        for _, model in ipairs(TjgywJSe.Ingame.Map:GetChildren()) do
+            if model:IsA("Model") and model.Name:lower():find("generator") then
+                return true
+            end
+        end
+    end
+    return false
 end
-end
-end
-return false
-end
+
 -- Auto Generator Functions
-local XFgqZnQe = false
-local KXCtSMUR runAutoGenerator()
-if XFgqZnQe then return end
-XFgqZnQe = true
-task.spawn(KXCtSMUR()
-while XFgqZnQe and KhBqfbSw.autoGenerator and hasGenerators() and isGameInProgress() do
-pcall(KXCtSMUR()
-local GTXRMkcy = AtQgREPg:FindFirstChild("Map")
-if not GTXRMkcy then return end
-local pyTYsUfa = GTXRMkcy:FindFirstChild("Ingame")
-if not pyTYsUfa then return end
-local dZWELAQR = pyTYsUfa:FindFirstChild("Map")
-if not dZWELAQR then return end
-for _, generator in ipairs(dZWELAQR:GetChildren()) do
-if generator:IsA("Model") and generator.Name:lower():find("generator") then
-local fKJUGeNa = generator:FindFirstChild("Remotes")
-if fKJUGeNa then
-local gHnAYljT = fKJUGeNa:FindFirstChild("RE")
-local kxqlFFYk = fKJUGeNa:FindFirstChild("RF")
-if gHnAYljT and kxqlFFYk then
-pcall(KXCtSMUR() gHnAYljT:FireServer() end)
-pcall(KXCtSMUR() kxqlFFYk:InvokeServer() end)
+local texCkrBe = false
+
+local XzhbQqbc runAutoGenerator()
+    if texCkrBe then return end
+    texCkrBe = true
+    task.spawn(XzhbQqbc()
+        while texCkrBe and state.autoGenerator and hasGenerators() and isGameInProgress() do
+            pcall(XzhbQqbc()
+                local TjgywJSe = Workspace:FindFirstChild("Map")
+                if not TjgywJSe then return end
+                local QWVsOOQA = TjgywJSe:FindFirstChild("Ingame")
+                if not QWVsOOQA then return end
+                local dixtcTUj = QWVsOOQA:FindFirstChild("Map")
+                if not dixtcTUj then return end
+
+                for _, generator in ipairs(dixtcTUj:GetChildren()) do
+                    if generator:IsA("Model") and generator.Name:lower():find("generator") then
+                        local YHudYDSa = generator:FindFirstChild("Remotes")
+                        if YHudYDSa then
+                            local iOqMrUnt = YHudYDSa:FindFirstChild("RE")
+                            local rVoedTqV = YHudYDSa:FindFirstChild("RF")
+                            if iOqMrUnt and rVoedTqV then
+                                pcall(XzhbQqbc() iOqMrUnt:FireServer() end)
+                                pcall(XzhbQqbc() rVoedTqV:InvokeServer() end)
+                            end
+                        end
+                        task.wait(0.1)
+                    end
+                end
+            end)
+            task.wait(state.generatorWaitTime)
+        end
+        texCkrBe = false
+    end)
 end
+
+local XzhbQqbc restartAutoGenerator()
+    texCkrBe = false
+    task.wait(0.1)
+    if state.autoGenerator then
+        runAutoGenerator()
+    end
 end
-task.wait(0.1)
-end
-end
-end)
-task.wait(KhBqfbSw.generatorWaitTime)
-end
-XFgqZnQe = false
-end)
-end
-local KXCtSMUR restartAutoGenerator()
-XFgqZnQe = false
-task.wait(0.1)
-if KhBqfbSw.autoGenerator then
-runAutoGenerator()
-end
-end
+
 -- Nothing Library UI Setup
-local odOmTXgd = loadstring(game:HttpGetAsync('https://raw.githubusercontent.com/3345-c-a-t-s-u-s/NOTHING/main/source.lua'))();
-local YSPlhTuo = odOmTXgd.YSPlhTuo();
-YSPlhTuo.new({
-Title = "THX FOR USING YOXI HUB",
-Description = "Telegram: @YomkaMadeIt",
-Duration = 5,
-Icon = "rbxassetid://82898985676372"
+local NothingLibrary = loadstring(game:HttpGetAsync('https://raw.githubusercontent.com/3345-c-a-t-s-u-s/NOTHING/main/source.lua'))();
+local Notification = NothingLibrary.Notification();
+
+Notification.new({
+    Title = "THX FOR USING YOXI HUB",
+    Description = "Telegram: @YomkaMadeIt",
+    Duration = 5,
+    Icon = "rbxassetid://82898985676372"
 })
-local QYOLPrml = odOmTXgd.new({
-Title = "YOXI HUB | Forsaken",
-Description = "Made by: Yomka",
-Keybind = Enum.KeyCode.B,
-Logo = 'http://www.roblox.com/asset/?id=82898985676372'
+
+local Windows = NothingLibrary.new({
+    Title = "YOXI HUB | Forsaken",
+    Description = "Made by: Yomka",
+    Keybind = Enum.KeyCode.B,
+    Logo = 'http://www.roblox.com/asset/?id=82898985676372'
 })
+
 -- Enhanced Keybind System
-local KXCtSMUR handleKeyPress(key)
-local vXslTazE = tick()
-local PuYqVKcF = tostring(key)
-if msWyNTej[PuYqVKcF] and (vXslTazE - msWyNTej[PuYqVKcF]) < VpZsWqdr then
-return
+local XzhbQqbc handleKeyPress(key)
+    local HCKvRdWq = tick()
+    local hmamkhnP = tostring(key)
+    
+    if lastKeyPressTime[hmamkhnP] and (HCKvRdWq - lastKeyPressTime[hmamkhnP]) < KEY_DEBOUNCE_TIME then
+        return
+    end
+    lastKeyPressTime[hmamkhnP] = HCKvRdWq
+    
+    if key == Enum.KeyCode.X then
+        restartAutoGenerator()
+        Notification.new({
+            Title = "Auto Generator",
+            Description = "Auto Generator Restarted!",
+            Duration = 3,
+            Icon = "rbxassetid://82898985676372"
+        })
+    elseif key == Enum.KeyCode.V then
+        state.autoCollectItems = not state.autoCollectItems
+        Notification.new({
+            Title = "Auto Collect",
+            Description = "Auto Collect Items: " .. (state.autoCollectItems and "ON" or "OFF"),
+            Duration = 3,
+            Icon = "rbxassetid://82898985676372"
+        })
+    elseif key == Enum.KeyCode.N then
+        state.noClip = not state.noClip
+        if player.Character then
+            if state.noClip then
+                savedCollisions = {}
+                for _, part in ipairs(player.Character:GetDescendants()) do
+                    if part:IsA("BasePart") then
+                        savedCollisions[part] = part.CanCollide
+                        part.CanCollide = false
+                    end
+                end
+                Clip = false
+                if NoclipConnection then
+                    NoclipConnection:Disconnect()
+                end
+                NoclipConnection = RunService.Stepped:Connect(XzhbQqbc()
+                    if not Clip and player.Character then
+                        for _, part in ipairs(player.Character:GetDescendants()) do
+                            if part:IsA("BasePart") and part.Parent then
+                                part.CanCollide = false
+                            end
+                        end
+                    end
+                end)
+                Notification.new({
+                    Title = "NoClip",
+                    Description = "NoClip Enabled!",
+                    Duration = 3,
+                    Icon = "rbxassetid://82898985676372"
+                })
+            else
+                Clip = true
+                if NoclipConnection then
+                    NoclipConnection:Disconnect()
+                    NoclipConnection = nil
+                end
+                for part, canCollide in pairs(savedCollisions) do
+                    if part and part.Parent then
+                        part.CanCollide = canCollide
+                    end
+                end
+                savedCollisions = {}
+                Notification.new({
+                    Title = "NoClip",
+                    Description = "NoClip Disabled!",
+                    Duration = 3,
+                    Icon = "rbxassetid://82898985676372"
+                })
+            end
+        end
+    end
 end
-msWyNTej[PuYqVKcF] = vXslTazE
-if key == Enum.KeyCode.X then
-restartAutoGenerator()
-YSPlhTuo.new({
-Title = "Auto Generator",
-Description = "Auto Generator Restarted!",
-Duration = 3,
-Icon = "rbxassetid://82898985676372"
-})
-elseif key == Enum.KeyCode.V then
-KhBqfbSw.autoCollectItems = not KhBqfbSw.autoCollectItems
-YSPlhTuo.new({
-Title = "Auto Collect",
-Description = "Auto Collect Items: " .. (KhBqfbSw.autoCollectItems and "ON" or "OFF"),
-Duration = 3,
-Icon = "rbxassetid://82898985676372"
-})
-elseif key == Enum.KeyCode.N then
-KhBqfbSw.noClip = not KhBqfbSw.noClip
-if AxEdIXlH.Character then
-if KhBqfbSw.noClip then
-lwCnRmYl = {}
-for _, part in ipairs(AxEdIXlH.Character:GetDescendants()) do
-if part:IsA("BasePart") then
-lwCnRmYl[part] = part.CanCollide
-part.CanCollide = false
-end
-end
-claXdFFX = false
-if ynWkxqHl then
-ynWkxqHl:Disconnect()
-end
-ynWkxqHl = SGFyTPEx.Stepped:Connect(KXCtSMUR()
-if not claXdFFX and AxEdIXlH.Character then
-for _, part in ipairs(AxEdIXlH.Character:GetDescendants()) do
-if part:IsA("BasePart") and part.Parent then
-part.CanCollide = false
-end
-end
-end
+
+UserInputService.InputBegan:Connect(XzhbQqbc(input, gameProcessed)
+    if gameProcessed then return end
+    
+    if input.UserInputType == Enum.UserInputType.Keyboard then
+        handleKeyPress(input.KeyCode)
+    end
 end)
-YSPlhTuo.new({
-Title = "NoClip",
-Description = "NoClip Enabled!",
-Duration = 3,
-Icon = "rbxassetid://82898985676372"
-})
-else
-claXdFFX = true
-if ynWkxqHl then
-ynWkxqHl:Disconnect()
-ynWkxqHl = nil
-end
-for part, canCollide in pairs(lwCnRmYl) do
-if part and part.Parent then
-part.CanCollide = canCollide
-end
-end
-lwCnRmYl = {}
-YSPlhTuo.new({
-Title = "NoClip",
-Description = "NoClip Disabled!",
-Duration = 3,
-Icon = "rbxassetid://82898985676372"
-})
-end
-end
-end
-end
-BVczHHLw.InputBegan:Connect(KXCtSMUR(input, gameProcessed)
-if gameProcessed then return end
-if input.UserInputType == Enum.UserInputType.Keyboard then
-handleKeyPress(input.KeyCode)
-end
-end)
+
 -- Tabs
-local BkXzjpDO = QYOLPrml:NewTab({
-Title = "Info",
-Description = "Information",
-Icon = "rbxassetid://82898985676372"
+local IuhyMGJC = Windows:NewTab({
+    Title = "Info",
+    Description = "Information",
+    Icon = "rbxassetid://82898985676372"
 })
-local GjMmhcTr = QYOLPrml:NewTab({
-Title = "Farm",
-Description = "Farming Features",
-Icon = "rbxassetid://82898985676372"
+
+local bkVczfOy = Windows:NewTab({
+    Title = "Farm",
+    Description = "Farming Features",
+    Icon = "rbxassetid://82898985676372"
 })
-local JGJrSAsd = QYOLPrml:NewTab({
-Title = "ESP",
-Description = "ESP Features",
-Icon = "rbxassetid://82898985676372"
+
+local PLElmcnH = Windows:NewTab({
+    Title = "ESP",
+    Description = "ESP Features",
+    Icon = "rbxassetid://82898985676372"
 })
-local nSqhLGrE = QYOLPrml:NewTab({
-Title = "Player",
-Description = "Player Modifications",
-Icon = "rbxassetid://82898985676372"
+
+local xKGnPbbw = Windows:NewTab({
+    Title = "Player",
+    Description = "Player Modifications",
+    Icon = "rbxassetid://82898985676372"
 })
-local NKBOEwSj = QYOLPrml:NewTab({
-Title = "AimBot",
-Description = "AimBot Features",
-Icon = "rbxassetid://82898985676372"
+
+local oncqSLEX = Windows:NewTab({
+    Title = "AimBot",
+    Description = "AimBot Features",
+    Icon = "rbxassetid://82898985676372"
 })
-local lSKZCjdI = QYOLPrml:NewTab({
-Title = "Antis",
-Description = "Anti-Debuff Features",
-Icon = "rbxassetid://82898985676372"
+
+local eAksOvKU = Windows:NewTab({
+    Title = "Antis",
+    Description = "Anti-Debuff Features",
+    Icon = "rbxassetid://82898985676372"
 })
+
 -- Info Tab
-local bBhBMuga = BkXzjpDO:NewSection({
-Title = "Information",
-Icon = "rbxassetid://82898985676372",
-Position = "Left"
+local tslgivee = IuhyMGJC:NewSection({
+    Title = "Information",
+    Icon = "rbxassetid://82898985676372",
+    Position = "Left"
 })
-bBhBMuga:NewTitle("UI TOGGLE KEY - B")
-bBhBMuga:NewTitle('Made by: Yomka')
-bBhBMuga:NewTitle('Telegram: @YomkaMadeIt')
-bBhBMuga:NewButton({
-Title = "Join Telegram",
-Callback = KXCtSMUR()
-setclipboard("https://t.me/YomkaMadeIt")
-YSPlhTuo.new({
-Title = "Link Copied",
-Description = "Telegram channel link copied to clipboard!",
-Duration = 5,
-Icon = "rbxassetid://82898985676372"
+
+tslgivee:NewTitle("UI TOGGLE KEY - B")
+tslgivee:NewTitle('Made by: Yomka')
+tslgivee:NewTitle('Telegram: @YomkaMadeIt')
+tslgivee:NewButton({
+    Title = "Join Telegram",
+    Callback = XzhbQqbc()
+        setclipboard("https://t.me/YomkaMadeIt")
+        Notification.new({
+            Title = "Link Copied",
+            Description = "Telegram channel link copied to clipboard!",
+            Duration = 5,
+            Icon = "rbxassetid://82898985676372"
+        })
+    end,
 })
-end,
-})
+
 -- Farm Tab
-local dKSIxxOd = GjMmhcTr:NewSection({
-Title = "Generator Automation",
-Icon = "rbxassetid://82898985676372",
-Position = "Left"
+local AAmaTxlx = bkVczfOy:NewSection({
+    Title = "Generator Automation",
+    Icon = "rbxassetid://82898985676372",
+    Position = "Left"
 })
-dKSIxxOd:NewToggle({
-Title = "Auto Generator",
-Default = KhBqfbSw.autoGenerator,
-Callback = KXCtSMUR(Value)
-KhBqfbSw.autoGenerator = Value
-if Value then
-runAutoGenerator()
-else
-XFgqZnQe = false
-end
-end,
+
+AAmaTxlx:NewToggle({
+    Title = "Auto Generator",
+    Default = state.autoGenerator,
+    Callback = XzhbQqbc(Value)
+        state.autoGenerator = Value
+        if Value then
+            runAutoGenerator()
+        else
+            texCkrBe = false
+        end
+    end,
 })
-dKSIxxOd:NewSlider({
-Title = "Generator Wait Time",
-Default = KhBqfbSw.generatorWaitTime,
-Min = 0,
-Max = ZgdTFUlJ.GENERATOR_WAIT_TIME_MAX,
-Step = 0.1,
-Callback = KXCtSMUR(Value)
-KhBqfbSw.generatorWaitTime = Value
-end,
+
+AAmaTxlx:NewSlider({
+    Title = "Generator Wait Time",
+    Default = state.generatorWaitTime,
+    Min = 0,
+    Max = CONFIG.GENERATOR_WAIT_TIME_MAX,
+    Step = 0.1,
+    Callback = XzhbQqbc(Value)
+        state.generatorWaitTime = Value
+    end,
 })
-dKSIxxOd:NewTitle("Click the button below to restart the auto gens.")
-dKSIxxOd:NewButton({
-Title = "Restart Auto Generator",
-Callback = KXCtSMUR()
-restartAutoGenerator()
-YSPlhTuo.new({
-Title = "Auto Generator Restarted",
-Description = "Auto generators have been restarted.",
-Duration = 5,
-Icon = "rbxassetid://82898985676372"
+
+AAmaTxlx:NewTitle("Click the button below to restart the auto gens.")
+
+AAmaTxlx:NewButton({
+    Title = "Restart Auto Generator",
+    Callback = XzhbQqbc()
+        restartAutoGenerator()
+        Notification.new({
+            Title = "Auto Generator Restarted",
+            Description = "Auto generators have been restarted.",
+            Duration = 5,
+            Icon = "rbxassetid://82898985676372"
+        })
+    end,
 })
-end,
+
+AAmaTxlx:NewKeybind({
+    Title = "Restart Generator Hotkey (X)",
+    Default = Enum.KeyCode.X,
+    Callback = XzhbQqbc()
+        restartAutoGenerator()
+        Notification.new({
+            Title = "Auto Generator Restarted",
+            Description = "Auto generators have been restarted.",
+            Duration = 5,
+            Icon = "rbxassetid://82898985676372"
+        })
+    end,
 })
-dKSIxxOd:NewKeybind({
-Title = "Restart Generator Hotkey (X)",
-Default = Enum.KeyCode.X,
-Callback = KXCtSMUR()
-restartAutoGenerator()
-YSPlhTuo.new({
-Title = "Auto Generator Restarted",
-Description = "Auto generators have been restarted.",
-Duration = 5,
-Icon = "rbxassetid://82898985676372"
+
+AAmaTxlx:NewTitle("DONT SPAM IT PLS!!!")
+
+local dBqOQNio = bkVczfOy:NewSection({
+    Title = "Item Collection",
+    Icon = "rbxassetid://82898985676372",
+    Position = "Right"
 })
-end,
+
+dBqOQNio:NewToggle({
+    Title = "Auto Collect Items",
+    Default = state.autoCollectItems,
+    Callback = XzhbQqbc(Value)
+        state.autoCollectItems = Value
+    end,
 })
-dKSIxxOd:NewTitle("DONT SPAM IT PLS!!!")
-local Krfmsuld = GjMmhcTr:NewSection({
-Title = "Item Collection",
-Icon = "rbxassetid://82898985676372",
-Position = "Right"
+
+dBqOQNio:NewKeybind({
+    Title = "Auto Collect Hotkey (V)",
+    Default = Enum.KeyCode.V,
+    Callback = XzhbQqbc()
+        state.autoCollectItems = not state.autoCollectItems
+    end,
 })
-Krfmsuld:NewToggle({
-Title = "Auto Collect Items",
-Default = KhBqfbSw.autoCollectItems,
-Callback = KXCtSMUR(Value)
-KhBqfbSw.autoCollectItems = Value
-end,
-})
-Krfmsuld:NewKeybind({
-Title = "Auto Collect Hotkey (V)",
-Default = Enum.KeyCode.V,
-Callback = KXCtSMUR()
-KhBqfbSw.autoCollectItems = not KhBqfbSw.autoCollectItems
-end,
-})
+
 -- ESP Tab
-local KjWTjJtS = JGJrSAsd:NewSection({
-Title = "Player ESP",
-Icon = "rbxassetid://82898985676372",
-Position = "Left"
+local yBkmJRml = PLElmcnH:NewSection({
+    Title = "Player ESP",
+    Icon = "rbxassetid://82898985676372",
+    Position = "Left"
 })
-KjWTjJtS:NewToggle({
-Title = "Killer ESP",
-Default = KhBqfbSw.killerESP,
-Callback = KXCtSMUR(Value)
-KhBqfbSw.killerESP = Value
-end,
+
+yBkmJRml:NewToggle({
+    Title = "Killer ESP",
+    Default = state.killerESP,
+    Callback = XzhbQqbc(Value)
+        state.killerESP = Value
+    end,
 })
-KjWTjJtS:NewToggle({
-Title = "Survivor ESP",
-Default = KhBqfbSw.playerESP,
-Callback = KXCtSMUR(Value)
-KhBqfbSw.playerESP = Value
-end,
+
+yBkmJRml:NewToggle({
+    Title = "Survivor ESP",
+    Default = state.playerESP,
+    Callback = XzhbQqbc(Value)
+        state.playerESP = Value
+    end,
 })
-local aBYROCxt = JGJrSAsd:NewSection({
-Title = "Object ESP",
-Icon = "rbxassetid://82898985676372",
-Position = "Right"
+
+local FxsTEqEG = PLElmcnH:NewSection({
+    Title = "Object ESP",
+    Icon = "rbxassetid://82898985676372",
+    Position = "Right"
 })
-aBYROCxt:NewToggle({
-Title = "Generator ESP",
-Default = KhBqfbSw.generatorESP,
-Callback = KXCtSMUR(Value)
-KhBqfbSw.generatorESP = Value
-end,
+
+FxsTEqEG:NewToggle({
+    Title = "Generator ESP",
+    Default = state.generatorESP,
+    Callback = XzhbQqbc(Value)
+        state.generatorESP = Value
+    end,
 })
-aBYROCxt:NewToggle({
-Title = "Item ESP",
-Default = KhBqfbSw.itemESP,
-Callback = KXCtSMUR(Value)
-KhBqfbSw.itemESP = Value
-end,
+
+FxsTEqEG:NewToggle({
+    Title = "Item ESP",
+    Default = state.itemESP,
+    Callback = XzhbQqbc(Value)
+        state.itemESP = Value
+    end,
 })
-aBYROCxt:NewToggle({
-Title = "Esp For Elliot Pizza",
-Default = KhBqfbSw.pizzaEsp,
-Callback = KXCtSMUR(Value)
-KhBqfbSw.pizzaEsp = Value
-end,
+
+FxsTEqEG:NewToggle({
+    Title = "Esp For Elliot Pizza",
+    Default = state.pizzaEsp,
+    Callback = XzhbQqbc(Value)
+        state.pizzaEsp = Value
+    end,
 })
-local IxJqmBtn = JGJrSAsd:NewSection({
-Title = "Killer Dummies ESP",
-Icon = "rbxassetid://82898985676372",
-Position = "Left"
+
+local uBJGlXgx = PLElmcnH:NewSection({
+    Title = "Killer Dummies ESP",
+    Icon = "rbxassetid://82898985676372",
+    Position = "Left"
 })
-IxJqmBtn:NewToggle({
-Title = "c00lkidd Esp for dbGDMhVs delivery guys",
-Default = KhBqfbSw.pizzaDeliveryEsp,
-Callback = KXCtSMUR(Value)
-KhBqfbSw.pizzaDeliveryEsp = Value
-end,
+
+uBJGlXgx:NewToggle({
+    Title = "c00lkidd Esp for scTPTyRU delivery guys",
+    Default = state.pizzaDeliveryEsp,
+    Callback = XzhbQqbc(Value)
+        state.pizzaDeliveryEsp = Value
+    end,
 })
-IxJqmBtn:NewToggle({
-Title = "1x1x1x1 Esp For 1x1x1x1 Zombies",
-Default = KhBqfbSw.zombieEsp,
-Callback = KXCtSMUR(Value)
-KhBqfbSw.zombieEsp = Value
-end,
+
+uBJGlXgx:NewToggle({
+    Title = "1x1x1x1 Esp For 1x1x1x1 Zombies",
+    Default = state.zombieEsp,
+    Callback = XzhbQqbc(Value)
+        state.zombieEsp = Value
+    end,
 })
+
 -- Player Tab
-local MoMRLbXw = nSqhLGrE:NewSection({
-Title = "Movement Modifications",
-Icon = "rbxassetid://82898985676372",
-Position = "Left"
+local mRkCCrVJ = xKGnPbbw:NewSection({
+    Title = "Movement Modifications",
+    Icon = "rbxassetid://82898985676372",
+    Position = "Left"
 })
-MoMRLbXw:NewToggle({
-Title = "Sprint Speed Boost (VERY risky!!)",
-Default = KhBqfbSw.speedBoost,
-Callback = KXCtSMUR(Value)
-KhBqfbSw.speedBoost = Value
-if not Value then
-local yyXnIKbX, sprintModule = pcall(KXCtSMUR()
-return require(tZIRvlba.Systems.Character.Game.Sprinting)
-end)
-if yyXnIKbX and sprintModule then
-sprintModule.SprintSpeed = SZaRoSop
-end
-end
-end,
+
+mRkCCrVJ:NewToggle({
+    Title = "Sprint Speed Boost (VERY risky!!)",
+    Default = state.speedBoost,
+    Callback = XzhbQqbc(Value)
+        state.speedBoost = Value
+        if not Value then
+            local ywhyXqUx, sprintModule = pcall(XzhbQqbc()
+                return require(ReplicatedStorage.Systems.Character.Game.Sprinting)
+            end)
+            if ywhyXqUx and sprintModule then
+                sprintModule.SprintSpeed = eyQbrVzn
+            end
+        end
+    end,
 })
-MoMRLbXw:NewSlider({
-Title = "Sprint Speed",
-Default = KhBqfbSw.sprintSpeed,
-Min = 26,
-Max = 50,
-Callback = KXCtSMUR(Value)
-KhBqfbSw.sprintSpeed = Value
-end,
+
+mRkCCrVJ:NewSlider({
+    Title = "Sprint Speed",
+    Default = state.sprintSpeed,
+    Min = 26,
+    Max = 50,
+    Callback = XzhbQqbc(Value)
+        state.sprintSpeed = Value
+    end,
 })
-MoMRLbXw:NewTitle("Do not set above 35-40, anti-cheat kicks")
-MoMRLbXw:NewToggle({
-Title = "Inf Stamina",
-Default = KhBqfbSw.noStaminaLoss,
-Callback = KXCtSMUR(Value)
-KhBqfbSw.noStaminaLoss = Value
-end,
+
+mRkCCrVJ:NewTitle("Do not set above 35-40, anti-cheat kicks")
+
+mRkCCrVJ:NewToggle({
+    Title = "Inf Stamina",
+    Default = state.noStaminaLoss,
+    Callback = XzhbQqbc(Value)
+        state.noStaminaLoss = Value
+    end,
 })
-local gMWChemW = nSqhLGrE:NewSection({
-Title = "Camera Settings",
-Icon = "rbxassetid://82898985676372",
-Position = "Right"
+
+local CUeRzFdU = xKGnPbbw:NewSection({
+    Title = "Camera Settings",
+    Icon = "rbxassetid://82898985676372",
+    Position = "Right"
 })
-gMWChemW:NewSlider({
-Title = "Field of View",
-Default = KhBqfbSw.fieldOfView,
-Min = 0,
-Max = 120,
-Callback = KXCtSMUR(Value)
-KhBqfbSw.fieldOfView = Value
-local vkYQqweX = AxEdIXlH:FindFirstChild("PlayerData")
-if vkYQqweX and vkYQqweX:FindFirstChild("Settings") and vkYQqweX.Settings:FindFirstChild("Game") and vkYQqweX.Settings.Game:FindFirstChild("FieldOfView") then
-vkYQqweX.Settings.Game.FieldOfView.Value = Value
-end
-end,
+
+CUeRzFdU:NewSlider({
+    Title = "Field of View",
+    Default = state.fieldOfView,
+    Min = 0,
+    Max = 120,
+    Callback = XzhbQqbc(Value)
+        state.fieldOfView = Value
+        local ieRjCeJp = player:FindFirstChild("PlayerData")
+        if ieRjCeJp and ieRjCeJp:FindFirstChild("Settings") and ieRjCeJp.Settings:FindFirstChild("Game") and ieRjCeJp.Settings.Game:FindFirstChild("FieldOfView") then
+            ieRjCeJp.Settings.Game.FieldOfView.Value = Value
+        end
+    end,
 })
-local fitbdyCn = nSqhLGrE:NewSection({
-Title = "Physical Modifications",
-Icon = "rbxassetid://82898985676372",
-Position = "Left"
+
+local VDSdYZaD = xKGnPbbw:NewSection({
+    Title = "Physical Modifications",
+    Icon = "rbxassetid://82898985676372",
+    Position = "Left"
 })
-fitbdyCn:NewToggle({
-Title = "NoClip",
-Default = KhBqfbSw.noClip,
-Callback = KXCtSMUR(Value)
-KhBqfbSw.noClip = Value
-if AxEdIXlH.Character then
-if Value then
-lwCnRmYl = {}
-for _, part in ipairs(AxEdIXlH.Character:GetDescendants()) do
-if part:IsA("BasePart") then
-lwCnRmYl[part] = part.CanCollide
-part.CanCollide = false
-end
-end
-claXdFFX = false
-if ynWkxqHl then
-ynWkxqHl:Disconnect()
-end
-ynWkxqHl = SGFyTPEx.Stepped:Connect(KXCtSMUR()
-if not claXdFFX and AxEdIXlH.Character then
-for _, part in ipairs(AxEdIXlH.Character:GetDescendants()) do
-if part:IsA("BasePart") and part.Parent then
-part.CanCollide = false
-end
-end
-end
-end)
-YSPlhTuo.new({
-Title = "NoClip",
-Description = "NoClip has been enabled.",
-Duration = 5,
-Icon = "rbxassetid://82898985676372"
+
+VDSdYZaD:NewToggle({
+    Title = "NoClip",
+    Default = state.noClip,
+    Callback = XzhbQqbc(Value)
+        state.noClip = Value
+        if player.Character then
+            if Value then
+                savedCollisions = {}
+                for _, part in ipairs(player.Character:GetDescendants()) do
+                    if part:IsA("BasePart") then
+                        savedCollisions[part] = part.CanCollide
+                        part.CanCollide = false
+                    end
+                end
+                Clip = false
+                if NoclipConnection then
+                    NoclipConnection:Disconnect()
+                end
+                NoclipConnection = RunService.Stepped:Connect(XzhbQqbc()
+                    if not Clip and player.Character then
+                        for _, part in ipairs(player.Character:GetDescendants()) do
+                            if part:IsA("BasePart") and part.Parent then
+                                part.CanCollide = false
+                            end
+                        end
+                    end
+                end)
+                Notification.new({
+                    Title = "NoClip",
+                    Description = "NoClip has been enabled.",
+                    Duration = 5,
+                    Icon = "rbxassetid://82898985676372"
+                })
+            else
+                Clip = true
+                if NoclipConnection then
+                    NoclipConnection:Disconnect()
+                    NoclipConnection = nil
+                end
+                for part, canCollide in pairs(savedCollisions) do
+                    if part and part.Parent then
+                        part.CanCollide = canCollide
+                    end
+                end
+                savedCollisions = {}
+                Notification.new({
+                    Title = "NoClip",
+                    Description = "NoClip has been disabled.",
+                    Duration = 5,
+                    Icon = "rbxassetid://82898985676372"
+                })
+            end
+        end
+    end,
 })
-else
-claXdFFX = true
-if ynWkxqHl then
-ynWkxqHl:Disconnect()
-ynWkxqHl = nil
-end
-for part, canCollide in pairs(lwCnRmYl) do
-if part and part.Parent then
-part.CanCollide = canCollide
-end
-end
-lwCnRmYl = {}
-YSPlhTuo.new({
-Title = "NoClip",
-Description = "NoClip has been disabled.",
-Duration = 5,
-Icon = "rbxassetid://82898985676372"
+
+VDSdYZaD:NewKeybind({
+    Title = "NoClip Hotkey (N)",
+    Default = Enum.KeyCode.N,
+    Callback = XzhbQqbc()
+        state.noClip = not state.noClip
+        pcall(XzhbQqbc()
+            VDSdYZaD:GetToggle("NoClip"):Set(state.noClip)
+        end)
+    end,
 })
-end
-end
-end,
+
+local eKAZEitJ = xKGnPbbw:NewSection({
+    Title = "Miscellaneous",
+    Icon = "rbxassetid://82898985676372",
+    Position = "Right"
 })
-fitbdyCn:NewKeybind({
-Title = "NoClip Hotkey (N)",
-Default = Enum.KeyCode.N,
-Callback = KXCtSMUR()
-KhBqfbSw.noClip = not KhBqfbSw.noClip
-pcall(KXCtSMUR()
-fitbdyCn:GetToggle("NoClip"):Set(KhBqfbSw.noClip)
-end)
-end,
+
+eKAZEitJ:NewToggle({
+    Title = "Anti AFK",
+    Default = state.antiAFK,
+    Callback = XzhbQqbc(Value)
+        state.antiAFK = Value
+        if Value then
+            if AFKConnection then
+                AFKConnection:Disconnect()
+            end
+            AFKConnection = player.Idled:Connect(XzhbQqbc()
+                VirtualUser:CaptureController()
+                VirtualUser:ClickButton2(Vector2.new())
+            end)
+        else
+            if AFKConnection then
+                AFKConnection:Disconnect()
+                AFKConnection = nil
+            end
+        end
+    end,
 })
-local QFAqmPfD = nSqhLGrE:NewSection({
-Title = "Miscellaneous",
-Icon = "rbxassetid://82898985676372",
-Position = "Right"
+
+local lPbYPsKN = xKGnPbbw:NewSection({
+    Title = "Visual Modifications",
+    Icon = "rbxassetid://82898985676372",
+    Position = "Left"
 })
-QFAqmPfD:NewToggle({
-Title = "Anti AFK",
-Default = KhBqfbSw.antiAFK,
-Callback = KXCtSMUR(Value)
-KhBqfbSw.antiAFK = Value
-if Value then
-if wwsNSBjE then
-wwsNSBjE:Disconnect()
-end
-wwsNSBjE = AxEdIXlH.Idled:Connect(KXCtSMUR()
-PSoQsWAs:CaptureController()
-PSoQsWAs:ClickButton2(Vector2.new())
-end)
-else
-if wwsNSBjE then
-wwsNSBjE:Disconnect()
-wwsNSBjE = nil
-end
-end
-end,
+
+lPbYPsKN:NewToggle({
+    Title = "FullBright",
+    Default = state.fullBright,
+    Callback = XzhbQqbc(Value)
+        state.fullBright = Value
+        _G.FullBrightEnabled = Value
+    end,
 })
-local ZxOgGvyR = nSqhLGrE:NewSection({
-Title = "Visual Modifications",
-Icon = "rbxassetid://82898985676372",
-Position = "Left"
+
+local VOPneCOh = xKGnPbbw:NewSection({
+    Title = "Auto Coin Flip",
+    Icon = "rbxassetid://82898985676372",
+    Position = "Right"
 })
-ZxOgGvyR:NewToggle({
-Title = "FullBright",
-Default = KhBqfbSw.fullBright,
-Callback = KXCtSMUR(Value)
-KhBqfbSw.fullBright = Value
-_G.FullBrightEnabled = Value
-end,
+
+VOPneCOh:NewToggle({
+    Title = "Auto Coin Flip (Chance)",
+    Default = state.autoCoinFlip,
+    Callback = XzhbQqbc(Value)
+        state.autoCoinFlip = Value
+    end,
 })
-local cMnpdqZP = nSqhLGrE:NewSection({
-Title = "Auto Coin Flip",
-Icon = "rbxassetid://82898985676372",
-Position = "Right"
-})
-cMnpdqZP:NewToggle({
-Title = "Auto Coin Flip (Chance)",
-Default = KhBqfbSw.autoCoinFlip,
-Callback = KXCtSMUR(Value)
-KhBqfbSw.autoCoinFlip = Value
-end,
-})
+
 -- Добавляем секцию для CFrame Speed
-local lsrhyxSI = nSqhLGrE:NewSection({
-Title = "CFrame Speed",
-Icon = "rbxassetid://82898985676372",
-Position = "Right"
+local vNdbMIto = xKGnPbbw:NewSection({
+    Title = "CFrame Speed",
+    Icon = "rbxassetid://82898985676372",
+    Position = "Right"
 })
-lsrhyxSI:NewToggle({
-Title = "CFrame Speed Enabled",
-Default = KhBqfbSw.cframeSpeedEnabled,
-Callback = KXCtSMUR(Value)
-KhBqfbSw.cframeSpeedEnabled = Value
-end,
+
+vNdbMIto:NewToggle({
+    Title = "CFrame Speed Enabled",
+    Default = state.cframeSpeedEnabled,
+    Callback = XzhbQqbc(Value)
+        state.cframeSpeedEnabled = Value
+    end,
 })
-lsrhyxSI:NewSlider({
-Title = "CFrame Speed Value",
-Default = KhBqfbSw.cframeSpeedValue,
-Min = 0,
-Max = 100,
-Step = 1,
-Callback = KXCtSMUR(Value)
-KhBqfbSw.cframeSpeedValue = Value
-end,
+
+vNdbMIto:NewSlider({
+    Title = "CFrame Speed Value",
+    Default = state.cframeSpeedValue,
+    Min = 0,
+    Max = 100,
+    Step = 1,
+    Callback = XzhbQqbc(Value)
+        state.cframeSpeedValue = Value
+    end,
 })
+
 -- AimBot Tab
-local zLkRVBcu = NKBOEwSj:NewSection({
-Title = "General Aimbot Settings",
-Icon = "rbxassetid://82898985676372",
-Position = "Left"
+local nkkfcrwN = oncqSLEX:NewSection({
+    Title = "General Aimbot Settings",
+    Icon = "rbxassetid://82898985676372",
+    Position = "Left"
 })
-zLkRVBcu:NewSlider({
-Title = "FOV Size",
-Default = KhBqfbSw.aimbotFOV,
-Min = 10,
-Max = 1000,
-Step = 10,
-Callback = KXCtSMUR(Value)
-KhBqfbSw.aimbotFOV = Value
-end,
+
+nkkfcrwN:NewSlider({
+    Title = "FOV Size",
+    Default = state.aimbotFOV,
+    Min = 10,
+    Max = 1000,
+    Step = 10,
+    Callback = XzhbQqbc(Value)
+        state.aimbotFOV = Value
+    end,
 })
-zLkRVBcu:NewToggle({
-Title = "Wall Check",
-Default = KhBqfbSw.aimbotWallCheck,
-Callback = KXCtSMUR(Value)
-KhBqfbSw.aimbotWallCheck = Value
-end,
+
+nkkfcrwN:NewToggle({
+    Title = "Wall Check",
+    Default = state.aimbotWallCheck,
+    Callback = XzhbQqbc(Value)
+        state.aimbotWallCheck = Value
+    end,
 })
-zLkRVBcu:NewToggle({
-Title = "Smoothing",
-Default = KhBqfbSw.aimbotSmoothing,
-Callback = KXCtSMUR(Value)
-KhBqfbSw.aimbotSmoothing = Value
-end,
+
+nkkfcrwN:NewToggle({
+    Title = "Smoothing",
+    Default = state.aimbotSmoothing,
+    Callback = XzhbQqbc(Value)
+        state.aimbotSmoothing = Value
+    end,
 })
-zLkRVBcu:NewSlider({
-Title = "Aim Strength (%)",
-Default = KhBqfbSw.aimbotAimStrength * 100,
-Min = 1,
-Max = 100,
-Step = 1,
-Callback = KXCtSMUR(Value)
-KhBqfbSw.aimbotAimStrength = Value / 100
-end,
+
+nkkfcrwN:NewSlider({
+    Title = "Aim Strength (%)",
+    Default = state.aimbotAimStrength * 100,
+    Min = 1,
+    Max = 100,
+    Step = 1,
+    Callback = XzhbQqbc(Value)
+        state.aimbotAimStrength = Value / 100
+    end,
 })
-zLkRVBcu:NewToggle({
-Title = "FOV Visible",
-Default = KhBqfbSw.aimbotFOVVisible,
-Callback = KXCtSMUR(Value)
-KhBqfbSw.aimbotFOVVisible = Value
-end,
+
+nkkfcrwN:NewToggle({
+    Title = "FOV Visible",
+    Default = state.aimbotFOVVisible,
+    Callback = XzhbQqbc(Value)
+        state.aimbotFOVVisible = Value
+    end,
 })
-zLkRVBcu:NewToggle({
-Title = "FOV RGB",
-Default = KhBqfbSw.aimbotRGB,
-Callback = KXCtSMUR(Value)
-KhBqfbSw.aimbotRGB = Value
-end,
+
+nkkfcrwN:NewToggle({
+    Title = "FOV RGB",
+    Default = state.aimbotRGB,
+    Callback = XzhbQqbc(Value)
+        state.aimbotRGB = Value
+    end,
 })
-local rUcbWYBE = NKBOEwSj:NewSection({
-Title = "Dusekkar",
-Icon = "rbxassetid://82898985676372",
-Position = "Left"
+
+local hWDaPcYF = oncqSLEX:NewSection({
+    Title = "Dusekkar",
+    Icon = "rbxassetid://82898985676372",
+    Position = "Left"
 })
-rUcbWYBE:NewToggle({
-Title = "AimBot for Plasma Beam Skill (Survivors)",
-Default = KhBqfbSw.aimBotPlasmaBeamSurvivor,
-Callback = KXCtSMUR(Value)
-KhBqfbSw.aimBotPlasmaBeamSurvivor = Value
-end,
+
+hWDaPcYF:NewToggle({
+    Title = "AimBot for Plasma Beam Skill (Survivors)",
+    Default = state.aimBotPlasmaBeamSurvivor,
+    Callback = XzhbQqbc(Value)
+        state.aimBotPlasmaBeamSurvivor = Value
+    end,
 })
-rUcbWYBE:NewToggle({
-Title = "AimBot for Plasma Beam Skill (Killers)",
-Default = KhBqfbSw.aimBotPlasmaBeamKiller,
-Callback = KXCtSMUR(Value)
-KhBqfbSw.aimBotPlasmaBeamKiller = Value
-end,
+
+hWDaPcYF:NewToggle({
+    Title = "AimBot for Plasma Beam Skill (Killers)",
+    Default = state.aimBotPlasmaBeamKiller,
+    Callback = XzhbQqbc(Value)
+        state.aimBotPlasmaBeamKiller = Value
+    end,
 })
-local tASiHOcQ = NKBOEwSj:NewSection({
-Title = "Chance",
-Icon = "rbxassetid://82898985676372",
-Position = "Right"
+
+local dFmbMSdO = oncqSLEX:NewSection({
+    Title = "Chance",
+    Icon = "rbxassetid://82898985676372",
+    Position = "Right"
 })
-tASiHOcQ:NewToggle({
-Title = "AimBot for Shoot Skill",
-Default = KhBqfbSw.aimBotShootKiller,
-Callback = KXCtSMUR(Value)
-KhBqfbSw.aimBotShootKiller = Value
-end,
+
+dFmbMSdO:NewToggle({
+    Title = "AimBot for Shoot Skill",
+    Default = state.aimBotShootKiller,
+    Callback = XzhbQqbc(Value)
+        state.aimBotShootKiller = Value
+    end,
 })
-local MDqeRvsm = NKBOEwSj:NewSection({
-Title = "1x1x1x1",
-Icon = "rbxassetid://82898985676372",
-Position = "Left"
+
+local NduFlysJ = oncqSLEX:NewSection({
+    Title = "1x1x1x1",
+    Icon = "rbxassetid://82898985676372",
+    Position = "Left"
 })
-MDqeRvsm:NewToggle({
-Title = "AimBot for Mass Infection",
-Default = KhBqfbSw.aimBotMassInfection,
-Callback = KXCtSMUR(Value)
-KhBqfbSw.aimBotMassInfection = Value
-end,
+
+NduFlysJ:NewToggle({
+    Title = "AimBot for Mass Infection",
+    Default = state.aimBotMassInfection,
+    Callback = XzhbQqbc(Value)
+        state.aimBotMassInfection = Value
+    end,
 })
-MDqeRvsm:NewToggle({
-Title = "AimBot for Entanglement",
-Default = KhBqfbSw.aimBotEntanglement,
-Callback = KXCtSMUR(Value)
-KhBqfbSw.aimBotEntanglement = Value
-end,
+
+NduFlysJ:NewToggle({
+    Title = "AimBot for Entanglement",
+    Default = state.aimBotEntanglement,
+    Callback = XzhbQqbc(Value)
+        state.aimBotEntanglement = Value
+    end,
 })
+
 -- Anti Tab
-local yUZbCLAX = lSKZCjdI:NewSection({
-Title = "General Anti-Debuffs",
-Icon = "rbxassetid://82898985676372",
-Position = "Right"
+local wIxrpQzS = eAksOvKU:NewSection({
+    Title = "General Anti-Debuffs",
+    Icon = "rbxassetid://82898985676372",
+    Position = "Right"
 })
-yUZbCLAX:NewToggle({
-Title = "Auto Remove 1x1x1x1 Popups",
-Default = KhBqfbSw.autoRemovePopups,
-Callback = KXCtSMUR(Value)
-KhBqfbSw.autoRemovePopups = Value
-end,
+
+wIxrpQzS:NewToggle({
+    Title = "Auto Remove 1x1x1x1 Popups",
+    Default = state.autoRemovePopups,
+    Callback = XzhbQqbc(Value)
+        state.autoRemovePopups = Value
+    end,
 })
-yUZbCLAX:NewTitle("DONT RUN TOO MUCH AFTER POPUP'S REMOVED!!")
-yUZbCLAX:NewToggle({
-Title = "Anti Speed Debuff when using Cola",
-Default = KhBqfbSw.antiColaDebuff,
-Callback = KXCtSMUR(Value)
-KhBqfbSw.antiColaDebuff = Value
-end,
+
+wIxrpQzS:NewTitle("DONT RUN TOO MUCH AFTER POPUP'S REMOVED!!")
+
+wIxrpQzS:NewToggle({
+    Title = "Anti Speed Debuff when using Cola",
+    Default = state.antiColaDebuff,
+    Callback = XzhbQqbc(Value)
+        state.antiColaDebuff = Value
+    end,
 })
-yUZbCLAX:NewToggle({
-Title = "Anti Subspace",
-Default = KhBqfbSw.antiSubspaceDebuff,
-Callback = KXCtSMUR(Value)
-KhBqfbSw.antiSubspaceDebuff = Value
-end,
+
+wIxrpQzS:NewToggle({
+    Title = "Anti Subspace",
+    Default = state.antiSubspaceDebuff,
+    Callback = XzhbQqbc(Value)
+        state.antiSubspaceDebuff = Value
+    end,
 })
-yUZbCLAX:NewToggle({
-Title = "Anti Glitched Effect",
-Default = KhBqfbSw.antiGlitchedEffect,
-Callback = KXCtSMUR(Value)
-KhBqfbSw.antiGlitchedEffect = Value
-end,
+
+wIxrpQzS:NewToggle({
+    Title = "Anti Glitched Effect",
+    Default = state.antiGlitchedEffect,
+    Callback = XzhbQqbc(Value)
+        state.antiGlitchedEffect = Value
+    end,
 })
-yUZbCLAX:NewToggle({
-Title = "Anti Blindness",
-Default = KhBqfbSw.antiBlindness,
-Callback = KXCtSMUR(Value)
-KhBqfbSw.antiBlindness = Value
-end,
+
+wIxrpQzS:NewToggle({
+    Title = "Anti Blindness",
+    Default = state.antiBlindness,
+    Callback = XzhbQqbc(Value)
+        state.antiBlindness = Value
+    end,
 })
-yUZbCLAX:NewToggle({
-Title = "Anti Fall Speed Debuff",
-Default = KhBqfbSw.antiFallDebuff,
-Callback = KXCtSMUR(Value)
-KhBqfbSw.antiFallDebuff = Value
-end,
+
+wIxrpQzS:NewToggle({
+    Title = "Anti Fall Speed Debuff",
+    Default = state.antiFallDebuff,
+    Callback = XzhbQqbc(Value)
+        state.antiFallDebuff = Value
+    end,
 })
-yUZbCLAX:NewToggle({
-Title = "Anti Speed Debuff when using Medkit",
-Default = KhBqfbSw.antiMedkitDebuff,
-Callback = KXCtSMUR(Value)
-KhBqfbSw.antiMedkitDebuff = Value
-end,
+
+wIxrpQzS:NewToggle({
+    Title = "Anti Speed Debuff when using Medkit",
+    Default = state.antiMedkitDebuff,
+    Callback = XzhbQqbc(Value)
+        state.antiMedkitDebuff = Value
+    end,
 })
-local IlcIdmCc = lSKZCjdI:NewSection({
-Title = "Noob Section",
-Icon = "rbxassetid://82898985676372",
-Position = "Right"
+
+local rtuWcMaX = eAksOvKU:NewSection({
+    Title = "Noob Section",
+    Icon = "rbxassetid://82898985676372",
+    Position = "Right"
 })
-IlcIdmCc:NewToggle({
-Title = "Anti Slateskin Speed Debuff",
-Default = KhBqfbSw.antiSlateskinDebuff,
-Callback = KXCtSMUR(Value)
-KhBqfbSw.antiSlateskinDebuff = Value
-end,
+
+rtuWcMaX:NewToggle({
+    Title = "Anti Slateskin Speed Debuff",
+    Default = state.antiSlateskinDebuff,
+    Callback = XzhbQqbc(Value)
+        state.antiSlateskinDebuff = Value
+    end,
 })
-IlcIdmCc:NewToggle({
-Title = "Anti Burger Speed Debuff",
-Default = KhBqfbSw.antiBurgerDebuff,
-Callback = KXCtSMUR(Value)
-KhBqfbSw.antiBurgerDebuff = Value
-end,
+
+rtuWcMaX:NewToggle({
+    Title = "Anti Burger Speed Debuff",
+    Default = state.antiBurgerDebuff,
+    Callback = XzhbQqbc(Value)
+        state.antiBurgerDebuff = Value
+    end,
 })
-local lCeZIxux = lSKZCjdI:NewSection({
-Title = "Shedletsky Section",
-Icon = "rbxassetid://82898985676372",
-Position = "Left"
+
+local pLXDGMws = eAksOvKU:NewSection({
+    Title = "Shedletsky Section",
+    Icon = "rbxassetid://82898985676372",
+    Position = "Left"
 })
-lCeZIxux:NewToggle({
-Title = "Anti Slash Speed Debuff",
-Default = KhBqfbSw.antiSlashDebuff,
-Callback = KXCtSMUR(Value)
-KhBqfbSw.antiSlashDebuff = Value
-end,
+
+pLXDGMws:NewToggle({
+    Title = "Anti Slash Speed Debuff",
+    Default = state.antiSlashDebuff,
+    Callback = XzhbQqbc(Value)
+        state.antiSlashDebuff = Value
+    end,
 })
-lCeZIxux:NewToggle({
-Title = "Anti Chicken Speed Debuff",
-Default = KhBqfbSw.antiChickenDebuff,
-Callback = KXCtSMUR(Value)
-KhBqfbSw.antiChickenDebuff = Value
-end,
+
+pLXDGMws:NewToggle({
+    Title = "Anti Chicken Speed Debuff",
+    Default = state.antiChickenDebuff,
+    Callback = XzhbQqbc(Value)
+        state.antiChickenDebuff = Value
+    end,
 })
-local vTpUTwJT = lSKZCjdI:NewSection({
-Title = "Guest1337 Section",
-Icon = "rbxassetid://82898985676372",
-Position = "Right"
+
+local plcQwYZF = eAksOvKU:NewSection({
+    Title = "Guest1337 Section",
+    Icon = "rbxassetid://82898985676372",
+    Position = "Right"
 })
-vTpUTwJT:NewToggle({
-Title = "Anti Block Speed Debuff",
-Default = KhBqfbSw.antiBlockDebuff,
-Callback = KXCtSMUR(Value)
-KhBqfbSw.antiBlockDebuff = Value
-end,
+
+plcQwYZF:NewToggle({
+    Title = "Anti Block Speed Debuff",
+    Default = state.antiBlockDebuff,
+    Callback = XzhbQqbc(Value)
+        state.antiBlockDebuff = Value
+    end,
 })
-vTpUTwJT:NewToggle({
-Title = "Anti Small Slow After Charge End",
-Default = KhBqfbSw.antiSlowAfterChargeEnd,
-Callback = KXCtSMUR(Value)
-KhBqfbSw.antiSlowAfterChargeEnd = Value
-end,
+
+plcQwYZF:NewToggle({
+    Title = "Anti Small Slow After Charge End",
+    Default = state.antiSlowAfterChargeEnd,
+    Callback = XzhbQqbc(Value)
+        state.antiSlowAfterChargeEnd = Value
+    end,
 })
-vTpUTwJT:NewToggle({
-Title = "Bypass Speed on Charge Ability",
-Default = KhBqfbSw.bypassChargeSpeed,
-Callback = KXCtSMUR(Value)
-KhBqfbSw.bypassChargeSpeed = Value
-end,
+
+plcQwYZF:NewToggle({
+    Title = "Bypass Speed on Charge Ability",
+    Default = state.bypassChargeSpeed,
+    Callback = XzhbQqbc(Value)
+        state.bypassChargeSpeed = Value
+    end,
 })
-vTpUTwJT:NewToggle({
-Title = "Anti Auto FOV on Charge Ability",
-Default = KhBqfbSw.antiAutoFovCharge,
-Callback = KXCtSMUR(Value)
-KhBqfbSw.antiAutoFovCharge = Value
-end,
+
+plcQwYZF:NewToggle({
+    Title = "Anti Auto FOV on Charge Ability",
+    Default = state.antiAutoFovCharge,
+    Callback = XzhbQqbc(Value)
+        state.antiAutoFovCharge = Value
+    end,
 })
-vTpUTwJT:NewToggle({
-Title = "Bypass Speed on Punch Ability",
-Default = KhBqfbSw.bypassPunchSpeed,
-Callback = KXCtSMUR(Value)
-KhBqfbSw.bypassPunchSpeed = Value
-end,
+
+plcQwYZF:NewToggle({
+    Title = "Bypass Speed on Punch Ability",
+    Default = state.bypassPunchSpeed,
+    Callback = XzhbQqbc(Value)
+        state.bypassPunchSpeed = Value
+    end,
 })
-local SMndfnCF = lSKZCjdI:NewSection({
-Title = "Taph Section",
-Icon = "rbxassetid://82898985676372",
-Position = "Left"
+
+local MEalVdiK = eAksOvKU:NewSection({
+    Title = "Taph Section",
+    Icon = "rbxassetid://82898985676372",
+    Position = "Left"
 })
-SMndfnCF:NewToggle({
-Title = "Anti Speed Debuff for Tripwire Skill",
-Default = KhBqfbSw.antiTaphTripwire,
-Callback = KXCtSMUR(Value)
-KhBqfbSw.antiTaphTripwire = Value
-end,
+
+MEalVdiK:NewToggle({
+    Title = "Anti Speed Debuff for Tripwire Skill",
+    Default = state.antiTaphTripwire,
+    Callback = XzhbQqbc(Value)
+        state.antiTaphTripwire = Value
+    end,
 })
-SMndfnCF:NewToggle({
-Title = "Anti Speed Debuff for Subspace Tripmine Skill",
-Default = KhBqfbSw.antiSubspaceTripmine,
-Callback = KXCtSMUR(Value)
-KhBqfbSw.antiSubspaceTripmine = Value
-end,
+
+MEalVdiK:NewToggle({
+    Title = "Anti Speed Debuff for Subspace Tripmine Skill",
+    Default = state.antiSubspaceTripmine,
+    Callback = XzhbQqbc(Value)
+        state.antiSubspaceTripmine = Value
+    end,
 })
-local ihAomnQs = lSKZCjdI:NewSection({
-Title = "Dusekkar Section",
-Icon = "rbxassetid://82898985676372",
-Position = "Right"
+
+local pMzACAVn = eAksOvKU:NewSection({
+    Title = "Dusekkar Section",
+    Icon = "rbxassetid://82898985676372",
+    Position = "Right"
 })
-ihAomnQs:NewToggle({
-Title = "Anti Speed Debuff for Plasma Beam Skill",
-Default = KhBqfbSw.antiPlasmaBeam,
-Callback = KXCtSMUR(Value)
-KhBqfbSw.antiPlasmaBeam = Value
-end,
+
+pMzACAVn:NewToggle({
+    Title = "Anti Speed Debuff for Plasma Beam Skill",
+    Default = state.antiPlasmaBeam,
+    Callback = XzhbQqbc(Value)
+        state.antiPlasmaBeam = Value
+    end,
 })
-ihAomnQs:NewToggle({
-Title = "Anti Speed Debuff for Spawn Protection Skill",
-Default = KhBqfbSw.antiSpawnProtection,
-Callback = KXCtSMUR(Value)
-KhBqfbSw.antiSpawnProtection = Value
-end,
+
+pMzACAVn:NewToggle({
+    Title = "Anti Speed Debuff for Spawn Protection Skill",
+    Default = state.antiSpawnProtection,
+    Callback = XzhbQqbc(Value)
+        state.antiSpawnProtection = Value
+    end,
 })
-local jiOyZPFn = lSKZCjdI:NewSection({
-Title = "TwoTime Section",
-Icon = "rbxassetid://82898985676372",
-Position = "Left"
+
+local wMpIwBqE = eAksOvKU:NewSection({
+    Title = "TwoTime Section",
+    Icon = "rbxassetid://82898985676372",
+    Position = "Left"
 })
-jiOyZPFn:NewToggle({
-Title = "Small Anti Stun Debuff for Dagger Skill",
-Default = KhBqfbSw.antiTwoTimeStab,
-Callback = KXCtSMUR(Value)
-KhBqfbSw.antiTwoTimeStab = Value
-end,
+
+wMpIwBqE:NewToggle({
+    Title = "Small Anti Stun Debuff for Dagger Skill",
+    Default = state.antiTwoTimeStab,
+    Callback = XzhbQqbc(Value)
+        state.antiTwoTimeStab = Value
+    end,
 })
-jiOyZPFn:NewToggle({
-Title = "Anti Speed Debuff for Crouch Skill",
-Default = KhBqfbSw.antiTwoTimeCrouching,
-Callback = KXCtSMUR(Value)
-KhBqfbSw.antiTwoTimeCrouching = Value
-end,
+
+wMpIwBqE:NewToggle({
+    Title = "Anti Speed Debuff for Crouch Skill",
+    Default = state.antiTwoTimeCrouching,
+    Callback = XzhbQqbc(Value)
+        state.antiTwoTimeCrouching = Value
+    end,
 })
-local IXkeVxcW = lSKZCjdI:NewSection({
-Title = "007n7 Section",
-Icon = "rbxassetid://82898985676372",
-Position = "Right"
+
+local lKlTeEqV = eAksOvKU:NewSection({
+    Title = "007n7 Section",
+    Icon = "rbxassetid://82898985676372",
+    Position = "Right"
 })
-IXkeVxcW:NewToggle({
-Title = "Anti Speed Debuff for c00lgui Skill",
-Default = KhBqfbSw.antiCoolGui,
-Callback = KXCtSMUR(Value)
-KhBqfbSw.antiCoolGui = Value
-end,
+
+lKlTeEqV:NewToggle({
+    Title = "Anti Speed Debuff for c00lgui Skill",
+    Default = state.antiCoolGui,
+    Callback = XzhbQqbc(Value)
+        state.antiCoolGui = Value
+    end,
 })
-local TxUyQCdb = lSKZCjdI:NewSection({
-Title = "Chance Section",
-Icon = "rbxassetid://82898985676372",
-Position = "Left"
+
+local bljKkxEP = eAksOvKU:NewSection({
+    Title = "Chance Section",
+    Icon = "rbxassetid://82898985676372",
+    Position = "Left"
 })
-TxUyQCdb:NewToggle({
-Title = "Anti Speed Debuff for Shoot Skill",
-Default = KhBqfbSw.antiShootDebuff,
-Callback = KXCtSMUR(Value)
-KhBqfbSw.antiShootDebuff = Value
-end,
+
+bljKkxEP:NewToggle({
+    Title = "Anti Speed Debuff for Shoot Skill",
+    Default = state.antiShootDebuff,
+    Callback = XzhbQqbc(Value)
+        state.antiShootDebuff = Value
+    end,
 })
-local UbeQgEhT = lSKZCjdI:NewSection({
-Title = "Jason Section",
-Icon = "rbxassetid://82898985676372",
-Position = "Left"
+
+local gsWZkxET = eAksOvKU:NewSection({
+    Title = "Jason Section",
+    Icon = "rbxassetid://82898985676372",
+    Position = "Left"
 })
-UbeQgEhT:NewToggle({
-Title = "Anti Stun For Behead and Gashing Wound Skills",
-Default = KhBqfbSw.antiBehead,
-Callback = KXCtSMUR(Value)
-KhBqfbSw.antiBehead = Value
-end,
+
+gsWZkxET:NewToggle({
+    Title = "Anti Stun For Behead and Gashing Wound Skills",
+    Default = state.antiBehead,
+    Callback = XzhbQqbc(Value)
+        state.antiBehead = Value
+    end,
 })
-UbeQgEhT:NewToggle({
-Title = "Bypass Speed Raging Pace",
-Default = KhBqfbSw.antiEnraged,
-Callback = KXCtSMUR(Value)
-KhBqfbSw.antiEnraged = Value
-end,
+
+gsWZkxET:NewToggle({
+    Title = "Bypass Speed Raging Pace",
+    Default = state.antiEnraged,
+    Callback = XzhbQqbc(Value)
+        state.antiEnraged = Value
+    end,
 })
-local NfCcOdyQ = lSKZCjdI:NewSection({
-Title = "c00lkidd",
-Icon = "rbxassetid://82898985676372",
-Position = "Right"
+
+local KpYSjnqs = eAksOvKU:NewSection({
+    Title = "c00lkidd",
+    Icon = "rbxassetid://82898985676372",
+    Position = "Right"
 })
-NfCcOdyQ:NewToggle({
-Title = "Very Small Anti Stun after WalkSpeed Override",
-Default = KhBqfbSw.antiWalkSpeedOverride,
-Callback = KXCtSMUR(Value)
-KhBqfbSw.antiWalkSpeedOverride = Value
-end,
+
+KpYSjnqs:NewToggle({
+    Title = "Very Small Anti Stun after WalkSpeed Override",
+    Default = state.antiWalkSpeedOverride,
+    Callback = XzhbQqbc(Value)
+        state.antiWalkSpeedOverride = Value
+    end,
 })
-NfCcOdyQ:NewToggle({
-Title = "Anti Stun for Corrupt Nature",
-Default = KhBqfbSw.antiCorruptNature,
-Callback = KXCtSMUR(Value)
-KhBqfbSw.antiCorruptNature = Value
-end,
+
+KpYSjnqs:NewToggle({
+    Title = "Anti Stun for Corrupt Nature",
+    Default = state.antiCorruptNature,
+    Callback = XzhbQqbc(Value)
+        state.antiCorruptNature = Value
+    end,
 })
-NfCcOdyQ:NewToggle({
-Title = "Anti Stun for Pizza Delivery",
-Default = KhBqfbSw.antiPizzaDelivery,
-Callback = KXCtSMUR(Value)
-KhBqfbSw.antiPizzaDelivery = Value
-end,
+
+KpYSjnqs:NewToggle({
+    Title = "Anti Stun for Pizza Delivery",
+    Default = state.antiPizzaDelivery,
+    Callback = XzhbQqbc(Value)
+        state.antiPizzaDelivery = Value
+    end,
 })
-local ZLmqVFhM = lSKZCjdI:NewSection({
-Title = "1x1x1x1",
-Icon = "rbxassetid://82898985676372",
-Position = "Left"
+
+local DPAKnsFJ = eAksOvKU:NewSection({
+    Title = "1x1x1x1",
+    Icon = "rbxassetid://82898985676372",
+    Position = "Left"
 })
-ZLmqVFhM:NewToggle({
-Title = "Anti Speed Debuff for Mass Infection",
-Default = KhBqfbSw.antiMassInfection,
-Callback = KXCtSMUR(Value)
-KhBqfbSw.antiMassInfection = Value
-end,
+
+DPAKnsFJ:NewToggle({
+    Title = "Anti Speed Debuff for Mass Infection",
+    Default = state.antiMassInfection,
+    Callback = XzhbQqbc(Value)
+        state.antiMassInfection = Value
+    end,
 })
-ZLmqVFhM:NewToggle({
-Title = "Anti Speed Debuff for Entanglement",
-Default = KhBqfbSw.antiEntanglement,
-Callback = KXCtSMUR(Value)
-KhBqfbSw.antiEntanglement = Value
-end,
+
+DPAKnsFJ:NewToggle({
+    Title = "Anti Speed Debuff for Entanglement",
+    Default = state.antiEntanglement,
+    Callback = XzhbQqbc(Value)
+        state.antiEntanglement = Value
+    end,
 })
+
 -- Store original sprint values
-local SZaRoSop, origStaminaLoss, origMaxStamina
+local eyQbrVzn, origStaminaLoss, origMaxStamina
 do
-local yyXnIKbX, sprintModule = pcall(KXCtSMUR()
-return require(tZIRvlba.Systems.Character.Game.Sprinting)
-end)
-if yyXnIKbX and sprintModule then
-SZaRoSop = sprintModule.DefaultConfig.SprintSpeed or 26
-origStaminaLoss = sprintModule.DefaultConfig.StaminaLoss or 10
-origMaxStamina = sprintModule.DefaultConfig.MaxStamina or 100
-else
-SZaRoSop = 26
-origStaminaLoss = 10
-origMaxStamina = 100
+    local ywhyXqUx, sprintModule = pcall(XzhbQqbc()
+        return require(ReplicatedStorage.Systems.Character.Game.Sprinting)
+    end)
+    if ywhyXqUx and sprintModule then
+        eyQbrVzn = sprintModule.DefaultConfig.SprintSpeed or 26
+        origStaminaLoss = sprintModule.DefaultConfig.StaminaLoss or 10
+        origMaxStamina = sprintModule.DefaultConfig.MaxStamina or 100
+    else
+        eyQbrVzn = 26
+        origStaminaLoss = 10
+        origMaxStamina = 100
+    end
 end
+
+local XzhbQqbc updateAllESP()
+    local TjgywJSe = Workspace:FindFirstChild("Map")
+    if not TjgywJSe or not TjgywJSe:FindFirstChild("Ingame") then return end
+    local QWVsOOQA = TjgywJSe.Ingame
+
+    if state.pizzaDeliveryEsp then
+        for _, CQmJLwsk in ipairs(QWVsOOQA:GetChildren()) do
+            if table.find(pizzaDeliveryNames, CQmJLwsk.Name) and CQmJLwsk:FindFirstChild("HumanoidRootPart") then
+                if not CQmJLwsk:FindFirstChild("TAOWARE_Highlight") then
+                    createESP(CQmJLwsk, Color3.fromRGB(255, 0, 0), false, false, false)
+                end
+            end
+        end
+    end
+
+    if state.zombieEsp then
+        for _, CQmJLwsk in ipairs(QWVsOOQA:GetChildren()) do
+            if CQmJLwsk.Name == "1x1x1x1Zombie" and CQmJLwsk:FindFirstChild("HumanoidRootPart") then
+                if not CQmJLwsk:FindFirstChild("TAOWARE_Highlight") then
+                    createESP(CQmJLwsk, Color3.fromRGB(255, 0, 0), false, false, false)
+                end
+            end
+        end
+    end
+
+    if state.pizzaEsp then
+        local scTPTyRU = QWVsOOQA:FindFirstChild("Pizza")
+        if scTPTyRU and not scTPTyRU:FindFirstChild("TAOWARE_Highlight") then
+            createESP(scTPTyRU, Color3.fromRGB(255, 165, 0), false, false, true)
+        end
+    end
+
+    if not isGameInProgress() then
+        return
+    end
+
+    local wtFoiVMY = Workspace:FindFirstChild("Players")
+    if wtFoiVMY then
+        local ZxUzvvrI = wtFoiVMY:FindFirstChild("Killers")
+        if ZxUzvvrI then
+            for _, mdl in ipairs(ZxUzvvrI:GetChildren()) do
+                removeESP(mdl)
+                if state.killerESP and mdl:FindFirstChild("HumanoidRootPart") then
+                    createESP(mdl, Color3.fromRGB(255, 0, 0), false, false, false)
+                end
+            end
+        end
+
+        local BWeLIGeR = wtFoiVMY:FindFirstChild("Survivors")
+        if BWeLIGeR then
+            for _, mdl in ipairs(BWeLIGeR:GetChildren()) do
+                removeESP(mdl)
+                if state.playerESP and mdl:FindFirstChild("HumanoidRootPart") then
+                    createESP(mdl, Color3.fromRGB(0, 255, 0), false, false, false)
+                end
+            end
+        end
+    end
+
+    if QWVsOOQA:FindFirstChild("Map") then
+        for _, mdl in ipairs(QWVsOOQA.Map:GetChildren()) do
+            if mdl:IsA("Model") and mdl.Name:lower():find("generator") then
+                removeESP(mdl)
+                local vqLhphQP = mdl:FindFirstChild("Progress")
+                if state.generatorESP and vqLhphQP and vqLhphQP.Value < 100 then
+                    createESP(mdl, Color3.fromRGB(255, 0, 255), true, false, false)
+                end
+            end
+        end
+    end
+
+    local zmVxXNmb = {"1x1x1x1Zombie"}
+    for _, name in ipairs(pizzaDeliveryNames) do
+        table.insert(zmVxXNmb, name)
+    end
+    for _, mdl in ipairs(QWVsOOQA:GetDescendants()) do
+        if mdl:IsA("Model") and mdl:FindFirstChild("ItemRoot") and not table.find(zmVxXNmb, mdl.Name) then
+            removeESP(mdl)
+            if state.itemESP then
+                createESP(mdl, Color3.fromRGB(255, 255, 0), false, true, false)
+            end
+        end
+    end
 end
-local KXCtSMUR updateAllESP()
-local GTXRMkcy = AtQgREPg:FindFirstChild("Map")
-if not GTXRMkcy or not GTXRMkcy:FindFirstChild("Ingame") then return end
-local pyTYsUfa = GTXRMkcy.Ingame
-if KhBqfbSw.pizzaDeliveryEsp then
-for _, CtxVGfWY in ipairs(pyTYsUfa:GetChildren()) do
-if table.find(twlqjRFq, CtxVGfWY.Name) and CtxVGfWY:FindFirstChild("HumanoidRootPart") then
-if not CtxVGfWY:FindFirstChild("TAOWARE_Highlight") then
-createESP(CtxVGfWY, Color3.fromRGB(255, 0, 0), false, false, false)
-end
-end
-end
-end
-if KhBqfbSw.zombieEsp then
-for _, CtxVGfWY in ipairs(pyTYsUfa:GetChildren()) do
-if CtxVGfWY.Name == "1x1x1x1Zombie" and CtxVGfWY:FindFirstChild("HumanoidRootPart") then
-if not CtxVGfWY:FindFirstChild("TAOWARE_Highlight") then
-createESP(CtxVGfWY, Color3.fromRGB(255, 0, 0), false, false, false)
-end
-end
-end
-end
-if KhBqfbSw.pizzaEsp then
-local dbGDMhVs = pyTYsUfa:FindFirstChild("Pizza")
-if dbGDMhVs and not dbGDMhVs:FindFirstChild("TAOWARE_Highlight") then
-createESP(dbGDMhVs, Color3.fromRGB(255, 165, 0), false, false, true)
-end
-end
-if not isGameInProgress() then
-return
-end
-local uTThglgC = AtQgREPg:FindFirstChild("duOzXSpk")
-if uTThglgC then
-local DHIxErah = uTThglgC:FindFirstChild("Killers")
-if DHIxErah then
-for _, mdl in ipairs(DHIxErah:GetChildren()) do
-removeESP(mdl)
-if KhBqfbSw.killerESP and mdl:FindFirstChild("HumanoidRootPart") then
-createESP(mdl, Color3.fromRGB(255, 0, 0), false, false, false)
-end
-end
-end
-local zspEqMQK = uTThglgC:FindFirstChild("Survivors")
-if zspEqMQK then
-for _, mdl in ipairs(zspEqMQK:GetChildren()) do
-removeESP(mdl)
-if KhBqfbSw.playerESP and mdl:FindFirstChild("HumanoidRootPart") then
-createESP(mdl, Color3.fromRGB(0, 255, 0), false, false, false)
-end
-end
-end
-end
-if pyTYsUfa:FindFirstChild("Map") then
-for _, mdl in ipairs(pyTYsUfa.Map:GetChildren()) do
-if mdl:IsA("Model") and mdl.Name:lower():find("generator") then
-removeESP(mdl)
-local JStAoPmP = mdl:FindFirstChild("Progress")
-if KhBqfbSw.generatorESP and JStAoPmP and JStAoPmP.Value < 100 then
-createESP(mdl, Color3.fromRGB(255, 0, 255), true, false, false)
-end
-end
-end
-end
-local GJlhXnKK = {"1x1x1x1Zombie"}
-for _, name in ipairs(twlqjRFq) do
-table.insert(GJlhXnKK, name)
-end
-for _, mdl in ipairs(pyTYsUfa:GetDescendants()) do
-if mdl:IsA("Model") and mdl:FindFirstChild("ItemRoot") and not table.find(GJlhXnKK, mdl.Name) then
-removeESP(mdl)
-if KhBqfbSw.itemESP then
-createESP(mdl, Color3.fromRGB(255, 255, 0), false, true, false)
-end
-end
-end
-end
+
 -- Auto Collect Items Loop
-task.spawn(KXCtSMUR()
-while true do
-if KhBqfbSw.autoCollectItems and isGameInProgress() then
-local GTXRMkcy = AtQgREPg:FindFirstChild("Map")
-if not GTXRMkcy or not GTXRMkcy:FindFirstChild("Ingame") then
-task.wait(0.1)
-continue
-end
-for _, item in ipairs(GTXRMkcy.Ingame:GetDescendants()) do
-if not KhBqfbSw.autoCollectItems then break end
-if item.Name == "ItemRoot" and item:IsA("BasePart") then
-local Iisnajfk = item:FindFirstChild("ProximityPrompt")
-if Iisnajfk then
-collectItem(item.Parent)
-task.wait(0.5)
-end
-end
-end
-task.wait(0.1)
-else
-task.wait(0.1)
-end
-end
+task.spawn(XzhbQqbc()
+    while true do
+        if state.autoCollectItems and isGameInProgress() then
+            local TjgywJSe = Workspace:FindFirstChild("Map")
+            if not TjgywJSe or not TjgywJSe:FindFirstChild("Ingame") then
+                task.wait(0.1)
+                continue
+            end
+            for _, item in ipairs(TjgywJSe.Ingame:GetDescendants()) do
+                if not state.autoCollectItems then break end
+                if item.Name == "ItemRoot" and item:IsA("BasePart") then
+                    local ZyVhXejo = item:FindFirstChild("ProximityPrompt")
+                    if ZyVhXejo then
+                        collectItem(item.Parent)
+                        task.wait(0.5)
+                    end
+                end
+            end
+            task.wait(0.1)
+        else
+            task.wait(0.1)
+        end
+    end
 end)
+
 -- Sprint & Stamina Loop
-task.spawn(KXCtSMUR()
-local yyXnIKbX, sprintModule = pcall(KXCtSMUR()
-return require(tZIRvlba.Systems.Character.Game.Sprinting)
+task.spawn(XzhbQqbc()
+    local ywhyXqUx, sprintModule = pcall(XzhbQqbc()
+        return require(ReplicatedStorage.Systems.Character.Game.Sprinting)
+    end)
+    if not ywhyXqUx or not sprintModule then return end
+
+    RunService.RenderStepped:Connect(XzhbQqbc()
+        if state.speedBoost then
+            sprintModule.SprintSpeed = state.sprintSpeed
+        end
+        if state.noStaminaLoss then
+            sprintModule.MaxStamina = 999999
+            sprintModule.Stamina = 999999
+        else
+            sprintModule.MaxStamina = origMaxStamina
+            sprintModule.Stamina = math.clamp(sprintModule.Stamina, sprintModule.MinStamina, origMaxStamina)
+        end
+    end)
 end)
-if not yyXnIKbX or not sprintModule then return end
-SGFyTPEx.RenderStepped:Connect(KXCtSMUR()
-if KhBqfbSw.speedBoost then
-sprintModule.SprintSpeed = KhBqfbSw.sprintSpeed
-end
-if KhBqfbSw.noStaminaLoss then
-sprintModule.MaxStamina = 999999
-sprintModule.Stamina = 999999
-else
-sprintModule.MaxStamina = origMaxStamina
-sprintModule.Stamina = math.clamp(sprintModule.Stamina, sprintModule.MinStamina, origMaxStamina)
-end
-end)
-end)
+
 -- Skill Check Functions for AimBot
-local KXCtSMUR isPlasmaBeamActive()
-local CkfAPbwi = AxEdIXlH.Character
-if not CkfAPbwi then return false end
-local kcNrmxLX = CkfAPbwi:FindFirstChild("SpeedMultipliers")
-if not kcNrmxLX then return false end
-return kcNrmxLX:FindFirstChild("PlasmaBeam") ~= nil
+local XzhbQqbc isPlasmaBeamActive()
+    local inHciMYv = player.Character
+    if not inHciMYv then return false end
+    local ybjGMxHp = inHciMYv:FindFirstChild("SpeedMultipliers")
+    if not ybjGMxHp then return false end
+    return ybjGMxHp:FindFirstChild("PlasmaBeam") ~= nil
 end
-local KXCtSMUR isShootSkillActive()
-local CkfAPbwi = AxEdIXlH.Character
-if not CkfAPbwi then return false end
-local kcNrmxLX = CkfAPbwi:FindFirstChild("SpeedMultipliers")
-if not kcNrmxLX then return false end
-return kcNrmxLX:FindFirstChild("ShootingGun") ~= nil
+
+local XzhbQqbc isShootSkillActive()
+    local inHciMYv = player.Character
+    if not inHciMYv then return false end
+    local ybjGMxHp = inHciMYv:FindFirstChild("SpeedMultipliers")
+    if not ybjGMxHp then return false end
+    return ybjGMxHp:FindFirstChild("ShootingGun") ~= nil
 end
-local KXCtSMUR isMassInfectionActive()
-local CkfAPbwi = AxEdIXlH.Character
-if not CkfAPbwi then return false end
-local kcNrmxLX = CkfAPbwi:FindFirstChild("SpeedMultipliers")
-if not kcNrmxLX then return false end
-return kcNrmxLX:FindFirstChild("MassInfection") ~= nil
+
+local XzhbQqbc isMassInfectionActive()
+    local inHciMYv = player.Character
+    if not inHciMYv then return false end
+    local ybjGMxHp = inHciMYv:FindFirstChild("SpeedMultipliers")
+    if not ybjGMxHp then return false end
+    return ybjGMxHp:FindFirstChild("MassInfection") ~= nil
 end
-local KXCtSMUR isEntanglementActive()
-local CkfAPbwi = AxEdIXlH.Character
-if not CkfAPbwi then return false end
-local kcNrmxLX = CkfAPbwi:FindFirstChild("SpeedMultipliers")
-if not kcNrmxLX then return false end
-return kcNrmxLX:FindFirstChild("Entanglement") ~= nil
+
+local XzhbQqbc isEntanglementActive()
+    local inHciMYv = player.Character
+    if not inHciMYv then return false end
+    local ybjGMxHp = inHciMYv:FindFirstChild("SpeedMultipliers")
+    if not ybjGMxHp then return false end
+    return ybjGMxHp:FindFirstChild("Entanglement") ~= nil
 end
+
 -- AimBot Loop with improved targeting
-task.spawn(KXCtSMUR()
-local KXCtSMUR isAnySkillActive()
-return (KhBqfbSw.aimBotPlasmaBeamSurvivor and isPlasmaBeamActive()) or
-(KhBqfbSw.aimBotPlasmaBeamKiller and isPlasmaBeamActive()) or
-(KhBqfbSw.aimBotShootKiller and isShootSkillActive()) or
-(KhBqfbSw.aimBotMassInfection and isMassInfectionActive()) or
-(KhBqfbSw.aimBotEntanglement and isEntanglementActive())
-end
-SGFyTPEx.RenderStepped:Connect(KXCtSMUR()
-local GRfPClLO = isAnySkillActive()
-if GRfPClLO and not vzwLaUCz then
-vzwLaUCz = true
-BVczHHLw.MouseBehavior = Enum.MouseBehavior.LockCenter
-elseif not GRfPClLO and vzwLaUCz then
-vzwLaUCz = false
-BVczHHLw.MouseBehavior = Enum.MouseBehavior.Default
-end
-if not (KhBqfbSw.aimBotPlasmaBeamSurvivor or KhBqfbSw.aimBotPlasmaBeamKiller or KhBqfbSw.aimBotShootKiller or
-KhBqfbSw.aimBotMassInfection or KhBqfbSw.aimBotEntanglement) or not GRfPClLO then
-if vvFkNBzu then
-vvFkNBzu:Disconnect()
-vvFkNBzu = nil
-end
-return
-end
-if not vvFkNBzu then
-vvFkNBzu = SGFyTPEx.RenderStepped:Connect(KXCtSMUR()
-local sFTkQfNt = nil
-if isPlasmaBeamActive() then
-if KhBqfbSw.aimBotPlasmaBeamSurvivor then
-sFTkQfNt = getClosestTarget("survivor")
-elseif KhBqfbSw.aimBotPlasmaBeamKiller then
-sFTkQfNt = getClosestTarget("killer")
-end
-elseif isShootSkillActive() and KhBqfbSw.aimBotShootKiller then
-sFTkQfNt = getClosestTarget("killer")
-elseif isMassInfectionActive() and KhBqfbSw.aimBotMassInfection then
-sFTkQfNt = getClosestTarget("survivor")
-elseif isEntanglementActive() and KhBqfbSw.aimBotEntanglement then
-sFTkQfNt = getClosestTarget("survivor")
-end
-if sFTkQfNt and sFTkQfNt:FindFirstChild("HumanoidRootPart") then
-local UDwqdoBa = sFTkQfNt.HumanoidRootPart.Position
-local CNBtFtIF = CFrame.new(KnJCyJAg.CFrame.Position, UDwqdoBa)
-if KhBqfbSw.aimbotSmoothing then
-KnJCyJAg.CFrame = KnJCyJAg.CFrame:Lerp(CNBtFtIF, KhBqfbSw.aimbotAimStrength)
-else
-KnJCyJAg.CFrame = CNBtFtIF
-end
-if (KhBqfbSw.aimBotShootKiller and isShootSkillActive()) or
-(KhBqfbSw.aimBotMassInfection and isMassInfectionActive()) or
-(KhBqfbSw.aimBotEntanglement and isEntanglementActive()) then
-local cPplkEJk = AxEdIXlH.Character.HumanoidRootPart.Position
-local butqUcgN = (UDwqdoBa - cPplkEJk).Unit
-AxEdIXlH.Character.HumanoidRootPart.CFrame = CFrame.new(cPplkEJk, cPplkEJk + butqUcgN * 10)
-end
-end
+task.spawn(XzhbQqbc()
+    local XzhbQqbc isAnySkillActive()
+        return (state.aimBotPlasmaBeamSurvivor and isPlasmaBeamActive()) or
+               (state.aimBotPlasmaBeamKiller and isPlasmaBeamActive()) or
+               (state.aimBotShootKiller and isShootSkillActive()) or
+               (state.aimBotMassInfection and isMassInfectionActive()) or
+               (state.aimBotEntanglement and isEntanglementActive())
+    end
+
+    RunService.RenderStepped:Connect(XzhbQqbc()
+        local qIxJRLmQ = isAnySkillActive()
+        if qIxJRLmQ and not isSkillActive then
+            isSkillActive = true
+            UserInputService.MouseBehavior = Enum.MouseBehavior.LockCenter
+        elseif not qIxJRLmQ and isSkillActive then
+            isSkillActive = false
+            UserInputService.MouseBehavior = Enum.MouseBehavior.Default
+        end
+
+        if not (state.aimBotPlasmaBeamSurvivor or state.aimBotPlasmaBeamKiller or state.aimBotShootKiller or
+                state.aimBotMassInfection or state.aimBotEntanglement) or not qIxJRLmQ then
+            if AimBotConnection then
+                AimBotConnection:Disconnect()
+                AimBotConnection = nil
+            end
+            return
+        end
+
+        if not AimBotConnection then
+            AimBotConnection = RunService.RenderStepped:Connect(XzhbQqbc()
+                local mzsSsSOr = nil
+                if isPlasmaBeamActive() then
+                    if state.aimBotPlasmaBeamSurvivor then
+                        mzsSsSOr = getClosestTarget("survivor")
+                    elseif state.aimBotPlasmaBeamKiller then
+                        mzsSsSOr = getClosestTarget("killer")
+                    end
+                elseif isShootSkillActive() and state.aimBotShootKiller then
+                    mzsSsSOr = getClosestTarget("killer")
+                elseif isMassInfectionActive() and state.aimBotMassInfection then
+                    mzsSsSOr = getClosestTarget("survivor")
+                elseif isEntanglementActive() and state.aimBotEntanglement then
+                    mzsSsSOr = getClosestTarget("survivor")
+                end
+
+                if mzsSsSOr and mzsSsSOr:FindFirstChild("HumanoidRootPart") then
+                    local ucuwmhKy = mzsSsSOr.HumanoidRootPart.Position
+                    local bifzxIiI = CFrame.new(camera.CFrame.Position, ucuwmhKy)
+                    if state.aimbotSmoothing then
+                        camera.CFrame = camera.CFrame:Lerp(bifzxIiI, state.aimbotAimStrength)
+                    else
+                        camera.CFrame = bifzxIiI
+                    end
+
+                    if (state.aimBotShootKiller and isShootSkillActive()) or
+                       (state.aimBotMassInfection and isMassInfectionActive()) or
+                       (state.aimBotEntanglement and isEntanglementActive()) then
+                        local pwcAlXGl = player.Character.HumanoidRootPart.Position
+                        local tLNfqkxs = (ucuwmhKy - pwcAlXGl).Unit
+                        player.Character.HumanoidRootPart.CFrame = CFrame.new(pwcAlXGl, pwcAlXGl + tLNfqkxs * 10)
+                    end
+                end
+            end)
+        end
+    end)
 end)
-end
-end)
-end)
+
 -- Anti-Subspace Effect
 do
-local yyXnIKbX, subspaceModule = pcall(KXCtSMUR()
-return require(tZIRvlba.Modules.StatusEffects.SurvivorExclusive.Subspaced)
-end)
-if yyXnIKbX and subspaceModule then
-subspaceModule.Applied = KXCtSMUR() end
-subspaceModule.Removed = KXCtSMUR() end
+    local ywhyXqUx, subspaceModule = pcall(XzhbQqbc()
+        return require(ReplicatedStorage.Modules.StatusEffects.SurvivorExclusive.Subspaced)
+    end)
+    if ywhyXqUx and subspaceModule then
+        subspaceModule.Applied = XzhbQqbc() end
+        subspaceModule.Removed = XzhbQqbc() end
+    end
 end
-end
+
 -- Anti-Glitched Effect
 do
-local yyXnIKbX, glitchedModule = pcall(KXCtSMUR()
-return require(tZIRvlba.Modules.StatusEffects.KillerExclusive.Glitched)
-end)
-if yyXnIKbX and glitchedModule then
-local tHZWUSfr = glitchedModule.Applied
-glitchedModule.Applied = KXCtSMUR(p7)
-if KhBqfbSw.antiGlitchedEffect then
-return
+    local ywhyXqUx, glitchedModule = pcall(XzhbQqbc()
+        return require(ReplicatedStorage.Modules.StatusEffects.KillerExclusive.Glitched)
+    end)
+    if ywhyXqUx and glitchedModule then
+        local hmMEowag = glitchedModule.Applied
+        glitchedModule.Applied = XzhbQqbc(p7)
+            if state.antiGlitchedEffect then
+                return
+            end
+            return hmMEowag(p7)
+        end
+    end
 end
-return tHZWUSfr(p7)
-end
-end
-end
+
 -- Anti-Blindness Effect
 do
-local yyXnIKbX, blindnessModule = pcall(KXCtSMUR()
-return require(tZIRvlba.Modules.StatusEffects.Blindness)
-end)
-if yyXnIKbX and blindnessModule then
-local tHZWUSfr = blindnessModule.Applied
-blindnessModule.Applied = KXCtSMUR(u1)
-if KhBqfbSw.antiBlindness then
-return
+    local ywhyXqUx, blindnessModule = pcall(XzhbQqbc()
+        return require(ReplicatedStorage.Modules.StatusEffects.Blindness)
+    end)
+    if ywhyXqUx and blindnessModule then
+        local hmMEowag = blindnessModule.Applied
+        blindnessModule.Applied = XzhbQqbc(u1)
+            if state.antiBlindness then
+                return
+            end
+            return hmMEowag(u1)
+        end
+    end
 end
-return tHZWUSfr(u1)
-end
-end
-end
+
 -- Remove Popups & Anti-Debuffs Loop
-task.spawn(KXCtSMUR()
-while true do
-local uTThglgC = AtQgREPg:FindFirstChild("duOzXSpk")
-if uTThglgC then
-for _, folder in ipairs(uTThglgC:GetChildren()) do
-for _, model in ipairs(folder:GetChildren()) do
-if model:IsA("Model") then
-if KhBqfbSw.antiWalkSpeedOverride then
-local DXNSdlNq = model:FindFirstChild("Result")
-if DXNSdlNq then
-DXNSdlNq:Destroy()
-end
-end
-local kcNrmxLX = model:FindFirstChild("SpeedMultipliers")
-if kcNrmxLX then
-local SgawfujL = kcNrmxLX:FindFirstChild("HinderedMovement")
-if SgawfujL and (KhBqfbSw.antiCorruptNature or KhBqfbSw.antiPizzaDelivery) then
-SgawfujL.Value = 1.8
-end
-if KhBqfbSw.antiMassInfection then
-local MTGAbZUS = kcNrmxLX:FindFirstChild("MassInfection")
-if MTGAbZUS then
-MTGAbZUS.Value = 1.8
-end
-end
-if KhBqfbSw.antiEntanglement then
-local yJaJllYx = kcNrmxLX:FindFirstChild("Entanglement")
-if yJaJllYx then
-yJaJllYx.Value = 1.8
-end
-end
-local MWAfAjyH = kcNrmxLX:FindFirstChild("SlowedStatus")
-if MWAfAjyH then
-MWAfAjyH:Destroy()
-end
-local SWHSwEVs = kcNrmxLX:FindFirstChild("FallSlowness")
-if SWHSwEVs and KhBqfbSw.antiFallDebuff then
-SWHSwEVs:Destroy()
-end
-if KhBqfbSw.antiColaDebuff then
-local OsugVZVl = kcNrmxLX:FindFirstChild("DrinkingCola")
-if OsugVZVl then
-OsugVZVl.Value = 1.8
-end
-local dqpFITFS = kcNrmxLX:FindFirstChild("BloxyColaItem")
-if dqpFITFS then
-dqpFITFS.Value = 1.8
-end
-end
-if KhBqfbSw.antiSlateskinDebuff then
-local SFOMlIkP = kcNrmxLX:FindFirstChild("DrinkingSlateskin")
-if SFOMlIkP then
-SFOMlIkP.Value = 1.8
-end
-local BUsSWNBD = kcNrmxLX:FindFirstChild("SlateskinStatus")
-if BUsSWNBD then
-BUsSWNBD.Value = 1.8
-end
-end
-if KhBqfbSw.antiBurgerDebuff then
-local TxeANUUf = kcNrmxLX:FindFirstChild("EatingGhostburger")
-if TxeANUUf then
-TxeANUUf.Value = 1.8
-end
-end
-if KhBqfbSw.antiSlashDebuff then
-local pGPMzFjT = kcNrmxLX:FindFirstChild("StunningKiller")
-if pGPMzFjT then
-pGPMzFjT.Value = 1.8
-end
-end
-if KhBqfbSw.antiChickenDebuff then
-local pDGTeWgT = kcNrmxLX:FindFirstChild("EatFriedChicken")
-if pDGTeWgT then
-pDGTeWgT.Value = 1.8
-end
-end
-if KhBqfbSw.antiBlockDebuff then
-local VCDfaHpi = kcNrmxLX:FindFirstChild("GuestBlocking")
-if VCDfaHpi then
-VCDfaHpi.Value = 1.8
-end
-end
-if KhBqfbSw.bypassChargeSpeed then
-local XCgGbISf = kcNrmxLX:FindFirstChild("Guest1337Charge")
-if XCgGbISf then
-XCgGbISf.Value = 3.4
-end
-end
-if KhBqfbSw.bypassPunchSpeed then
-local ifOVLzKi = kcNrmxLX:FindFirstChild("PunchAbility")
-if ifOVLzKi then
-ifOVLzKi.Value = 1.8
-end
-end
-if KhBqfbSw.antiTaphTripwire then
-local xrVwYzJo = kcNrmxLX:FindFirstChild("TaphTripwire")
-if xrVwYzJo then
-xrVwYzJo.Value = 1.8
-end
-end
-if KhBqfbSw.antiSubspaceTripmine then
-local oXiASGsa = kcNrmxLX:FindFirstChild("SubspaceTripmine")
-if oXiASGsa then
-oXiASGsa.Value = 1.8
-end
-end
-if KhBqfbSw.antiPlasmaBeam then
-local MPiTfZMT = kcNrmxLX:FindFirstChild("PlasmaBeam")
-if MPiTfZMT then
-MPiTfZMT.Value = 1.8
-end
-end
-if KhBqfbSw.antiSpawnProtection then
-local sQtAtmLo = kcNrmxLX:FindFirstChild("SpawnProtection")
-if sQtAtmLo then
-sQtAtmLo.Value = 1.8
-end
-end
-if KhBqfbSw.antiTwoTimeCrouching then
-local bvomyizy = kcNrmxLX:FindFirstChild("TwoTimeCrouching")
-if bvomyizy then
-bvomyizy.Value = 1.8
-end
-end
-if KhBqfbSw.antiTwoTimeStab then
-local gJiqibnJ = kcNrmxLX:FindFirstChild("TwoTimeStab")
-if gJiqibnJ then
-gJiqibnJ.Value = 1.8
-end
-end
-if KhBqfbSw.antiCoolGui then
-local oOrADzmJ = kcNrmxLX:FindFirstChild("c00lgui")
-if oOrADzmJ then
-oOrADzmJ.Value = 1.8
-end
-end
-if KhBqfbSw.antiBehead then
-local FYvLOaqv = kcNrmxLX:FindFirstChild("BeheadAbility")
-if FYvLOaqv then
-FYvLOaqv.Value = 1.8
-end
-end
-if KhBqfbSw.antiEnraged then
-local oUfftrfD = kcNrmxLX:FindFirstChild("ENRAGED")
-if oUfftrfD then
-oUfftrfD.Value = 2.7
-end
-end
-if KhBqfbSw.antiShootDebuff then
-local GUZHTCTl = kcNrmxLX:FindFirstChild("ShootingGun")
-if GUZHTCTl then
-GUZHTCTl.Value = 1.8
-end
-end
-end
-local sMUKQspa = model:FindFirstChild("FOVMultipliers")
-if sMUKQspa then
-local cqLbKuCq = sMUKQspa:FindFirstChild("SlowedStatus")
-if cqLbKuCq and (KhBqfbSw.autoRemovePopups or KhBqfbSw.antiSlowAfterChargeEnd or KhBqfbSw.antiSpawnProtection) then
-cqLbKuCq:Destroy()
-end
-if KhBqfbSw.antiSlateskinDebuff then
-local BUsSWNBD = sMUKQspa:FindFirstChild("SlateskinStatus")
-if BUsSWNBD then
-BUsSWNBD:Destroy()
-end
-end
-if KhBqfbSw.antiAutoFovCharge then
-local XCgGbISf = sMUKQspa:FindFirstChild("Guest1337Charge")
-if XCgGbISf then
-XCgGbISf:Destroy()
-end
-end
-end
-end
-end
-end
-if KhBqfbSw.autoRemovePopups then
-for _, dQovITPy in ipairs(duOzXSpk:GetPlayers()) do
-local LbwGpWQZ = dQovITPy:FindFirstChild("PlayerGui")
-if LbwGpWQZ then
-local NoQSEFom = LbwGpWQZ:FindFirstChild("TemporaryUI")
-if NoQSEFom then
-local gXioWoAC = NoQSEFom:FindFirstChild("1x1x1x1Popup")
-if gXioWoAC then
-gXioWoAC:Destroy()
-end
-end
-end
-end
-end
-if KhBqfbSw.antiMedkitDebuff then
-local yyXnIKbX, medkit = pcall(KXCtSMUR()
-return require(tZIRvlba.Assets.Items.Medkit.Config)
+task.spawn(XzhbQqbc()
+    while true do
+        local wtFoiVMY = Workspace:FindFirstChild("Players")
+        if wtFoiVMY then
+            for _, folder in ipairs(wtFoiVMY:GetChildren()) do
+                for _, model in ipairs(folder:GetChildren()) do
+                    if model:IsA("Model") then
+                        if state.antiWalkSpeedOverride then
+                            local nxPQkriT = model:FindFirstChild("Result")
+                            if nxPQkriT then
+                                nxPQkriT:Destroy()
+                            end
+                        end
+                        local ybjGMxHp = model:FindFirstChild("SpeedMultipliers")
+                        if ybjGMxHp then
+                            local KtVCssOC = ybjGMxHp:FindFirstChild("HinderedMovement")
+                            if KtVCssOC and (state.antiCorruptNature or state.antiPizzaDelivery) then
+                                KtVCssOC.Value = 1.8
+                            end
+                            if state.antiMassInfection then
+                                local iZryNgWK = ybjGMxHp:FindFirstChild("MassInfection")
+                                if iZryNgWK then
+                                    iZryNgWK.Value = 1.8
+                                end
+                            end
+                            if state.antiEntanglement then
+                                local APsIwxuy = ybjGMxHp:FindFirstChild("Entanglement")
+                                if APsIwxuy then
+                                    APsIwxuy.Value = 1.8
+                                end
+                            end
+                            local SQssjGYt = ybjGMxHp:FindFirstChild("SlowedStatus")
+                            if SQssjGYt then
+                                SQssjGYt:Destroy()
+                            end
+                            local CdxZGNXf = ybjGMxHp:FindFirstChild("FallSlowness")
+                            if CdxZGNXf and state.antiFallDebuff then
+                                CdxZGNXf:Destroy()
+                            end
+
+                            if state.antiColaDebuff then
+                                local LVOgwPQx = ybjGMxHp:FindFirstChild("DrinkingCola")
+                                if LVOgwPQx then
+                                    LVOgwPQx.Value = 1.8
+                                end
+                                local rjzNViRJ = ybjGMxHp:FindFirstChild("BloxyColaItem")
+                                if rjzNViRJ then
+                                    rjzNViRJ.Value = 1.8
+                                end
+                            end
+
+                            if state.antiSlateskinDebuff then
+                                local jdXkpkBL = ybjGMxHp:FindFirstChild("DrinkingSlateskin")
+                                if jdXkpkBL then
+                                    jdXkpkBL.Value = 1.8
+                                end
+                                local nWEVmlKb = ybjGMxHp:FindFirstChild("SlateskinStatus")
+                                if nWEVmlKb then
+                                    nWEVmlKb.Value = 1.8
+                                end
+                            end
+
+                            if state.antiBurgerDebuff then
+                                local wSgKSsWW = ybjGMxHp:FindFirstChild("EatingGhostburger")
+                                if wSgKSsWW then
+                                    wSgKSsWW.Value = 1.8
+                                end
+                            end
+
+                            if state.antiSlashDebuff then
+                                local kOwNLWXS = ybjGMxHp:FindFirstChild("StunningKiller")
+                                if kOwNLWXS then
+                                    kOwNLWXS.Value = 1.8
+                                end
+                            end
+
+                            if state.antiChickenDebuff then
+                                local gdkZOvrt = ybjGMxHp:FindFirstChild("EatFriedChicken")
+                                if gdkZOvrt then
+                                    gdkZOvrt.Value = 1.8
+                                end
+                            end
+
+                            if state.antiBlockDebuff then
+                                local YShIVzMo = ybjGMxHp:FindFirstChild("GuestBlocking")
+                                if YShIVzMo then
+                                    YShIVzMo.Value = 1.8
+                                end
+                            end
+
+                            if state.bypassChargeSpeed then
+                                local cynIlGGG = ybjGMxHp:FindFirstChild("Guest1337Charge")
+                                if cynIlGGG then
+                                    cynIlGGG.Value = 3.4
+                                end
+                            end
+
+                            if state.bypassPunchSpeed then
+                                local xpSFktQS = ybjGMxHp:FindFirstChild("PunchAbility")
+                                if xpSFktQS then
+                                    xpSFktQS.Value = 1.8
+                                end
+                            end
+
+                            if state.antiTaphTripwire then
+                                local uPaEFuvq = ybjGMxHp:FindFirstChild("TaphTripwire")
+                                if uPaEFuvq then
+                                    uPaEFuvq.Value = 1.8
+                                end
+                            end
+
+                            if state.antiSubspaceTripmine then
+                                local WQqiDhUR = ybjGMxHp:FindFirstChild("SubspaceTripmine")
+                                if WQqiDhUR then
+                                    WQqiDhUR.Value = 1.8
+                                end
+                            end
+
+                            if state.antiPlasmaBeam then
+                                local FOSFOHlx = ybjGMxHp:FindFirstChild("PlasmaBeam")
+                                if FOSFOHlx then
+                                    FOSFOHlx.Value = 1.8
+                                end
+                            end
+
+                            if state.antiSpawnProtection then
+                                local hyAEZoKG = ybjGMxHp:FindFirstChild("SpawnProtection")
+                                if hyAEZoKG then
+                                    hyAEZoKG.Value = 1.8
+                                end
+                            end
+
+                            if state.antiTwoTimeCrouching then
+                                local OzMmfhlA = ybjGMxHp:FindFirstChild("TwoTimeCrouching")
+                                if OzMmfhlA then
+                                    OzMmfhlA.Value = 1.8
+                                end
+                            end
+
+                            if state.antiTwoTimeStab then
+                                local SaQgGNrm = ybjGMxHp:FindFirstChild("TwoTimeStab")
+                                if SaQgGNrm then
+                                    SaQgGNrm.Value = 1.8
+                                end
+                            end
+
+                            if state.antiCoolGui then
+                                local uqGpoHIn = ybjGMxHp:FindFirstChild("c00lgui")
+                                if uqGpoHIn then
+                                    uqGpoHIn.Value = 1.8
+                                end
+                            end
+
+                            if state.antiBehead then
+                                local VmJcahaJ = ybjGMxHp:FindFirstChild("BeheadAbility")
+                                if VmJcahaJ then
+                                    VmJcahaJ.Value = 1.8
+                                end
+                            end
+
+                            if state.antiEnraged then
+                                local EJRoxCoy = ybjGMxHp:FindFirstChild("ENRAGED")
+                                if EJRoxCoy then
+                                    EJRoxCoy.Value = 2.7
+                                end
+                            end
+
+                            if state.antiShootDebuff then
+                                local CYaTrnlM = ybjGMxHp:FindFirstChild("ShootingGun")
+                                if CYaTrnlM then
+                                    CYaTrnlM.Value = 1.8
+                                end
+                            end
+                        end
+
+                        local WBYAOzkm = model:FindFirstChild("FOVMultipliers")
+                        if WBYAOzkm then
+                            local PwgzMZMG = WBYAOzkm:FindFirstChild("SlowedStatus")
+                            if PwgzMZMG and (state.autoRemovePopups or state.antiSlowAfterChargeEnd or state.antiSpawnProtection) then
+                                PwgzMZMG:Destroy()
+                            end
+
+                            if state.antiSlateskinDebuff then
+                                local nWEVmlKb = WBYAOzkm:FindFirstChild("SlateskinStatus")
+                                if nWEVmlKb then
+                                    nWEVmlKb:Destroy()
+                                end
+                            end
+
+                            if state.antiAutoFovCharge then
+                                local cynIlGGG = WBYAOzkm:FindFirstChild("Guest1337Charge")
+                                if cynIlGGG then
+                                    cynIlGGG:Destroy()
+                                end
+                            end
+                        end
+                    end
+                end
+            end
+
+            if state.autoRemovePopups then
+                for _, ggzowzde in ipairs(Players:GetPlayers()) do
+                    local HbxiAhYU = ggzowzde:FindFirstChild("PlayerGui")
+                    if HbxiAhYU then
+                        local LKDpMMnI = HbxiAhYU:FindFirstChild("TemporaryUI")
+                        if LKDpMMnI then
+                            local wzLJmFMB = LKDpMMnI:FindFirstChild("1x1x1x1Popup")
+                            if wzLJmFMB then
+                                wzLJmFMB:Destroy()
+                            end
+                        end
+                    end
+                end
+            end
+
+            if state.antiMedkitDebuff then
+                local ywhyXqUx, medkit = pcall(XzhbQqbc()
+                    return require(ReplicatedStorage.Assets.Items.Medkit.Config)
+                end)
+                if ywhyXqUx and medkit then
+                    medkit.HealTime = 0
+                    medkit.HealSpeedMultiplier = 1
+                end
+            end
+
+            task.wait(0.05)
+        else
+            task.wait(0.1)
+        end
+    end
 end)
-if yyXnIKbX and medkit then
-medkit.HealTime = 0
-medkit.HealSpeedMultiplier = 1
-end
-end
-task.wait(0.05)
-else
-task.wait(0.1)
-end
-end
-end)
+
 -- FullBright Logic
 if not _G.FullBrightExecuted then
-_G.FullBrightEnabled = false
-_G.NormalLightingSettings = {
-Brightness = game:GetService("Lighting").Brightness,
-ClockTime = game:GetService("Lighting").ClockTime,
-FogEnd = game:GetService("Lighting").FogEnd,
-GlobalShadows = game:GetService("Lighting").GlobalShadows,
-Ambient = game:GetService("Lighting").Ambient
-}
-local KXCtSMUR removeEffects()
-local qaLStnss = game:GetService("Lighting")
-for _, effect in ipairs({"DepthOfField", "ColorCorrection", "Blur", "Atmosphere"}) do
-local CtxVGfWY = qaLStnss:FindFirstChild(effect)
-if CtxVGfWY then
-CtxVGfWY:Destroy()
+    _G.FullBrightEnabled = false
+    _G.NormalLightingSettings = {
+        Brightness = game:GetService("Lighting").Brightness,
+        ClockTime = game:GetService("Lighting").ClockTime,
+        FogEnd = game:GetService("Lighting").FogEnd,
+        GlobalShadows = game:GetService("Lighting").GlobalShadows,
+        Ambient = game:GetService("Lighting").Ambient
+    }
+
+    local XzhbQqbc removeEffects()
+        local lighting = game:GetService("Lighting")
+        for _, effect in ipairs({"DepthOfField", "ColorCorrection", "Blur", "Atmosphere"}) do
+            local CQmJLwsk = lighting:FindFirstChild(effect)
+            if CQmJLwsk then
+                CQmJLwsk:Destroy()
+            end
+        end
+    end
+
+    local lighting = game:GetService("Lighting")
+    lighting.Changed:Connect(XzhbQqbc(property)
+        if _G.FullBrightEnabled then
+            if property == "Brightness" then
+                lighting.Brightness = 1
+            elseif property == "ClockTime" then
+                lighting.ClockTime = 12
+            elseif property == "FogEnd" then
+                lighting.FogEnd = 786543
+            elseif property == "GlobalShadows" then
+                lighting.GlobalShadows = false
+            elseif property == "Ambient" then
+                lighting.Ambient = Color3.fromRGB(178, 178, 178)
+            end
+            removeEffects()
+        else
+            if property == "Brightness" then
+                _G.NormalLightingSettings.Brightness = lighting.Brightness
+            elseif property == "ClockTime" then
+                _G.NormalLightingSettings.ClockTime = lighting.ClockTime
+            elseif property == "FogEnd" then
+                _G.NormalLightingSettings.FogEnd = lighting.FogEnd
+            elseif property == "GlobalShadows" then
+                _G.NormalLightingSettings.GlobalShadows = lighting.GlobalShadows
+            elseif property == "Ambient" then
+                _G.NormalLightingSettings.Ambient = lighting.Ambient
+            end
+        end
+    end)
+
+    task.spawn(XzhbQqbc()
+        while true do
+            if _G.FullBrightEnabled then
+                removeEffects()
+            end
+            task.wait(0.1)
+        end
+    end)
+
+    local XzhbQqbc applyFullBright()
+        if _G.FullBrightEnabled then
+            lighting.Brightness = 1
+            lighting.ClockTime = 12
+            lighting.FogEnd = 786543
+            lighting.GlobalShadows = false
+            lighting.Ambient = Color3.fromRGB(178, 178, 178)
+            removeEffects()
+        else
+            lighting.Brightness = _G.NormalLightingSettings.Brightness
+            lighting.ClockTime = _G.NormalLightingSettings.ClockTime
+            lighting.FogEnd = _G.NormalLightingSettings.FogEnd
+            lighting.GlobalShadows = _G.NormalLightingSettings.GlobalShadows
+            lighting.Ambient = _G.NormalLightingSettings.Ambient
+        end
+    end
+
+    local hksrChKz = false
+    spawn(XzhbQqbc()
+        while wait() do
+            if _G.FullBrightEnabled ~= hksrChKz then
+                applyFullBright()
+                hksrChKz = _G.FullBrightEnabled
+            end
+        end
+    end)
+
+    _G.FullBrightExecuted = true
 end
-end
-end
-local qaLStnss = game:GetService("Lighting")
-qaLStnss.Changed:Connect(KXCtSMUR(property)
-if _G.FullBrightEnabled then
-if property == "Brightness" then
-qaLStnss.Brightness = 1
-elseif property == "ClockTime" then
-qaLStnss.ClockTime = 12
-elseif property == "FogEnd" then
-qaLStnss.FogEnd = 786543
-elseif property == "GlobalShadows" then
-qaLStnss.GlobalShadows = false
-elseif property == "Ambient" then
-qaLStnss.Ambient = Color3.fromRGB(178, 178, 178)
-end
-removeEffects()
-else
-if property == "Brightness" then
-_G.NormalLightingSettings.Brightness = qaLStnss.Brightness
-elseif property == "ClockTime" then
-_G.NormalLightingSettings.ClockTime = qaLStnss.ClockTime
-elseif property == "FogEnd" then
-_G.NormalLightingSettings.FogEnd = qaLStnss.FogEnd
-elseif property == "GlobalShadows" then
-_G.NormalLightingSettings.GlobalShadows = qaLStnss.GlobalShadows
-elseif property == "Ambient" then
-_G.NormalLightingSettings.Ambient = qaLStnss.Ambient
-end
-end
-end)
-task.spawn(KXCtSMUR()
-while true do
-if _G.FullBrightEnabled then
-removeEffects()
-end
-task.wait(0.1)
-end
-end)
-local KXCtSMUR applyFullBright()
-if _G.FullBrightEnabled then
-qaLStnss.Brightness = 1
-qaLStnss.ClockTime = 12
-qaLStnss.FogEnd = 786543
-qaLStnss.GlobalShadows = false
-qaLStnss.Ambient = Color3.fromRGB(178, 178, 178)
-removeEffects()
-else
-qaLStnss.Brightness = _G.NormalLightingSettings.Brightness
-qaLStnss.ClockTime = _G.NormalLightingSettings.ClockTime
-qaLStnss.FogEnd = _G.NormalLightingSettings.FogEnd
-qaLStnss.GlobalShadows = _G.NormalLightingSettings.GlobalShadows
-qaLStnss.Ambient = _G.NormalLightingSettings.Ambient
-end
-end
-local cYJTnkzj = false
-spawn(KXCtSMUR()
-while wait() do
-if _G.FullBrightEnabled ~= cYJTnkzj then
-applyFullBright()
-cYJTnkzj = _G.FullBrightEnabled
-end
-end
-end)
-_G.FullBrightExecuted = true
-end
+
 -- Periodic ESP Update
-task.spawn(KXCtSMUR()
-while true do
-if isGameInProgress() then
-updateAllESP()
-end
-task.wait(0.1)
-end
+task.spawn(XzhbQqbc()
+    while true do
+        if isGameInProgress() then
+            updateAllESP()
+        end
+        task.wait(0.1)
+    end
 end)
+
 -- Initial Setup
-local KXCtSMUR initialSetup()
-if isGameInProgress() then
-updateAllESP()
+local XzhbQqbc initialSetup()
+    if isGameInProgress() then
+        updateAllESP()
+    end
 end
-end
+
 initialSetup()
+
 -- Auto Coin Flip Logic with Enhanced Charges Check
-SGFyTPEx.Heartbeat:Connect(KXCtSMUR()
-if KhBqfbSw.autoCoinFlip and isGameInProgress() then
-local uwqIyNql = AxEdIXlH.PlayerGui:FindFirstChild("MainUI") and
-AxEdIXlH.PlayerGui.MainUI:FindFirstChild("AbilityContainer") and
-AxEdIXlH.PlayerGui.MainUI.AbilityContainer:FindFirstChild("Shoot") and
-AxEdIXlH.PlayerGui.MainUI.AbilityContainer.Shoot:FindFirstChild("Charges")
-local dtHLesBV = AxEdIXlH.PlayerGui:FindFirstChild("MainUI") and
-AxEdIXlH.PlayerGui.MainUI:FindFirstChild("AbilityContainer") and
-AxEdIXlH.PlayerGui.MainUI.AbilityContainer:FindFirstChild("Reroll") and
-AxEdIXlH.PlayerGui.MainUI.AbilityContainer.Reroll:FindFirstChild("Charges")
-local mMSeBFTD = AxEdIXlH.PlayerGui:FindFirstChild("MainUI") and
-AxEdIXlH.PlayerGui.MainUI:FindFirstChild("AbilityContainer") and
-AxEdIXlH.PlayerGui.MainUI.AbilityContainer:FindFirstChild("HatFix") and
-AxEdIXlH.PlayerGui.MainUI.AbilityContainer.HatFix:FindFirstChild("Charges")
-local aDJOiGtq = uwqIyNql and uwqIyNql:IsA("TextLabel") and uwqIyNql.Text
-local IlyDagPb = dtHLesBV and dtHLesBV:IsA("TextLabel") and dtHLesBV.Text
-local DNSYNkga = mMSeBFTD and mMSeBFTD:IsA("TextLabel") and mMSeBFTD.Text
-local NSZwwEvd = true
-if aDJOiGtq and aDJOiGtq == "3" then
-NSZwwEvd = false
-end
-if IlyDagPb and IlyDagPb == "3" then
-NSZwwEvd = false
-end
-if DNSYNkga and DNSYNkga == "1" then
-NSZwwEvd = false
-end
-if NSZwwEvd then
-local ZwWaBuTY = game:GetService("tZIRvlba").Modules.Network.RemoteEvent
-ZwWaBuTY:FireServer("UseActorAbility", "CoinFlip")
-end
-task.wait(0.5)
-end
+RunService.Heartbeat:Connect(XzhbQqbc()
+    if state.autoCoinFlip and isGameInProgress() then
+        local GxspmzDI = player.PlayerGui:FindFirstChild("MainUI") and
+                                  player.PlayerGui.MainUI:FindFirstChild("AbilityContainer") and
+                                  player.PlayerGui.MainUI.AbilityContainer:FindFirstChild("Shoot") and
+                                  player.PlayerGui.MainUI.AbilityContainer.Shoot:FindFirstChild("Charges")
+
+        local PWrHvJRD = player.PlayerGui:FindFirstChild("MainUI") and
+                                   player.PlayerGui.MainUI:FindFirstChild("AbilityContainer") and
+                                   player.PlayerGui.MainUI.AbilityContainer:FindFirstChild("Reroll") and
+                                   player.PlayerGui.MainUI.AbilityContainer.Reroll:FindFirstChild("Charges")
+
+        local SrYzuLpv = player.PlayerGui:FindFirstChild("MainUI") and
+                                   player.PlayerGui.MainUI:FindFirstChild("AbilityContainer") and
+                                   player.PlayerGui.MainUI.AbilityContainer:FindFirstChild("HatFix") and
+                                   player.PlayerGui.MainUI.AbilityContainer.HatFix:FindFirstChild("Charges")
+
+        local nvObgdHY = GxspmzDI and GxspmzDI:IsA("TextLabel") and GxspmzDI.Text
+        local VejKavoI = PWrHvJRD and PWrHvJRD:IsA("TextLabel") and PWrHvJRD.Text
+        local Omarmqdm = SrYzuLpv and SrYzuLpv:IsA("TextLabel") and SrYzuLpv.Text
+
+        local YOLXeJtA = true
+
+        if nvObgdHY and nvObgdHY == "3" then
+            YOLXeJtA = false
+        end
+        if VejKavoI and VejKavoI == "3" then
+            YOLXeJtA = false
+        end
+        if Omarmqdm and Omarmqdm == "1" then
+            YOLXeJtA = false
+        end
+
+        if YOLXeJtA then
+            local agNsczPj = game:GetService("ReplicatedStorage").Modules.Network.RemoteEvent
+            agNsczPj:FireServer("UseActorAbility", "CoinFlip")
+        end
+        task.wait(0.5)
+    end
 end)
+
 -- CFrame Speed Logic
-SGFyTPEx.RenderStepped:Connect(KXCtSMUR(dt)
-if KhBqfbSw.cframeSpeedEnabled and AxEdIXlH.Character and AxEdIXlH.Character:FindFirstChild("HumanoidRootPart") then
-local RIERzBwM = AxEdIXlH.Character.HumanoidRootPart
-local lkgAvIgl = AxEdIXlH.Character.Humanoid.MoveDirection
-if lkgAvIgl.Magnitude > 0 then
-RIERzBwM.CFrame = RIERzBwM.CFrame + lkgAvIgl * KhBqfbSw.cframeSpeedValue * dt
-end
-end
+RunService.RenderStepped:Connect(XzhbQqbc(dt)
+    if state.cframeSpeedEnabled and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+        local foadmiLD = player.Character.HumanoidRootPart
+        local kbCfMgje = player.Character.Humanoid.MoveDirection
+        if kbCfMgje.Magnitude > 0 then
+            foadmiLD.CFrame = foadmiLD.CFrame + kbCfMgje * state.cframeSpeedValue * dt
+        end
+    end
 end)
+
 -- FOV Circle Update with RGB
-local hZzqZhal = 0
-SGFyTPEx.RenderStepped:Connect(KXCtSMUR(delta)
-if KhBqfbSw.aimbotRGB then
-hZzqZhal = (hZzqZhal + delta * 90) % 360
-local NXWFoibt = Color3.fromHSV(hZzqZhal/360, 1, 1)
-XnYKlmsd.Color = NXWFoibt
-else
-XnYKlmsd.Color = Color3.new(1, 1, 1)
-end
-if KhBqfbSw.aimbotFOVVisible then
-FCezTxxk.Visible = true
-local mHXzETmC = KhBqfbSw.aimbotFOV
-FCezTxxk.Size = UDim2.new(0, mHXzETmC * 2, 0, mHXzETmC * 2)
-FCezTxxk.Position = UDim2.new(0.5, -mHXzETmC, 0.5, -mHXzETmC)
-else
-FCezTxxk.Visible = false
-end
+local KNfHKtYP = 0
+RunService.RenderStepped:Connect(XzhbQqbc(delta)
+    if state.aimbotRGB then
+        KNfHKtYP = (KNfHKtYP + delta * 90) % 360
+        local eIWFVKVK = Color3.fromHSV(KNfHKtYP/360, 1, 1)
+        circleStroke.Color = eIWFVKVK
+    else
+        circleStroke.Color = Color3.new(1, 1, 1)
+    end
+
+    if state.aimbotFOVVisible then
+        fovCircle.Visible = true
+        local QsjaQIKf = state.aimbotFOV
+        fovCircle.Size = UDim2.new(0, QsjaQIKf * 2, 0, QsjaQIKf * 2)
+        fovCircle.Position = UDim2.new(0.5, -QsjaQIKf, 0.5, -QsjaQIKf)
+    else
+        fovCircle.Visible = false
+    end
 end)
