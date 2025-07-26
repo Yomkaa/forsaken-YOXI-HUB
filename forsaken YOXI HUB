@@ -1,31 +1,31 @@
 
-local a=game:GetService"Players"
-local b=game:GetService"RunService"
-local c=game:GetService"ReplicatedStorage"
-local d=game:GetService"Workspace"
-local e=game:GetService"VirtualUser"
-local f=game:GetService"UserInputService"
-game:GetService"HttpService"
-game:GetService"StarterGui"
-game:GetService"TweenService"
-game:GetService"VirtualInputManager"
-game:GetService"GuiService"
-local g=game:GetService"CoreGui"
+local a=game:GetService("Players")
+local b=game:GetService("RunService")
+local c=game:GetService("ReplicatedStorage")
+local d=game:GetService("Workspace")
+local e=game:GetService("VirtualUser")
+local f=game:GetService("UserInputService")
+local g=game:GetService("HttpService")
+local h=game:GetService("StarterGui")
+local i=game:GetService("TweenService")
+local j=game:GetService("VirtualInputManager")
+local k=game:GetService("GuiService")
+local l=game:GetService("CoreGui")
 
-local h=a.LocalPlayer
-local i=d.CurrentCamera
+local m=a.LocalPlayer
+local n=d.CurrentCamera
 
 
-local j={
+local o={
 GENERATOR_WAIT_TIME_DEFAULT=1,
 GENERATOR_WAIT_TIME_MAX=30,
 NOTIFICATION_IMAGE_ID=83784037333375,
 }
 
 
-local k={
+local p={
 autoGenerator=false,
-generatorWaitTime=j.GENERATOR_WAIT_TIME_DEFAULT,
+generatorWaitTime=o.GENERATOR_WAIT_TIME_DEFAULT,
 autoCollectItems=false,
 killerESP=false,
 playerESP=false,
@@ -91,248 +91,248 @@ cframeSpeedValue=50,
 }
 
 
-local l=Instance.new"ScreenGui"
-l.Name="AimbotGUI"
-l.Parent=g
-l.ResetOnSpawn=false
-l.ZIndexBehavior=Enum.ZIndexBehavior.Sibling
+local q=Instance.new("ScreenGui")
+q.Name="AimbotGUI"
+q.Parent=l
+q.ResetOnSpawn=false
+q.ZIndexBehavior=Enum.ZIndexBehavior.Sibling
 
 
-local m=Instance.new"Frame"
-m.Size=UDim2.new(0,k.aimbotFOV*2,0,k.aimbotFOV*2)
-m.Position=UDim2.new(0.5,-k.aimbotFOV,0.5,-k.aimbotFOV)
-m.BackgroundTransparency=1
-m.Parent=l
-m.ZIndex=10
+local r=Instance.new("Frame")
+r.Size=UDim2.new(0,p.aimbotFOV*2,0,p.aimbotFOV*2)
+r.Position=UDim2.new(0.5,-p.aimbotFOV,0.5,-p.aimbotFOV)
+r.BackgroundTransparency=1
+r.Parent=q
+r.ZIndex=10
 
-local n=Instance.new"UIStroke"
-n.Thickness=2
-n.Color=Color3.new(1,1,1)
-n.Parent=m
+local s=Instance.new("UIStroke")
+s.Thickness=2
+s.Color=Color3.new(1,1,1)
+s.Parent=r
 
-local o=Instance.new"UICorner"
-o.CornerRadius=UDim.new(1,0)
-o.Parent=m
-
-
-local p=true
-local q
-local r={}
+local t=Instance.new("UICorner")
+t.CornerRadius=UDim.new(1,0)
+t.Parent=r
 
 
-local s
+local u=true
+local v
+local w={}
 
 
-local t
-local u=false
+local x
 
 
-local v={}
-local w=0.2
+local y
+local z=false
 
 
-local x={
+local A={}
+local B=0.2
+
+
+local C={
 "PizzaDeliveryRig","Mafiaso1","Mafiaso2","Builderman","Elliot",
 "ShedletskyCORRUPT","ChancecORRUPT","ChanceCORRUPT",
 "Mafia1","Mafia2","Mafia3","Mafia4","Mafia5","Mafia6","Mafia7","Mafia8","Mafia9"
 }
 
 
-local function collectItem(y)
-local z=h.Character
-if not z or not z:FindFirstChild"HumanoidRootPart"then
+local function collectItem(D)
+local E=m.Character
+if not E or not E:FindFirstChild("HumanoidRootPart")then
 return false
 end
 
-local A=y:FindFirstChild"ItemRoot"
-if A and A:FindFirstChild"ProximityPrompt"then
-local B=A.ProximityPrompt
-z.HumanoidRootPart.CFrame=A.CFrame
+local F=D:FindFirstChild("ItemRoot")
+if F and F:FindFirstChild("ProximityPrompt")then
+local G=F.ProximityPrompt
+E.HumanoidRootPart.CFrame=F.CFrame
 task.wait(0.5)
-fireproximityprompt(B)
+fireproximityprompt(G)
 task.wait(1)
 return true
 end
 return false
 end
 
-local function createESP(y,z,A,B,C)
-if y:FindFirstChild"TAOWARE_Highlight"then return end
-if A and y:FindFirstChild"Progress"and y.Progress.Value==100 then return end
+local function createESP(D,E,F,G,H)
+if D:FindFirstChild("TAOWARE_Highlight")then return end
+if F and D:FindFirstChild("Progress")and D.Progress.Value==100 then return end
 
-local D
-if A then
-D=y:FindFirstChild"Main"
-if not D then return end
-elseif B then
-D=y:FindFirstChild"ItemRoot"
-if not D then return end
-elseif C then
-D=y
-if not D then return end
+local I
+if F then
+I=D:FindFirstChild("Main")
+if not I then return end
+elseif G then
+I=D:FindFirstChild("ItemRoot")
+if not I then return end
+elseif H then
+I=D
+if not I then return end
 else
-D=y:FindFirstChild"HumanoidRootPart"
-if not D then return end
+I=D:FindFirstChild("HumanoidRootPart")
+if not I then return end
 end
 
-local E=Instance.new"Highlight"
-E.Name="TAOWARE_Highlight"
-E.Adornee=y
-E.FillColor=z
-E.OutlineColor=z
-E.FillTransparency=0.5
-E.OutlineTransparency=0
-E.Parent=y
+local J=Instance.new("Highlight")
+J.Name="TAOWARE_Highlight"
+J.Adornee=D
+J.FillColor=E
+J.OutlineColor=E
+J.FillTransparency=0.5
+J.OutlineTransparency=0
+J.Parent=D
 
-local F=Instance.new"BillboardGui"
-F.Name="TAOWARE_Billboard"
-F.Adornee=D
-F.Size=UDim2.new(0,150,0,60)
-F.StudsOffset=Vector3.new(0,4,0)
-F.AlwaysOnTop=true
-F.Parent=y
+local K=Instance.new("BillboardGui")
+K.Name="TAOWARE_Billboard"
+K.Adornee=I
+K.Size=UDim2.new(0,150,0,60)
+K.StudsOffset=Vector3.new(0,4,0)
+K.AlwaysOnTop=true
+K.Parent=D
 
-if not A and not B and not C then
-local G=a:GetPlayerFromCharacter(y)
-local H=G and G.Name or"Unknown"
-local I=y:FindFirstChild"Humanoid"
-local J=I and string.format("%.0f",I.Health)or"N/A"
-local K="Unknown"
-if G and G:FindFirstChild"PlayerData"and G.PlayerData:FindFirstChild"Equipped"then
-if y.Parent.Name=="Killers"and G.PlayerData.Equipped:FindFirstChild"Killer"then
-K=G.PlayerData.Equipped.Killer.Value
-elseif y.Parent.Name=="Survivors"and G.PlayerData.Equipped:FindFirstChild"Survivor"then
-K=G.PlayerData.Equipped.Survivor.Value
+if not F and not G and not H then
+local L=a:GetPlayerFromCharacter(D)
+local M=L and L.Name or"Unknown"
+local N=D:FindFirstChild("Humanoid")
+local O=N and string.format("%.0f",N.Health)or"N/A"
+local P="Unknown"
+if L and L:FindFirstChild("PlayerData")and L.PlayerData:FindFirstChild("Equipped")then
+if D.Parent.Name=="Killers"and L.PlayerData.Equipped:FindFirstChild("Killer")then
+P=L.PlayerData.Equipped.Killer.Value
+elseif D.Parent.Name=="Survivors"and L.PlayerData.Equipped:FindFirstChild("Survivor")then
+P=L.PlayerData.Equipped.Survivor.Value
 end
 end
 
-local L=Instance.new"TextLabel"
-L.Size=UDim2.new(1,0,0.33,0)
-L.Position=UDim2.new(0,0,0,0)
+local Q=Instance.new("TextLabel")
+Q.Size=UDim2.new(1,0,0.33,0)
+Q.Position=UDim2.new(0,0,0,0)
+Q.BackgroundTransparency=1
+Q.Text=M
+Q.Font=Enum.Font.GothamBlack
+Q.TextColor3=E
+Q.TextSize=12
+Q.TextStrokeTransparency=0.6
+Q.TextStrokeColor3=Color3.fromRGB(0,0,0)
+Q.Parent=K
+
+local R=Instance.new("TextLabel")
+R.Size=UDim2.new(1,0,0.33,0)
+R.Position=UDim2.new(0,0,0.33,0)
+R.BackgroundTransparency=1
+R.Text="HP: "..O
+R.Font=Enum.Font.GothamBlack
+R.TextColor3=E
+R.TextSize=12
+R.TextStrokeTransparency=0.6
+R.TextStrokeColor3=Color3.fromRGB(0,0,0)
+R.Parent=K
+
+local S=Instance.new("TextLabel")
+S.Size=UDim2.new(1,0,0.33,0)
+S.Position=UDim2.new(0,0,0.66,0)
+S.BackgroundTransparency=1
+S.Text=P
+S.Font=Enum.Font.GothamBlack
+S.TextColor3=E
+S.TextSize=12
+S.TextStrokeTransparency=0.6
+S.TextStrokeColor3=Color3.fromRGB(0,0,0)
+S.Parent=K
+else
+local L=Instance.new("TextLabel")
+L.Size=UDim2.new(1,0,1,0)
 L.BackgroundTransparency=1
-L.Text=H
+L.Text=D.Name
 L.Font=Enum.Font.GothamBlack
-L.TextColor3=z
-L.TextSize=12
+L.TextColor3=E
+L.TextSize=F and 14 or 12
 L.TextStrokeTransparency=0.6
 L.TextStrokeColor3=Color3.fromRGB(0,0,0)
-L.Parent=F
+L.Parent=K
+end
+end
 
-local M=Instance.new"TextLabel"
-M.Size=UDim2.new(1,0,0.33,0)
-M.Position=UDim2.new(0,0,0.33,0)
-M.BackgroundTransparency=1
-M.Text="HP: "..J
-M.Font=Enum.Font.GothamBlack
-M.TextColor3=z
-M.TextSize=12
-M.TextStrokeTransparency=0.6
-M.TextStrokeColor3=Color3.fromRGB(0,0,0)
-M.Parent=F
+local function removeESP(D)
+if D:FindFirstChild("TAOWARE_Highlight")then
+D.TAOWARE_Highlight:Destroy()
+end
+if D:FindFirstChild("TAOWARE_Billboard")then
+D.TAOWARE_Billboard:Destroy()
+end
+end
 
-local N=Instance.new"TextLabel"
-N.Size=UDim2.new(1,0,0.33,0)
-N.Position=UDim2.new(0,0,0.66,0)
-N.BackgroundTransparency=1
-N.Text=K
-N.Font=Enum.Font.GothamBlack
-N.TextColor3=z
-N.TextSize=12
-N.TextStrokeTransparency=0.6
-N.TextStrokeColor3=Color3.fromRGB(0,0,0)
-N.Parent=F
+local function getClosestTarget(D)
+local E=d:FindFirstChild("Players")
+if not E then return nil end
+
+local F
+if D=="killer"then
+local G=E:FindFirstChild("Killers")
+if G then
+F=G:GetChildren()
 else
-local G=Instance.new"TextLabel"
-G.Size=UDim2.new(1,0,1,0)
-G.BackgroundTransparency=1
-G.Text=y.Name
-G.Font=Enum.Font.GothamBlack
-G.TextColor3=z
-G.TextSize=A and 14 or 12
-G.TextStrokeTransparency=0.6
-G.TextStrokeColor3=Color3.fromRGB(0,0,0)
-G.Parent=F
+F={}
 end
-end
-
-local function removeESP(y)
-if y:FindFirstChild"TAOWARE_Highlight"then
-y.TAOWARE_Highlight:Destroy()
-end
-if y:FindFirstChild"TAOWARE_Billboard"then
-y.TAOWARE_Billboard:Destroy()
-end
-end
-
-local function getClosestTarget(y)
-local z=d:FindFirstChild"Players"
-if not z then return nil end
-
-local A
-if y=="killer"then
-local B=z:FindFirstChild"Killers"
-if B then
-A=B:GetChildren()
+elseif D=="survivor"then
+local G=E:FindFirstChild("Survivors")
+if G then
+F=G:GetChildren()
 else
-A={}
-end
-elseif y=="survivor"then
-local B=z:FindFirstChild"Survivors"
-if B then
-A=B:GetChildren()
-else
-A={}
+F={}
 end
 else
 return nil
 end
 
-local B=nil
-local C=k.aimbotFOV
+local G=nil
+local H=p.aimbotFOV
 
-for D,E in ipairs(A)do
-if E==h.Character then continue end
-local F=E:FindFirstChildOfClass"Humanoid"
-if not F or F.Health<=0 then continue end
-local G=E:FindFirstChild"HumanoidRootPart"
-if not G then continue end
+for I,J in ipairs(F)do
+if J==m.Character then continue end
+local K=J:FindFirstChildOfClass("Humanoid")
+if not K or K.Health<=0 then continue end
+local L=J:FindFirstChild("HumanoidRootPart")
+if not L then continue end
 
-local H,I=i:WorldToViewportPoint(G.Position)
-if not I then continue end
+local M,N=n:WorldToViewportPoint(L.Position)
+if not N then continue end
 
-local J=(Vector2.new(H.X,H.Y)-Vector2.new(i.ViewportSize.X/2,i.ViewportSize.Y/2)).Magnitude
-if J>k.aimbotFOV then continue end
+local O=(Vector2.new(M.X,M.Y)-Vector2.new(n.ViewportSize.X/2,n.ViewportSize.Y/2)).Magnitude
+if O>p.aimbotFOV then continue end
 
-if k.aimbotWallCheck then
-local K=i.CFrame.Position
-local L=G.Position-K
-local M=RaycastParams.new()
-M.FilterDescendantsInstances={h.Character,E}
-M.FilterType=Enum.RaycastFilterType.Blacklist
-local N=d:Raycast(K,L,M)
-if N then continue end
+if p.aimbotWallCheck then
+local P=n.CFrame.Position
+local Q=L.Position-P
+local R=RaycastParams.new()
+R.FilterDescendantsInstances={m.Character,J}
+R.FilterType=Enum.RaycastFilterType.Blacklist
+local S=d:Raycast(P,Q,R)
+if S then continue end
 end
 
-if J<C then
-C=J
-B=E
+if O<H then
+H=O
+G=J
 end
 end
 
-return B
+return G
 end
 
 
 local function isGameInProgress()
-local y=d:FindFirstChild"Map"
-if not y or not y:FindFirstChild"Ingame"then
+local D=d:FindFirstChild("Map")
+if not D or not D:FindFirstChild("Ingame")then
 return false
 end
 
-local z=d:FindFirstChild"Players"
-if z then
-local A=z:FindFirstChild"Survivors"
-if A and#A:GetChildren()>0 then
+local E=d:FindFirstChild("Players")
+if E then
+local F=E:FindFirstChild("Survivors")
+if F and#F:GetChildren()>0 then
 return true
 end
 end
@@ -342,10 +342,10 @@ end
 
 
 local function hasGenerators()
-local y=d:FindFirstChild"Map"
-if y and y:FindFirstChild"Ingame"and y.Ingame:FindFirstChild"Map"then
-for z,A in ipairs(y.Ingame.Map:GetChildren())do
-if A:IsA"Model"and A.Name:lower():find"generator"then
+local D=d:FindFirstChild("Map")
+if D and D:FindFirstChild("Ingame")and D.Ingame:FindFirstChild("Map")then
+for E,F in ipairs(D.Ingame.Map:GetChildren())do
+if F:IsA("Model")and F.Name:lower():find("generator")then
 return true
 end
 end
@@ -354,1081 +354,1081 @@ return false
 end
 
 
-local y=false
+local D=false
 
 local function runAutoGenerator()
-if y then return end
-y=true
+if D then return end
+D=true
 task.spawn(function()
-while y and k.autoGenerator and hasGenerators()and isGameInProgress()do
+while D and p.autoGenerator and hasGenerators()and isGameInProgress()do
 pcall(function()
-local z=d:FindFirstChild"Map"
-if not z then return end
-local A=z:FindFirstChild"Ingame"
-if not A then return end
-local B=A:FindFirstChild"Map"
-if not B then return end
+local E=d:FindFirstChild("Map")
+if not E then return end
+local F=E:FindFirstChild("Ingame")
+if not F then return end
+local G=F:FindFirstChild("Map")
+if not G then return end
 
-for C,D in ipairs(B:GetChildren())do
-if D:IsA"Model"and D.Name:lower():find"generator"then
-local E=D:FindFirstChild"Remotes"
-if E then
-local F=E:FindFirstChild"RE"
-local G=E:FindFirstChild"RF"
-if F and G then
-pcall(function()F:FireServer()end)
-pcall(function()G:InvokeServer()end)
+for H,I in ipairs(G:GetChildren())do
+if I:IsA("Model")and I.Name:lower():find("generator")then
+local J=I:FindFirstChild("Remotes")
+if J then
+local K=J:FindFirstChild("RE")
+local L=J:FindFirstChild("RF")
+if K and L then
+pcall(function()K:FireServer()end)
+pcall(function()L:InvokeServer()end)
 end
 end
 task.wait(0.1)
 end
 end
 end)
-task.wait(k.generatorWaitTime)
+task.wait(p.generatorWaitTime)
 end
-y=false
+D=false
 end)
 end
 
 local function restartAutoGenerator()
-y=false
+D=false
 task.wait(0.1)
-if k.autoGenerator then
+if p.autoGenerator then
 runAutoGenerator()
 end
 end
 
 
-local z=loadstring(game:HttpGetAsync'https://raw.githubusercontent.com/3345-c-a-t-s-u-s/NOTHING/main/source.lua')();
-local A=z.Notification();
+local E=loadstring(game:HttpGetAsync('https://raw.githubusercontent.com/3345-c-a-t-s-u-s/NOTHING/main/source.lua'))();
+local F=E.Notification();
 
-A.new{
+F.new({
 Title="THX FOR USING YOXI HUB",
 Description="Telegram: @YomkaMadeIt",
 Duration=5,
 Icon="rbxassetid://82898985676372"
-}
+})
 
-local B=z.new{
+local G=E.new({
 Title="YOXI HUB | Forsaken",
 Description="Made by: Yomka",
 Keybind=Enum.KeyCode.B,
 Logo='http://www.roblox.com/asset/?id=82898985676372'
-}
+})
 
 
-local function handleKeyPress(C)
-local D=tick()
-local E=tostring(C)
+local function handleKeyPress(H)
+local I=tick()
+local J=tostring(H)
 
-if v[E]and(D-v[E])<w then
+if A[J]and(I-A[J])<B then
 return
 end
-v[E]=D
+A[J]=I
 
-if C==Enum.KeyCode.X then
+if H==Enum.KeyCode.X then
 restartAutoGenerator()
-A.new{
+F.new({
 Title="Auto Generator",
 Description="Auto Generator Restarted!",
 Duration=3,
 Icon="rbxassetid://82898985676372"
-}
-elseif C==Enum.KeyCode.V then
-k.autoCollectItems=not k.autoCollectItems
-A.new{
+})
+elseif H==Enum.KeyCode.V then
+p.autoCollectItems=not p.autoCollectItems
+F.new({
 Title="Auto Collect",
-Description="Auto Collect Items: "..(k.autoCollectItems and"ON"or"OFF"),
+Description="Auto Collect Items: "..(p.autoCollectItems and"ON"or"OFF"),
 Duration=3,
 Icon="rbxassetid://82898985676372"
-}
-elseif C==Enum.KeyCode.N then
-k.noClip=not k.noClip
-if h.Character then
-if k.noClip then
-r={}
-for F,G in ipairs(h.Character:GetDescendants())do
-if G:IsA"BasePart"then
-r[G]=G.CanCollide
-G.CanCollide=false
+})
+elseif H==Enum.KeyCode.N then
+p.noClip=not p.noClip
+if m.Character then
+if p.noClip then
+w={}
+for K,L in ipairs(m.Character:GetDescendants())do
+if L:IsA("BasePart")then
+w[L]=L.CanCollide
+L.CanCollide=false
 end
 end
-p=false
-if q then
-q:Disconnect()
+u=false
+if v then
+v:Disconnect()
 end
-q=b.Stepped:Connect(function()
-if not p and h.Character then
-for F,G in ipairs(h.Character:GetDescendants())do
-if G:IsA"BasePart"and G.Parent then
-G.CanCollide=false
+v=b.Stepped:Connect(function()
+if not u and m.Character then
+for K,L in ipairs(m.Character:GetDescendants())do
+if L:IsA("BasePart")and L.Parent then
+L.CanCollide=false
 end
 end
 end
 end)
-A.new{
+F.new({
 Title="NoClip",
 Description="NoClip Enabled!",
 Duration=3,
 Icon="rbxassetid://82898985676372"
-}
+})
 else
-p=true
-if q then
-q:Disconnect()
-q=nil
+u=true
+if v then
+v:Disconnect()
+v=nil
 end
-for F,G in pairs(r)do
-if F and F.Parent then
-F.CanCollide=G
+for K,L in pairs(w)do
+if K and K.Parent then
+K.CanCollide=L
 end
 end
-r={}
-A.new{
+w={}
+F.new({
 Title="NoClip",
 Description="NoClip Disabled!",
 Duration=3,
 Icon="rbxassetid://82898985676372"
-}
+})
 end
 end
 end
 end
 
-f.InputBegan:Connect(function(C,D)
-if D then return end
+f.InputBegan:Connect(function(H,I)
+if I then return end
 
-if C.UserInputType==Enum.UserInputType.Keyboard then
-handleKeyPress(C.KeyCode)
+if H.UserInputType==Enum.UserInputType.Keyboard then
+handleKeyPress(H.KeyCode)
 end
 end)
 
 
-local C=B:NewTab{
+local H=G:NewTab({
 Title="Info",
 Description="Information",
 Icon="rbxassetid://82898985676372"
-}
+})
 
-local D=B:NewTab{
+local I=G:NewTab({
 Title="Farm",
 Description="Farming Features",
 Icon="rbxassetid://82898985676372"
-}
+})
 
-local E=B:NewTab{
+local J=G:NewTab({
 Title="ESP",
 Description="ESP Features",
 Icon="rbxassetid://82898985676372"
-}
+})
 
-local F=B:NewTab{
+local K=G:NewTab({
 Title="Player",
 Description="Player Modifications",
 Icon="rbxassetid://82898985676372"
-}
+})
 
-local G=B:NewTab{
+local L=G:NewTab({
 Title="AimBot",
 Description="AimBot Features",
 Icon="rbxassetid://82898985676372"
-}
+})
 
-local H=B:NewTab{
+local M=G:NewTab({
 Title="Antis",
 Description="Anti-Debuff Features",
 Icon="rbxassetid://82898985676372"
-}
+})
 
 
-local I=C:NewSection{
+local N=H:NewSection({
 Title="Information",
 Icon="rbxassetid://82898985676372",
 Position="Left"
-}
+})
 
-I:NewTitle"UI TOGGLE KEY - B"
-I:NewTitle'Made by: Yomka'
-I:NewTitle'Telegram: @YomkaMadeIt'
-I:NewButton{
+N:NewTitle("UI TOGGLE KEY - B")
+N:NewTitle('Made by: Yomka')
+N:NewTitle('Telegram: @YomkaMadeIt')
+N:NewButton({
 Title="Join Telegram",
 Callback=function()
-setclipboard"https://t.me/YomkaMadeIt"
-A.new{
+setclipboard("https://t.me/YomkaMadeIt")
+F.new({
 Title="Link Copied",
 Description="Telegram channel link copied to clipboard!",
 Duration=5,
 Icon="rbxassetid://82898985676372"
-}
+})
 end,
-}
+})
 
 
-local J=D:NewSection{
+local O=I:NewSection({
 Title="Generator Automation",
 Icon="rbxassetid://82898985676372",
 Position="Left"
-}
+})
 
-J:NewToggle{
+O:NewToggle({
 Title="Auto Generator",
-Default=k.autoGenerator,
-Callback=function(K)
-k.autoGenerator=K
-if K then
+Default=p.autoGenerator,
+Callback=function(P)
+p.autoGenerator=P
+if P then
 runAutoGenerator()
 else
-y=false
+D=false
 end
 end,
-}
+})
 
-J:NewSlider{
+O:NewSlider({
 Title="Generator Wait Time",
-Default=k.generatorWaitTime,
+Default=p.generatorWaitTime,
 Min=0,
-Max=j.GENERATOR_WAIT_TIME_MAX,
+Max=o.GENERATOR_WAIT_TIME_MAX,
 Step=0.1,
-Callback=function(K)
-k.generatorWaitTime=K
+Callback=function(P)
+p.generatorWaitTime=P
 end,
-}
+})
 
-J:NewTitle"Click the button below to restart the auto gens."
+O:NewTitle("Click the button below to restart the auto gens.")
 
-J:NewButton{
+O:NewButton({
 Title="Restart Auto Generator",
 Callback=function()
 restartAutoGenerator()
-A.new{
+F.new({
 Title="Auto Generator Restarted",
 Description="Auto generators have been restarted.",
 Duration=5,
 Icon="rbxassetid://82898985676372"
-}
+})
 end,
-}
+})
 
-J:NewKeybind{
+O:NewKeybind({
 Title="Restart Generator Hotkey (X)",
 Default=Enum.KeyCode.X,
 Callback=function()
 restartAutoGenerator()
-A.new{
+F.new({
 Title="Auto Generator Restarted",
 Description="Auto generators have been restarted.",
 Duration=5,
 Icon="rbxassetid://82898985676372"
-}
+})
 end,
-}
+})
 
-J:NewTitle"DONT SPAM IT PLS!!!"
+O:NewTitle("DONT SPAM IT PLS!!!")
 
-local K=D:NewSection{
+local P=I:NewSection({
 Title="Item Collection",
 Icon="rbxassetid://82898985676372",
 Position="Right"
-}
+})
 
-K:NewToggle{
+P:NewToggle({
 Title="Auto Collect Items",
-Default=k.autoCollectItems,
-Callback=function(L)
-k.autoCollectItems=L
+Default=p.autoCollectItems,
+Callback=function(Q)
+p.autoCollectItems=Q
 end,
-}
+})
 
-K:NewKeybind{
+P:NewKeybind({
 Title="Auto Collect Hotkey (V)",
 Default=Enum.KeyCode.V,
 Callback=function()
-k.autoCollectItems=not k.autoCollectItems
+p.autoCollectItems=not p.autoCollectItems
 end,
-}
+})
 
 
-local L=E:NewSection{
+local Q=J:NewSection({
 Title="Player ESP",
 Icon="rbxassetid://82898985676372",
 Position="Left"
-}
+})
 
-L:NewToggle{
+Q:NewToggle({
 Title="Killer ESP",
-Default=k.killerESP,
-Callback=function(M)
-k.killerESP=M
+Default=p.killerESP,
+Callback=function(R)
+p.killerESP=R
 end,
-}
+})
 
-L:NewToggle{
+Q:NewToggle({
 Title="Survivor ESP",
-Default=k.playerESP,
-Callback=function(M)
-k.playerESP=M
+Default=p.playerESP,
+Callback=function(R)
+p.playerESP=R
 end,
-}
+})
 
-local M=E:NewSection{
+local R=J:NewSection({
 Title="Object ESP",
 Icon="rbxassetid://82898985676372",
 Position="Right"
-}
+})
 
-M:NewToggle{
+R:NewToggle({
 Title="Generator ESP",
-Default=k.generatorESP,
-Callback=function(N)
-k.generatorESP=N
+Default=p.generatorESP,
+Callback=function(S)
+p.generatorESP=S
 end,
-}
+})
 
-M:NewToggle{
+R:NewToggle({
 Title="Item ESP",
-Default=k.itemESP,
-Callback=function(N)
-k.itemESP=N
+Default=p.itemESP,
+Callback=function(S)
+p.itemESP=S
 end,
-}
+})
 
-M:NewToggle{
+R:NewToggle({
 Title="Esp For Elliot Pizza",
-Default=k.pizzaEsp,
-Callback=function(N)
-k.pizzaEsp=N
+Default=p.pizzaEsp,
+Callback=function(S)
+p.pizzaEsp=S
 end,
-}
+})
 
-local N=E:NewSection{
+local S=J:NewSection({
 Title="Killer Dummies ESP",
 Icon="rbxassetid://82898985676372",
 Position="Left"
-}
+})
 
-N:NewToggle{
+S:NewToggle({
 Title="c00lkidd Esp for pizza delivery guys",
-Default=k.pizzaDeliveryEsp,
-Callback=function(O)
-k.pizzaDeliveryEsp=O
+Default=p.pizzaDeliveryEsp,
+Callback=function(T)
+p.pizzaDeliveryEsp=T
 end,
-}
+})
 
-N:NewToggle{
+S:NewToggle({
 Title="1x1x1x1 Esp For 1x1x1x1 Zombies",
-Default=k.zombieEsp,
-Callback=function(O)
-k.zombieEsp=O
+Default=p.zombieEsp,
+Callback=function(T)
+p.zombieEsp=T
 end,
-}
+})
 
 
-local O=F:NewSection{
+local T=K:NewSection({
 Title="Movement Modifications",
 Icon="rbxassetid://82898985676372",
 Position="Left"
-}
+})
 
-O:NewToggle{
+T:NewToggle({
 Title="Sprint Speed Boost (VERY risky!!)",
-Default=k.speedBoost,
-Callback=function(P)
-k.speedBoost=P
-if not P then
-local Q,R=pcall(function()
+Default=p.speedBoost,
+Callback=function(U)
+p.speedBoost=U
+if not U then
+local V,W=pcall(function()
 return require(c.Systems.Character.Game.Sprinting)
 end)
-if Q and R then
-R.SprintSpeed=origSprintSpeed
+if V and W then
+W.SprintSpeed=origSprintSpeed
 end
 end
 end,
-}
+})
 
-O:NewSlider{
+T:NewSlider({
 Title="Sprint Speed",
-Default=k.sprintSpeed,
+Default=p.sprintSpeed,
 Min=26,
 Max=50,
-Callback=function(P)
-k.sprintSpeed=P
+Callback=function(U)
+p.sprintSpeed=U
 end,
-}
+})
 
-O:NewTitle"Do not set above 35-40, anti-cheat kicks"
+T:NewTitle("Do not set above 35-40, anti-cheat kicks")
 
-O:NewToggle{
+T:NewToggle({
 Title="Inf Stamina",
-Default=k.noStaminaLoss,
-Callback=function(P)
-k.noStaminaLoss=P
+Default=p.noStaminaLoss,
+Callback=function(U)
+p.noStaminaLoss=U
 end,
-}
+})
 
-local P=F:NewSection{
+local U=K:NewSection({
 Title="Camera Settings",
 Icon="rbxassetid://82898985676372",
 Position="Right"
-}
+})
 
-P:NewSlider{
+U:NewSlider({
 Title="Field of View",
-Default=k.fieldOfView,
+Default=p.fieldOfView,
 Min=0,
 Max=120,
-Callback=function(Q)
-k.fieldOfView=Q
-local R=h:FindFirstChild"PlayerData"
-if R and R:FindFirstChild"Settings"and R.Settings:FindFirstChild"Game"and R.Settings.Game:FindFirstChild"FieldOfView"then
-R.Settings.Game.FieldOfView.Value=Q
+Callback=function(V)
+p.fieldOfView=V
+local W=m:FindFirstChild("PlayerData")
+if W and W:FindFirstChild("Settings")and W.Settings:FindFirstChild("Game")and W.Settings.Game:FindFirstChild("FieldOfView")then
+W.Settings.Game.FieldOfView.Value=V
 end
 end,
-}
+})
 
-local Q=F:NewSection{
+local V=K:NewSection({
 Title="Physical Modifications",
 Icon="rbxassetid://82898985676372",
 Position="Left"
-}
+})
 
-Q:NewToggle{
+V:NewToggle({
 Title="NoClip",
-Default=k.noClip,
-Callback=function(R)
-k.noClip=R
-if h.Character then
-if R then
-r={}
-for S,T in ipairs(h.Character:GetDescendants())do
-if T:IsA"BasePart"then
-r[T]=T.CanCollide
-T.CanCollide=false
+Default=p.noClip,
+Callback=function(W)
+p.noClip=W
+if m.Character then
+if W then
+w={}
+for X,Y in ipairs(m.Character:GetDescendants())do
+if Y:IsA("BasePart")then
+w[Y]=Y.CanCollide
+Y.CanCollide=false
 end
 end
-p=false
-if q then
-q:Disconnect()
+u=false
+if v then
+v:Disconnect()
 end
-q=b.Stepped:Connect(function()
-if not p and h.Character then
-for S,T in ipairs(h.Character:GetDescendants())do
-if T:IsA"BasePart"and T.Parent then
-T.CanCollide=false
+v=b.Stepped:Connect(function()
+if not u and m.Character then
+for X,Y in ipairs(m.Character:GetDescendants())do
+if Y:IsA("BasePart")and Y.Parent then
+Y.CanCollide=false
 end
 end
 end
 end)
-A.new{
+F.new({
 Title="NoClip",
 Description="NoClip has been enabled.",
 Duration=5,
 Icon="rbxassetid://82898985676372"
-}
+})
 else
-p=true
-if q then
-q:Disconnect()
-q=nil
+u=true
+if v then
+v:Disconnect()
+v=nil
 end
-for S,T in pairs(r)do
-if S and S.Parent then
-S.CanCollide=T
+for X,Y in pairs(w)do
+if X and X.Parent then
+X.CanCollide=Y
 end
 end
-r={}
-A.new{
+w={}
+F.new({
 Title="NoClip",
 Description="NoClip has been disabled.",
 Duration=5,
 Icon="rbxassetid://82898985676372"
-}
+})
 end
 end
 end,
-}
+})
 
-Q:NewKeybind{
+V:NewKeybind({
 Title="NoClip Hotkey (N)",
 Default=Enum.KeyCode.N,
 Callback=function()
-k.noClip=not k.noClip
+p.noClip=not p.noClip
 pcall(function()
-Q:GetToggle"NoClip":Set(k.noClip)
+V:GetToggle("NoClip"):Set(p.noClip)
 end)
 end,
-}
+})
 
-local R=F:NewSection{
+local W=K:NewSection({
 Title="Miscellaneous",
 Icon="rbxassetid://82898985676372",
 Position="Right"
-}
+})
 
-R:NewToggle{
+W:NewToggle({
 Title="Anti AFK",
-Default=k.antiAFK,
-Callback=function(S)
-k.antiAFK=S
-if S then
-if s then
-s:Disconnect()
+Default=p.antiAFK,
+Callback=function(X)
+p.antiAFK=X
+if X then
+if x then
+x:Disconnect()
 end
-s=h.Idled:Connect(function()
+x=m.Idled:Connect(function()
 e:CaptureController()
 e:ClickButton2(Vector2.new())
 end)
 else
-if s then
-s:Disconnect()
-s=nil
+if x then
+x:Disconnect()
+x=nil
 end
 end
 end,
-}
+})
 
-local S=F:NewSection{
+local X=K:NewSection({
 Title="Visual Modifications",
 Icon="rbxassetid://82898985676372",
 Position="Left"
-}
+})
 
-S:NewToggle{
+X:NewToggle({
 Title="FullBright",
-Default=k.fullBright,
-Callback=function(T)
-k.fullBright=T
-_G.FullBrightEnabled=T
+Default=p.fullBright,
+Callback=function(Y)
+p.fullBright=Y
+_G.FullBrightEnabled=Y
 end,
-}
+})
 
-local T=F:NewSection{
+local Y=K:NewSection({
 Title="Auto Coin Flip",
 Icon="rbxassetid://82898985676372",
 Position="Right"
-}
+})
 
-T:NewToggle{
+Y:NewToggle({
 Title="Auto Coin Flip (Chance)",
-Default=k.autoCoinFlip,
-Callback=function(U)
-k.autoCoinFlip=U
+Default=p.autoCoinFlip,
+Callback=function(Z)
+p.autoCoinFlip=Z
 end,
-}
+})
 
 
-local U=F:NewSection{
+local Z=K:NewSection({
 Title="CFrame Speed",
 Icon="rbxassetid://82898985676372",
 Position="Right"
-}
+})
 
-U:NewToggle{
+Z:NewToggle({
 Title="CFrame Speed Enabled",
-Default=k.cframeSpeedEnabled,
-Callback=function(V)
-k.cframeSpeedEnabled=V
+Default=p.cframeSpeedEnabled,
+Callback=function(_)
+p.cframeSpeedEnabled=_
 end,
-}
+})
 
-U:NewSlider{
+Z:NewSlider({
 Title="CFrame Speed Value",
-Default=k.cframeSpeedValue,
+Default=p.cframeSpeedValue,
 Min=0,
 Max=100,
 Step=1,
-Callback=function(V)
-k.cframeSpeedValue=V
+Callback=function(_)
+p.cframeSpeedValue=_
 end,
-}
+})
 
 
-local V=G:NewSection{
+local _=L:NewSection({
 Title="General Aimbot Settings",
 Icon="rbxassetid://82898985676372",
 Position="Left"
-}
+})
 
-V:NewSlider{
+_:NewSlider({
 Title="FOV Size",
-Default=k.aimbotFOV,
+Default=p.aimbotFOV,
 Min=10,
 Max=1000,
 Step=10,
-Callback=function(W)
-k.aimbotFOV=W
+Callback=function(aa)
+p.aimbotFOV=aa
 end,
-}
+})
 
-V:NewToggle{
+_:NewToggle({
 Title="Wall Check",
-Default=k.aimbotWallCheck,
-Callback=function(W)
-k.aimbotWallCheck=W
+Default=p.aimbotWallCheck,
+Callback=function(aa)
+p.aimbotWallCheck=aa
 end,
-}
+})
 
-V:NewToggle{
+_:NewToggle({
 Title="Smoothing",
-Default=k.aimbotSmoothing,
-Callback=function(W)
-k.aimbotSmoothing=W
+Default=p.aimbotSmoothing,
+Callback=function(aa)
+p.aimbotSmoothing=aa
 end,
-}
+})
 
-V:NewSlider{
+_:NewSlider({
 Title="Aim Strength (%)",
-Default=k.aimbotAimStrength*100,
+Default=p.aimbotAimStrength*100,
 Min=1,
 Max=100,
 Step=1,
-Callback=function(W)
-k.aimbotAimStrength=W/100
+Callback=function(aa)
+p.aimbotAimStrength=aa/100
 end,
-}
+})
 
-V:NewToggle{
+_:NewToggle({
 Title="FOV Visible",
-Default=k.aimbotFOVVisible,
-Callback=function(W)
-k.aimbotFOVVisible=W
+Default=p.aimbotFOVVisible,
+Callback=function(aa)
+p.aimbotFOVVisible=aa
 end,
-}
+})
 
-V:NewToggle{
+_:NewToggle({
 Title="FOV RGB",
-Default=k.aimbotRGB,
-Callback=function(W)
-k.aimbotRGB=W
+Default=p.aimbotRGB,
+Callback=function(aa)
+p.aimbotRGB=aa
 end,
-}
+})
 
-local W=G:NewSection{
+local aa=L:NewSection({
 Title="Dusekkar",
 Icon="rbxassetid://82898985676372",
 Position="Left"
-}
+})
 
-W:NewToggle{
+aa:NewToggle({
 Title="AimBot for Plasma Beam Skill (Survivors)",
-Default=k.aimBotPlasmaBeamSurvivor,
-Callback=function(X)
-k.aimBotPlasmaBeamSurvivor=X
+Default=p.aimBotPlasmaBeamSurvivor,
+Callback=function(ab)
+p.aimBotPlasmaBeamSurvivor=ab
 end,
-}
+})
 
-W:NewToggle{
+aa:NewToggle({
 Title="AimBot for Plasma Beam Skill (Killers)",
-Default=k.aimBotPlasmaBeamKiller,
-Callback=function(X)
-k.aimBotPlasmaBeamKiller=X
+Default=p.aimBotPlasmaBeamKiller,
+Callback=function(ab)
+p.aimBotPlasmaBeamKiller=ab
 end,
-}
+})
 
-local X=G:NewSection{
+local ab=L:NewSection({
 Title="Chance",
 Icon="rbxassetid://82898985676372",
 Position="Right"
-}
+})
 
-X:NewToggle{
+ab:NewToggle({
 Title="AimBot for Shoot Skill",
-Default=k.aimBotShootKiller,
-Callback=function(Y)
-k.aimBotShootKiller=Y
+Default=p.aimBotShootKiller,
+Callback=function(ac)
+p.aimBotShootKiller=ac
 end,
-}
+})
 
-local Y=G:NewSection{
+local ac=L:NewSection({
 Title="1x1x1x1",
 Icon="rbxassetid://82898985676372",
 Position="Left"
-}
+})
 
-Y:NewToggle{
+ac:NewToggle({
 Title="AimBot for Mass Infection",
-Default=k.aimBotMassInfection,
-Callback=function(Z)
-k.aimBotMassInfection=Z
+Default=p.aimBotMassInfection,
+Callback=function(ad)
+p.aimBotMassInfection=ad
 end,
-}
+})
 
-Y:NewToggle{
+ac:NewToggle({
 Title="AimBot for Entanglement",
-Default=k.aimBotEntanglement,
-Callback=function(Z)
-k.aimBotEntanglement=Z
+Default=p.aimBotEntanglement,
+Callback=function(ad)
+p.aimBotEntanglement=ad
 end,
-}
+})
 
 
-local Z=H:NewSection{
+local ad=M:NewSection({
 Title="General Anti-Debuffs",
 Icon="rbxassetid://82898985676372",
 Position="Right"
-}
+})
 
-Z:NewToggle{
+ad:NewToggle({
 Title="Auto Remove 1x1x1x1 Popups",
-Default=k.autoRemovePopups,
-Callback=function(_)
-k.autoRemovePopups=_
+Default=p.autoRemovePopups,
+Callback=function(ae)
+p.autoRemovePopups=ae
 end,
-}
+})
 
-Z:NewTitle"DONT RUN TOO MUCH AFTER POPUP'S REMOVED!!"
+ad:NewTitle("DONT RUN TOO MUCH AFTER POPUP'S REMOVED!!")
 
-Z:NewToggle{
+ad:NewToggle({
 Title="Anti Speed Debuff when using Cola",
-Default=k.antiColaDebuff,
-Callback=function(_)
-k.antiColaDebuff=_
+Default=p.antiColaDebuff,
+Callback=function(ae)
+p.antiColaDebuff=ae
 end,
-}
+})
 
-Z:NewToggle{
+ad:NewToggle({
 Title="Anti Subspace",
-Default=k.antiSubspaceDebuff,
-Callback=function(_)
-k.antiSubspaceDebuff=_
+Default=p.antiSubspaceDebuff,
+Callback=function(ae)
+p.antiSubspaceDebuff=ae
 end,
-}
+})
 
-Z:NewToggle{
+ad:NewToggle({
 Title="Anti Glitched Effect",
-Default=k.antiGlitchedEffect,
-Callback=function(_)
-k.antiGlitchedEffect=_
+Default=p.antiGlitchedEffect,
+Callback=function(ae)
+p.antiGlitchedEffect=ae
 end,
-}
+})
 
-Z:NewToggle{
+ad:NewToggle({
 Title="Anti Blindness",
-Default=k.antiBlindness,
-Callback=function(_)
-k.antiBlindness=_
+Default=p.antiBlindness,
+Callback=function(ae)
+p.antiBlindness=ae
 end,
-}
+})
 
-Z:NewToggle{
+ad:NewToggle({
 Title="Anti Fall Speed Debuff",
-Default=k.antiFallDebuff,
-Callback=function(_)
-k.antiFallDebuff=_
+Default=p.antiFallDebuff,
+Callback=function(ae)
+p.antiFallDebuff=ae
 end,
-}
+})
 
-Z:NewToggle{
+ad:NewToggle({
 Title="Anti Speed Debuff when using Medkit",
-Default=k.antiMedkitDebuff,
-Callback=function(_)
-k.antiMedkitDebuff=_
+Default=p.antiMedkitDebuff,
+Callback=function(ae)
+p.antiMedkitDebuff=ae
 end,
-}
+})
 
-local _=H:NewSection{
+local ae=M:NewSection({
 Title="Noob Section",
 Icon="rbxassetid://82898985676372",
 Position="Right"
-}
+})
 
-_:NewToggle{
+ae:NewToggle({
 Title="Anti Slateskin Speed Debuff",
-Default=k.antiSlateskinDebuff,
-Callback=function(aa)
-k.antiSlateskinDebuff=aa
+Default=p.antiSlateskinDebuff,
+Callback=function(af)
+p.antiSlateskinDebuff=af
 end,
-}
+})
 
-_:NewToggle{
+ae:NewToggle({
 Title="Anti Burger Speed Debuff",
-Default=k.antiBurgerDebuff,
-Callback=function(aa)
-k.antiBurgerDebuff=aa
+Default=p.antiBurgerDebuff,
+Callback=function(af)
+p.antiBurgerDebuff=af
 end,
-}
+})
 
-local aa=H:NewSection{
+local af=M:NewSection({
 Title="Shedletsky Section",
 Icon="rbxassetid://82898985676372",
 Position="Left"
-}
+})
 
-aa:NewToggle{
+af:NewToggle({
 Title="Anti Slash Speed Debuff",
-Default=k.antiSlashDebuff,
-Callback=function(ab)
-k.antiSlashDebuff=ab
+Default=p.antiSlashDebuff,
+Callback=function(ag)
+p.antiSlashDebuff=ag
 end,
-}
+})
 
-aa:NewToggle{
+af:NewToggle({
 Title="Anti Chicken Speed Debuff",
-Default=k.antiChickenDebuff,
-Callback=function(ab)
-k.antiChickenDebuff=ab
+Default=p.antiChickenDebuff,
+Callback=function(ag)
+p.antiChickenDebuff=ag
 end,
-}
+})
 
-local ab=H:NewSection{
+local ag=M:NewSection({
 Title="Guest1337 Section",
 Icon="rbxassetid://82898985676372",
 Position="Right"
-}
+})
 
-ab:NewToggle{
+ag:NewToggle({
 Title="Anti Block Speed Debuff",
-Default=k.antiBlockDebuff,
-Callback=function(ac)
-k.antiBlockDebuff=ac
+Default=p.antiBlockDebuff,
+Callback=function(ah)
+p.antiBlockDebuff=ah
 end,
-}
+})
 
-ab:NewToggle{
+ag:NewToggle({
 Title="Anti Small Slow After Charge End",
-Default=k.antiSlowAfterChargeEnd,
-Callback=function(ac)
-k.antiSlowAfterChargeEnd=ac
+Default=p.antiSlowAfterChargeEnd,
+Callback=function(ah)
+p.antiSlowAfterChargeEnd=ah
 end,
-}
+})
 
-ab:NewToggle{
+ag:NewToggle({
 Title="Bypass Speed on Charge Ability",
-Default=k.bypassChargeSpeed,
-Callback=function(ac)
-k.bypassChargeSpeed=ac
+Default=p.bypassChargeSpeed,
+Callback=function(ah)
+p.bypassChargeSpeed=ah
 end,
-}
+})
 
-ab:NewToggle{
+ag:NewToggle({
 Title="Anti Auto FOV on Charge Ability",
-Default=k.antiAutoFovCharge,
-Callback=function(ac)
-k.antiAutoFovCharge=ac
+Default=p.antiAutoFovCharge,
+Callback=function(ah)
+p.antiAutoFovCharge=ah
 end,
-}
+})
 
-ab:NewToggle{
+ag:NewToggle({
 Title="Bypass Speed on Punch Ability",
-Default=k.bypassPunchSpeed,
-Callback=function(ac)
-k.bypassPunchSpeed=ac
+Default=p.bypassPunchSpeed,
+Callback=function(ah)
+p.bypassPunchSpeed=ah
 end,
-}
+})
 
-local ac=H:NewSection{
+local ah=M:NewSection({
 Title="Taph Section",
 Icon="rbxassetid://82898985676372",
 Position="Left"
-}
+})
 
-ac:NewToggle{
+ah:NewToggle({
 Title="Anti Speed Debuff for Tripwire Skill",
-Default=k.antiTaphTripwire,
-Callback=function(ad)
-k.antiTaphTripwire=ad
+Default=p.antiTaphTripwire,
+Callback=function(ai)
+p.antiTaphTripwire=ai
 end,
-}
+})
 
-ac:NewToggle{
+ah:NewToggle({
 Title="Anti Speed Debuff for Subspace Tripmine Skill",
-Default=k.antiSubspaceTripmine,
-Callback=function(ad)
-k.antiSubspaceTripmine=ad
+Default=p.antiSubspaceTripmine,
+Callback=function(ai)
+p.antiSubspaceTripmine=ai
 end,
-}
+})
 
-local ad=H:NewSection{
+local ai=M:NewSection({
 Title="Dusekkar Section",
 Icon="rbxassetid://82898985676372",
 Position="Right"
-}
+})
 
-ad:NewToggle{
+ai:NewToggle({
 Title="Anti Speed Debuff for Plasma Beam Skill",
-Default=k.antiPlasmaBeam,
-Callback=function(ae)
-k.antiPlasmaBeam=ae
+Default=p.antiPlasmaBeam,
+Callback=function(aj)
+p.antiPlasmaBeam=aj
 end,
-}
+})
 
-ad:NewToggle{
+ai:NewToggle({
 Title="Anti Speed Debuff for Spawn Protection Skill",
-Default=k.antiSpawnProtection,
-Callback=function(ae)
-k.antiSpawnProtection=ae
+Default=p.antiSpawnProtection,
+Callback=function(aj)
+p.antiSpawnProtection=aj
 end,
-}
+})
 
-local ae=H:NewSection{
+local aj=M:NewSection({
 Title="TwoTime Section",
 Icon="rbxassetid://82898985676372",
 Position="Left"
-}
+})
 
-ae:NewToggle{
+aj:NewToggle({
 Title="Small Anti Stun Debuff for Dagger Skill",
-Default=k.antiTwoTimeStab,
-Callback=function(af)
-k.antiTwoTimeStab=af
+Default=p.antiTwoTimeStab,
+Callback=function(ak)
+p.antiTwoTimeStab=ak
 end,
-}
+})
 
-ae:NewToggle{
+aj:NewToggle({
 Title="Anti Speed Debuff for Crouch Skill",
-Default=k.antiTwoTimeCrouching,
-Callback=function(af)
-k.antiTwoTimeCrouching=af
+Default=p.antiTwoTimeCrouching,
+Callback=function(ak)
+p.antiTwoTimeCrouching=ak
 end,
-}
+})
 
-local af=H:NewSection{
+local ak=M:NewSection({
 Title="007n7 Section",
 Icon="rbxassetid://82898985676372",
 Position="Right"
-}
+})
 
-af:NewToggle{
+ak:NewToggle({
 Title="Anti Speed Debuff for c00lgui Skill",
-Default=k.antiCoolGui,
-Callback=function(ag)
-k.antiCoolGui=ag
+Default=p.antiCoolGui,
+Callback=function(al)
+p.antiCoolGui=al
 end,
-}
+})
 
-local ag=H:NewSection{
+local al=M:NewSection({
 Title="Chance Section",
 Icon="rbxassetid://82898985676372",
 Position="Left"
-}
+})
 
-ag:NewToggle{
+al:NewToggle({
 Title="Anti Speed Debuff for Shoot Skill",
-Default=k.antiShootDebuff,
-Callback=function(ah)
-k.antiShootDebuff=ah
+Default=p.antiShootDebuff,
+Callback=function(am)
+p.antiShootDebuff=am
 end,
-}
+})
 
-local ah=H:NewSection{
+local am=M:NewSection({
 Title="Jason Section",
 Icon="rbxassetid://82898985676372",
 Position="Left"
-}
+})
 
-ah:NewToggle{
+am:NewToggle({
 Title="Anti Stun For Behead and Gashing Wound Skills",
-Default=k.antiBehead,
-Callback=function(ai)
-k.antiBehead=ai
+Default=p.antiBehead,
+Callback=function(an)
+p.antiBehead=an
 end,
-}
+})
 
-ah:NewToggle{
+am:NewToggle({
 Title="Bypass Speed Raging Pace",
-Default=k.antiEnraged,
-Callback=function(ai)
-k.antiEnraged=ai
+Default=p.antiEnraged,
+Callback=function(an)
+p.antiEnraged=an
 end,
-}
+})
 
-local ai=H:NewSection{
+local an=M:NewSection({
 Title="c00lkidd",
 Icon="rbxassetid://82898985676372",
 Position="Right"
-}
+})
 
-ai:NewToggle{
+an:NewToggle({
 Title="Very Small Anti Stun after WalkSpeed Override",
-Default=k.antiWalkSpeedOverride,
-Callback=function(aj)
-k.antiWalkSpeedOverride=aj
+Default=p.antiWalkSpeedOverride,
+Callback=function(ao)
+p.antiWalkSpeedOverride=ao
 end,
-}
+})
 
-ai:NewToggle{
+an:NewToggle({
 Title="Anti Stun for Corrupt Nature",
-Default=k.antiCorruptNature,
-Callback=function(aj)
-k.antiCorruptNature=aj
+Default=p.antiCorruptNature,
+Callback=function(ao)
+p.antiCorruptNature=ao
 end,
-}
+})
 
-ai:NewToggle{
+an:NewToggle({
 Title="Anti Stun for Pizza Delivery",
-Default=k.antiPizzaDelivery,
-Callback=function(aj)
-k.antiPizzaDelivery=aj
+Default=p.antiPizzaDelivery,
+Callback=function(ao)
+p.antiPizzaDelivery=ao
 end,
-}
+})
 
-local aj=H:NewSection{
+local ao=M:NewSection({
 Title="1x1x1x1",
 Icon="rbxassetid://82898985676372",
 Position="Left"
-}
+})
 
-aj:NewToggle{
+ao:NewToggle({
 Title="Anti Speed Debuff for Mass Infection",
-Default=k.antiMassInfection,
-Callback=function(ak)
-k.antiMassInfection=ak
+Default=p.antiMassInfection,
+Callback=function(ap)
+p.antiMassInfection=ap
 end,
-}
+})
 
-aj:NewToggle{
+ao:NewToggle({
 Title="Anti Speed Debuff for Entanglement",
-Default=k.antiEntanglement,
-Callback=function(ak)
-k.antiEntanglement=ak
+Default=p.antiEntanglement,
+Callback=function(ap)
+p.antiEntanglement=ap
 end,
-}
+})
 
 
-local ak,al,am
+local ap,aq,ar
 do
-local an,ao=pcall(function()
+local as,at=pcall(function()
 return require(c.Systems.Character.Game.Sprinting)
 end)
-if an and ao then
-ak=ao.DefaultConfig.SprintSpeed or 26
-al=ao.DefaultConfig.StaminaLoss or 10
-am=ao.DefaultConfig.MaxStamina or 100
+if as and at then
+ap=at.DefaultConfig.SprintSpeed or 26
+aq=at.DefaultConfig.StaminaLoss or 10
+ar=at.DefaultConfig.MaxStamina or 100
 else
-ak=26
-al=10
-am=100
+ap=26
+aq=10
+ar=100
 end
 end
 
 local function updateAllESP()
-local an=d:FindFirstChild"Map"
-if not an or not an:FindFirstChild"Ingame"then return end
-local ao=an.Ingame
+local as=d:FindFirstChild("Map")
+if not as or not as:FindFirstChild("Ingame")then return end
+local at=as.Ingame
 
-if k.pizzaDeliveryEsp then
-for ap,aq in ipairs(ao:GetChildren())do
-if table.find(x,aq.Name)and aq:FindFirstChild"HumanoidRootPart"then
-if not aq:FindFirstChild"TAOWARE_Highlight"then
-createESP(aq,Color3.fromRGB(255,0,0),false,false,false)
-end
-end
-end
-end
-
-if k.zombieEsp then
-for ap,aq in ipairs(ao:GetChildren())do
-if aq.Name=="1x1x1x1Zombie"and aq:FindFirstChild"HumanoidRootPart"then
-if not aq:FindFirstChild"TAOWARE_Highlight"then
-createESP(aq,Color3.fromRGB(255,0,0),false,false,false)
+if p.pizzaDeliveryEsp then
+for au,av in ipairs(at:GetChildren())do
+if table.find(C,av.Name)and av:FindFirstChild("HumanoidRootPart")then
+if not av:FindFirstChild("TAOWARE_Highlight")then
+createESP(av,Color3.fromRGB(255,0,0),false,false,false)
 end
 end
 end
 end
 
-if k.pizzaEsp then
-local ap=ao:FindFirstChild"Pizza"
-if ap and not ap:FindFirstChild"TAOWARE_Highlight"then
-createESP(ap,Color3.fromRGB(255,165,0),false,false,true)
+if p.zombieEsp then
+for au,av in ipairs(at:GetChildren())do
+if av.Name=="1x1x1x1Zombie"and av:FindFirstChild("HumanoidRootPart")then
+if not av:FindFirstChild("TAOWARE_Highlight")then
+createESP(av,Color3.fromRGB(255,0,0),false,false,false)
+end
+end
+end
+end
+
+if p.pizzaEsp then
+local au=at:FindFirstChild("Pizza")
+if au and not au:FindFirstChild("TAOWARE_Highlight")then
+createESP(au,Color3.fromRGB(255,165,0),false,false,true)
 end
 end
 
@@ -1436,50 +1436,50 @@ if not isGameInProgress()then
 return
 end
 
-local ap=d:FindFirstChild"Players"
-if ap then
-local aq=ap:FindFirstChild"Killers"
-if aq then
-for ar,as in ipairs(aq:GetChildren())do
-removeESP(as)
-if k.killerESP and as:FindFirstChild"HumanoidRootPart"then
-createESP(as,Color3.fromRGB(255,0,0),false,false,false)
+local au=d:FindFirstChild("Players")
+if au then
+local av=au:FindFirstChild("Killers")
+if av then
+for aw,ax in ipairs(av:GetChildren())do
+removeESP(ax)
+if p.killerESP and ax:FindFirstChild("HumanoidRootPart")then
+createESP(ax,Color3.fromRGB(255,0,0),false,false,false)
 end
 end
 end
 
-local ar=ap:FindFirstChild"Survivors"
-if ar then
-for as,at in ipairs(ar:GetChildren())do
-removeESP(at)
-if k.playerESP and at:FindFirstChild"HumanoidRootPart"then
-createESP(at,Color3.fromRGB(0,255,0),false,false,false)
-end
-end
-end
-end
-
-if ao:FindFirstChild"Map"then
-for aq,ar in ipairs(ao.Map:GetChildren())do
-if ar:IsA"Model"and ar.Name:lower():find"generator"then
-removeESP(ar)
-local as=ar:FindFirstChild"Progress"
-if k.generatorESP and as and as.Value<100 then
-createESP(ar,Color3.fromRGB(255,0,255),true,false,false)
+local aw=au:FindFirstChild("Survivors")
+if aw then
+for ax,ay in ipairs(aw:GetChildren())do
+removeESP(ay)
+if p.playerESP and ay:FindFirstChild("HumanoidRootPart")then
+createESP(ay,Color3.fromRGB(0,255,0),false,false,false)
 end
 end
 end
 end
 
-local aq={"1x1x1x1Zombie"}
-for ar,as in ipairs(x)do
-table.insert(aq,as)
+if at:FindFirstChild("Map")then
+for av,aw in ipairs(at.Map:GetChildren())do
+if aw:IsA("Model")and aw.Name:lower():find("generator")then
+removeESP(aw)
+local ax=aw:FindFirstChild("Progress")
+if p.generatorESP and ax and ax.Value<100 then
+createESP(aw,Color3.fromRGB(255,0,255),true,false,false)
 end
-for ar,as in ipairs(ao:GetDescendants())do
-if as:IsA"Model"and as:FindFirstChild"ItemRoot"and not table.find(aq,as.Name)then
-removeESP(as)
-if k.itemESP then
-createESP(as,Color3.fromRGB(255,255,0),false,true,false)
+end
+end
+end
+
+local av={"1x1x1x1Zombie"}
+for aw,ax in ipairs(C)do
+table.insert(av,ax)
+end
+for aw,ax in ipairs(at:GetDescendants())do
+if ax:IsA("Model")and ax:FindFirstChild("ItemRoot")and not table.find(av,ax.Name)then
+removeESP(ax)
+if p.itemESP then
+createESP(ax,Color3.fromRGB(255,255,0),false,true,false)
 end
 end
 end
@@ -1488,18 +1488,18 @@ end
 
 task.spawn(function()
 while true do
-if k.autoCollectItems and isGameInProgress()then
-local an=d:FindFirstChild"Map"
-if not an or not an:FindFirstChild"Ingame"then
+if p.autoCollectItems and isGameInProgress()then
+local as=d:FindFirstChild("Map")
+if not as or not as:FindFirstChild("Ingame")then
 task.wait(0.1)
 continue
 end
-for ao,ap in ipairs(an.Ingame:GetDescendants())do
-if not k.autoCollectItems then break end
-if ap.Name=="ItemRoot"and ap:IsA"BasePart"then
-local aq=ap:FindFirstChild"ProximityPrompt"
-if aq then
-collectItem(ap.Parent)
+for at,au in ipairs(as.Ingame:GetDescendants())do
+if not p.autoCollectItems then break end
+if au.Name=="ItemRoot"and au:IsA("BasePart")then
+local av=au:FindFirstChild("ProximityPrompt")
+if av then
+collectItem(au.Parent)
 task.wait(0.5)
 end
 end
@@ -1513,119 +1513,119 @@ end)
 
 
 task.spawn(function()
-local an,ao=pcall(function()
+local as,at=pcall(function()
 return require(c.Systems.Character.Game.Sprinting)
 end)
-if not an or not ao then return end
+if not as or not at then return end
 
 b.RenderStepped:Connect(function()
-if k.speedBoost then
-ao.SprintSpeed=k.sprintSpeed
+if p.speedBoost then
+at.SprintSpeed=p.sprintSpeed
 end
-if k.noStaminaLoss then
-ao.MaxStamina=999999
-ao.Stamina=999999
+if p.noStaminaLoss then
+at.MaxStamina=999999
+at.Stamina=999999
 else
-ao.MaxStamina=am
-ao.Stamina=math.clamp(ao.Stamina,ao.MinStamina,am)
+at.MaxStamina=ar
+at.Stamina=math.clamp(at.Stamina,at.MinStamina,ar)
 end
 end)
 end)
 
 
 local function isPlasmaBeamActive()
-local an=h.Character
-if not an then return false end
-local ao=an:FindFirstChild"SpeedMultipliers"
-if not ao then return false end
-return ao:FindFirstChild"PlasmaBeam"~=nil
+local as=m.Character
+if not as then return false end
+local at=as:FindFirstChild("SpeedMultipliers")
+if not at then return false end
+return at:FindFirstChild("PlasmaBeam")~=nil
 end
 
 local function isShootSkillActive()
-local an=h.Character
-if not an then return false end
-local ao=an:FindFirstChild"SpeedMultipliers"
-if not ao then return false end
-return ao:FindFirstChild"ShootingGun"~=nil
+local as=m.Character
+if not as then return false end
+local at=as:FindFirstChild("SpeedMultipliers")
+if not at then return false end
+return at:FindFirstChild("ShootingGun")~=nil
 end
 
 local function isMassInfectionActive()
-local an=h.Character
-if not an then return false end
-local ao=an:FindFirstChild"SpeedMultipliers"
-if not ao then return false end
-return ao:FindFirstChild"MassInfection"~=nil
+local as=m.Character
+if not as then return false end
+local at=as:FindFirstChild("SpeedMultipliers")
+if not at then return false end
+return at:FindFirstChild("MassInfection")~=nil
 end
 
 local function isEntanglementActive()
-local an=h.Character
-if not an then return false end
-local ao=an:FindFirstChild"SpeedMultipliers"
-if not ao then return false end
-return ao:FindFirstChild"Entanglement"~=nil
+local as=m.Character
+if not as then return false end
+local at=as:FindFirstChild("SpeedMultipliers")
+if not at then return false end
+return at:FindFirstChild("Entanglement")~=nil
 end
 
 
 task.spawn(function()
 local function isAnySkillActive()
-return(k.aimBotPlasmaBeamSurvivor and isPlasmaBeamActive())or
-(k.aimBotPlasmaBeamKiller and isPlasmaBeamActive())or
-(k.aimBotShootKiller and isShootSkillActive())or
-(k.aimBotMassInfection and isMassInfectionActive())or
-(k.aimBotEntanglement and isEntanglementActive())
+return(p.aimBotPlasmaBeamSurvivor and isPlasmaBeamActive())or
+(p.aimBotPlasmaBeamKiller and isPlasmaBeamActive())or
+(p.aimBotShootKiller and isShootSkillActive())or
+(p.aimBotMassInfection and isMassInfectionActive())or
+(p.aimBotEntanglement and isEntanglementActive())
 end
 
 b.RenderStepped:Connect(function()
-local an=isAnySkillActive()
-if an and not u then
-u=true
+local as=isAnySkillActive()
+if as and not z then
+z=true
 f.MouseBehavior=Enum.MouseBehavior.LockCenter
-elseif not an and u then
-u=false
+elseif not as and z then
+z=false
 f.MouseBehavior=Enum.MouseBehavior.Default
 end
 
-if not(k.aimBotPlasmaBeamSurvivor or k.aimBotPlasmaBeamKiller or k.aimBotShootKiller or
-k.aimBotMassInfection or k.aimBotEntanglement)or not an then
-if t then
-t:Disconnect()
-t=nil
+if not(p.aimBotPlasmaBeamSurvivor or p.aimBotPlasmaBeamKiller or p.aimBotShootKiller or
+p.aimBotMassInfection or p.aimBotEntanglement)or not as then
+if y then
+y:Disconnect()
+y=nil
 end
 return
 end
 
-if not t then
-t=b.RenderStepped:Connect(function()
-local ao=nil
+if not y then
+y=b.RenderStepped:Connect(function()
+local at=nil
 if isPlasmaBeamActive()then
-if k.aimBotPlasmaBeamSurvivor then
-ao=getClosestTarget"survivor"
-elseif k.aimBotPlasmaBeamKiller then
-ao=getClosestTarget"killer"
+if p.aimBotPlasmaBeamSurvivor then
+at=getClosestTarget("survivor")
+elseif p.aimBotPlasmaBeamKiller then
+at=getClosestTarget("killer")
 end
-elseif isShootSkillActive()and k.aimBotShootKiller then
-ao=getClosestTarget"killer"
-elseif isMassInfectionActive()and k.aimBotMassInfection then
-ao=getClosestTarget"survivor"
-elseif isEntanglementActive()and k.aimBotEntanglement then
-ao=getClosestTarget"survivor"
+elseif isShootSkillActive()and p.aimBotShootKiller then
+at=getClosestTarget("killer")
+elseif isMassInfectionActive()and p.aimBotMassInfection then
+at=getClosestTarget("survivor")
+elseif isEntanglementActive()and p.aimBotEntanglement then
+at=getClosestTarget("survivor")
 end
 
-if ao and ao:FindFirstChild"HumanoidRootPart"then
-local ap=ao.HumanoidRootPart.Position
-local aq=CFrame.new(i.CFrame.Position,ap)
-if k.aimbotSmoothing then
-i.CFrame=i.CFrame:Lerp(aq,k.aimbotAimStrength)
+if at and at:FindFirstChild("HumanoidRootPart")then
+local au=at.HumanoidRootPart.Position
+local av=CFrame.new(n.CFrame.Position,au)
+if p.aimbotSmoothing then
+n.CFrame=n.CFrame:Lerp(av,p.aimbotAimStrength)
 else
-i.CFrame=aq
+n.CFrame=av
 end
 
-if(k.aimBotShootKiller and isShootSkillActive())or
-(k.aimBotMassInfection and isMassInfectionActive())or
-(k.aimBotEntanglement and isEntanglementActive())then
-local ar=h.Character.HumanoidRootPart.Position
-local as=(ap-ar).Unit
-h.Character.HumanoidRootPart.CFrame=CFrame.new(ar,ar+as*10)
+if(p.aimBotShootKiller and isShootSkillActive())or
+(p.aimBotMassInfection and isMassInfectionActive())or
+(p.aimBotEntanglement and isEntanglementActive())then
+local aw=m.Character.HumanoidRootPart.Position
+local ax=(au-aw).Unit
+m.Character.HumanoidRootPart.CFrame=CFrame.new(aw,aw+ax*10)
 end
 end
 end)
@@ -1635,43 +1635,43 @@ end)
 
 
 do
-local an,ao=pcall(function()
+local as,at=pcall(function()
 return require(c.Modules.StatusEffects.SurvivorExclusive.Subspaced)
 end)
-if an and ao then
-ao.Applied=function()end
-ao.Removed=function()end
+if as and at then
+at.Applied=function()end
+at.Removed=function()end
 end
 end
 
 
 do
-local an,ao=pcall(function()
+local as,at=pcall(function()
 return require(c.Modules.StatusEffects.KillerExclusive.Glitched)
 end)
-if an and ao then
-local ap=ao.Applied
-ao.Applied=function(aq)
-if k.antiGlitchedEffect then
+if as and at then
+local au=at.Applied
+at.Applied=function(av)
+if p.antiGlitchedEffect then
 return
 end
-return ap(aq)
+return au(av)
 end
 end
 end
 
 
 do
-local an,ao=pcall(function()
+local as,at=pcall(function()
 return require(c.Modules.StatusEffects.Blindness)
 end)
-if an and ao then
-local ap=ao.Applied
-ao.Applied=function(aq)
-if k.antiBlindness then
+if as and at then
+local au=at.Applied
+at.Applied=function(av)
+if p.antiBlindness then
 return
 end
-return ap(aq)
+return au(av)
 end
 end
 end
@@ -1679,226 +1679,226 @@ end
 
 task.spawn(function()
 while true do
-local an=d:FindFirstChild"Players"
-if an then
-for ao,ap in ipairs(an:GetChildren())do
-for aq,ar in ipairs(ap:GetChildren())do
-if ar:IsA"Model"then
-if k.antiWalkSpeedOverride then
-local as=ar:FindFirstChild"Result"
+local as=d:FindFirstChild("Players")
 if as then
-as:Destroy()
-end
-end
-local as=ar:FindFirstChild"SpeedMultipliers"
-if as then
-local at=as:FindFirstChild"HinderedMovement"
-if at and(k.antiCorruptNature or k.antiPizzaDelivery)then
-at.Value=1.8
-end
-if k.antiMassInfection then
-local au=as:FindFirstChild"MassInfection"
-if au then
-au.Value=1.8
-end
-end
-if k.antiEntanglement then
-local au=as:FindFirstChild"Entanglement"
-if au then
-au.Value=1.8
-end
-end
-local au=as:FindFirstChild"SlowedStatus"
-if au then
-au:Destroy()
-end
-local av=as:FindFirstChild"FallSlowness"
-if av and k.antiFallDebuff then
-av:Destroy()
-end
-
-if k.antiColaDebuff then
-local aw=as:FindFirstChild"DrinkingCola"
-if aw then
-aw.Value=1.8
-end
-local ax=as:FindFirstChild"BloxyColaItem"
+for at,au in ipairs(as:GetChildren())do
+for av,aw in ipairs(au:GetChildren())do
+if aw:IsA("Model")then
+if p.antiWalkSpeedOverride then
+local ax=aw:FindFirstChild("Result")
 if ax then
-ax.Value=1.8
+ax:Destroy()
 end
 end
-
-if k.antiSlateskinDebuff then
-local aw=as:FindFirstChild"DrinkingSlateskin"
-if aw then
-aw.Value=1.8
-end
-local ax=as:FindFirstChild"SlateskinStatus"
+local ax=aw:FindFirstChild("SpeedMultipliers")
 if ax then
-ax.Value=1.8
+local ay=ax:FindFirstChild("HinderedMovement")
+if ay and(p.antiCorruptNature or p.antiPizzaDelivery)then
+ay.Value=1.8
+end
+if p.antiMassInfection then
+local az=ax:FindFirstChild("MassInfection")
+if az then
+az.Value=1.8
+end
+end
+if p.antiEntanglement then
+local az=ax:FindFirstChild("Entanglement")
+if az then
+az.Value=1.8
+end
+end
+local az=ax:FindFirstChild("SlowedStatus")
+if az then
+az:Destroy()
+end
+local aA=ax:FindFirstChild("FallSlowness")
+if aA and p.antiFallDebuff then
+aA:Destroy()
+end
+
+if p.antiColaDebuff then
+local aB=ax:FindFirstChild("DrinkingCola")
+if aB then
+aB.Value=1.8
+end
+local aC=ax:FindFirstChild("BloxyColaItem")
+if aC then
+aC.Value=1.8
 end
 end
 
-if k.antiBurgerDebuff then
-local aw=as:FindFirstChild"EatingGhostburger"
-if aw then
-aw.Value=1.8
+if p.antiSlateskinDebuff then
+local aB=ax:FindFirstChild("DrinkingSlateskin")
+if aB then
+aB.Value=1.8
+end
+local aC=ax:FindFirstChild("SlateskinStatus")
+if aC then
+aC.Value=1.8
 end
 end
 
-if k.antiSlashDebuff then
-local aw=as:FindFirstChild"StunningKiller"
-if aw then
-aw.Value=1.8
+if p.antiBurgerDebuff then
+local aB=ax:FindFirstChild("EatingGhostburger")
+if aB then
+aB.Value=1.8
 end
 end
 
-if k.antiChickenDebuff then
-local aw=as:FindFirstChild"EatFriedChicken"
-if aw then
-aw.Value=1.8
+if p.antiSlashDebuff then
+local aB=ax:FindFirstChild("StunningKiller")
+if aB then
+aB.Value=1.8
 end
 end
 
-if k.antiBlockDebuff then
-local aw=as:FindFirstChild"GuestBlocking"
-if aw then
-aw.Value=1.8
+if p.antiChickenDebuff then
+local aB=ax:FindFirstChild("EatFriedChicken")
+if aB then
+aB.Value=1.8
 end
 end
 
-if k.bypassChargeSpeed then
-local aw=as:FindFirstChild"Guest1337Charge"
-if aw then
-aw.Value=3.4
+if p.antiBlockDebuff then
+local aB=ax:FindFirstChild("GuestBlocking")
+if aB then
+aB.Value=1.8
 end
 end
 
-if k.bypassPunchSpeed then
-local aw=as:FindFirstChild"PunchAbility"
-if aw then
-aw.Value=1.8
+if p.bypassChargeSpeed then
+local aB=ax:FindFirstChild("Guest1337Charge")
+if aB then
+aB.Value=3.4
 end
 end
 
-if k.antiTaphTripwire then
-local aw=as:FindFirstChild"TaphTripwire"
-if aw then
-aw.Value=1.8
+if p.bypassPunchSpeed then
+local aB=ax:FindFirstChild("PunchAbility")
+if aB then
+aB.Value=1.8
 end
 end
 
-if k.antiSubspaceTripmine then
-local aw=as:FindFirstChild"SubspaceTripmine"
-if aw then
-aw.Value=1.8
+if p.antiTaphTripwire then
+local aB=ax:FindFirstChild("TaphTripwire")
+if aB then
+aB.Value=1.8
 end
 end
 
-if k.antiPlasmaBeam then
-local aw=as:FindFirstChild"PlasmaBeam"
-if aw then
-aw.Value=1.8
+if p.antiSubspaceTripmine then
+local aB=ax:FindFirstChild("SubspaceTripmine")
+if aB then
+aB.Value=1.8
 end
 end
 
-if k.antiSpawnProtection then
-local aw=as:FindFirstChild"SpawnProtection"
-if aw then
-aw.Value=1.8
+if p.antiPlasmaBeam then
+local aB=ax:FindFirstChild("PlasmaBeam")
+if aB then
+aB.Value=1.8
 end
 end
 
-if k.antiTwoTimeCrouching then
-local aw=as:FindFirstChild"TwoTimeCrouching"
-if aw then
-aw.Value=1.8
+if p.antiSpawnProtection then
+local aB=ax:FindFirstChild("SpawnProtection")
+if aB then
+aB.Value=1.8
 end
 end
 
-if k.antiTwoTimeStab then
-local aw=as:FindFirstChild"TwoTimeStab"
-if aw then
-aw.Value=1.8
+if p.antiTwoTimeCrouching then
+local aB=ax:FindFirstChild("TwoTimeCrouching")
+if aB then
+aB.Value=1.8
 end
 end
 
-if k.antiCoolGui then
-local aw=as:FindFirstChild"c00lgui"
-if aw then
-aw.Value=1.8
+if p.antiTwoTimeStab then
+local aB=ax:FindFirstChild("TwoTimeStab")
+if aB then
+aB.Value=1.8
 end
 end
 
-if k.antiBehead then
-local aw=as:FindFirstChild"BeheadAbility"
-if aw then
-aw.Value=1.8
+if p.antiCoolGui then
+local aB=ax:FindFirstChild("c00lgui")
+if aB then
+aB.Value=1.8
 end
 end
 
-if k.antiEnraged then
-local aw=as:FindFirstChild"ENRAGED"
-if aw then
-aw.Value=2.7
+if p.antiBehead then
+local aB=ax:FindFirstChild("BeheadAbility")
+if aB then
+aB.Value=1.8
 end
 end
 
-if k.antiShootDebuff then
-local aw=as:FindFirstChild"ShootingGun"
-if aw then
-aw.Value=1.8
+if p.antiEnraged then
+local aB=ax:FindFirstChild("ENRAGED")
+if aB then
+aB.Value=2.7
+end
+end
+
+if p.antiShootDebuff then
+local aB=ax:FindFirstChild("ShootingGun")
+if aB then
+aB.Value=1.8
 end
 end
 end
 
-local at=ar:FindFirstChild"FOVMultipliers"
-if at then
-local au=at:FindFirstChild"SlowedStatus"
-if au and(k.autoRemovePopups or k.antiSlowAfterChargeEnd or k.antiSpawnProtection)then
-au:Destroy()
+local ay=aw:FindFirstChild("FOVMultipliers")
+if ay then
+local az=ay:FindFirstChild("SlowedStatus")
+if az and(p.autoRemovePopups or p.antiSlowAfterChargeEnd or p.antiSpawnProtection)then
+az:Destroy()
 end
 
-if k.antiSlateskinDebuff then
-local av=at:FindFirstChild"SlateskinStatus"
+if p.antiSlateskinDebuff then
+local aA=ay:FindFirstChild("SlateskinStatus")
+if aA then
+aA:Destroy()
+end
+end
+
+if p.antiAutoFovCharge then
+local aA=ay:FindFirstChild("Guest1337Charge")
+if aA then
+aA:Destroy()
+end
+end
+end
+end
+end
+end
+
+if p.autoRemovePopups then
+for at,au in ipairs(a:GetPlayers())do
+local av=au:FindFirstChild("PlayerGui")
 if av then
-av:Destroy()
-end
-end
-
-if k.antiAutoFovCharge then
-local av=at:FindFirstChild"Guest1337Charge"
-if av then
-av:Destroy()
-end
-end
-end
-end
-end
-end
-
-if k.autoRemovePopups then
-for ao,ap in ipairs(a:GetPlayers())do
-local aq=ap:FindFirstChild"PlayerGui"
-if aq then
-local ar=aq:FindFirstChild"TemporaryUI"
-if ar then
-local as=ar:FindFirstChild"1x1x1x1Popup"
-if as then
-as:Destroy()
+local aw=av:FindFirstChild("TemporaryUI")
+if aw then
+local ax=aw:FindFirstChild("1x1x1x1Popup")
+if ax then
+ax:Destroy()
 end
 end
 end
 end
 end
 
-if k.antiMedkitDebuff then
-local ao,ap=pcall(function()
+if p.antiMedkitDebuff then
+local at,au=pcall(function()
 return require(c.Assets.Items.Medkit.Config)
 end)
-if ao and ap then
-ap.HealTime=0
-ap.HealSpeedMultiplier=1
+if at and au then
+au.HealTime=0
+au.HealSpeedMultiplier=1
 end
 end
 
@@ -1913,49 +1913,49 @@ end)
 if not _G.FullBrightExecuted then
 _G.FullBrightEnabled=false
 _G.NormalLightingSettings={
-Brightness=game:GetService"Lighting".Brightness,
-ClockTime=game:GetService"Lighting".ClockTime,
-FogEnd=game:GetService"Lighting".FogEnd,
-GlobalShadows=game:GetService"Lighting".GlobalShadows,
-Ambient=game:GetService"Lighting".Ambient
+Brightness=game:GetService("Lighting").Brightness,
+ClockTime=game:GetService("Lighting").ClockTime,
+FogEnd=game:GetService("Lighting").FogEnd,
+GlobalShadows=game:GetService("Lighting").GlobalShadows,
+Ambient=game:GetService("Lighting").Ambient
 }
 
 local function removeEffects()
-local an=game:GetService"Lighting"
-for ao,ap in ipairs{"DepthOfField","ColorCorrection","Blur","Atmosphere"}do
-local aq=an:FindFirstChild(ap)
-if aq then
-aq:Destroy()
+local as=game:GetService("Lighting")
+for at,au in ipairs({"DepthOfField","ColorCorrection","Blur","Atmosphere"})do
+local av=as:FindFirstChild(au)
+if av then
+av:Destroy()
 end
 end
 end
 
-local an=game:GetService"Lighting"
-an.Changed:Connect(function(ao)
+local as=game:GetService("Lighting")
+as.Changed:Connect(function(at)
 if _G.FullBrightEnabled then
-if ao=="Brightness"then
-an.Brightness=1
-elseif ao=="ClockTime"then
-an.ClockTime=12
-elseif ao=="FogEnd"then
-an.FogEnd=786543
-elseif ao=="GlobalShadows"then
-an.GlobalShadows=false
-elseif ao=="Ambient"then
-an.Ambient=Color3.fromRGB(178,178,178)
+if at=="Brightness"then
+as.Brightness=1
+elseif at=="ClockTime"then
+as.ClockTime=12
+elseif at=="FogEnd"then
+as.FogEnd=786543
+elseif at=="GlobalShadows"then
+as.GlobalShadows=false
+elseif at=="Ambient"then
+as.Ambient=Color3.fromRGB(178,178,178)
 end
 removeEffects()
 else
-if ao=="Brightness"then
-_G.NormalLightingSettings.Brightness=an.Brightness
-elseif ao=="ClockTime"then
-_G.NormalLightingSettings.ClockTime=an.ClockTime
-elseif ao=="FogEnd"then
-_G.NormalLightingSettings.FogEnd=an.FogEnd
-elseif ao=="GlobalShadows"then
-_G.NormalLightingSettings.GlobalShadows=an.GlobalShadows
-elseif ao=="Ambient"then
-_G.NormalLightingSettings.Ambient=an.Ambient
+if at=="Brightness"then
+_G.NormalLightingSettings.Brightness=as.Brightness
+elseif at=="ClockTime"then
+_G.NormalLightingSettings.ClockTime=as.ClockTime
+elseif at=="FogEnd"then
+_G.NormalLightingSettings.FogEnd=as.FogEnd
+elseif at=="GlobalShadows"then
+_G.NormalLightingSettings.GlobalShadows=as.GlobalShadows
+elseif at=="Ambient"then
+_G.NormalLightingSettings.Ambient=as.Ambient
 end
 end
 end)
@@ -1971,27 +1971,27 @@ end)
 
 local function applyFullBright()
 if _G.FullBrightEnabled then
-an.Brightness=1
-an.ClockTime=12
-an.FogEnd=786543
-an.GlobalShadows=false
-an.Ambient=Color3.fromRGB(178,178,178)
+as.Brightness=1
+as.ClockTime=12
+as.FogEnd=786543
+as.GlobalShadows=false
+as.Ambient=Color3.fromRGB(178,178,178)
 removeEffects()
 else
-an.Brightness=_G.NormalLightingSettings.Brightness
-an.ClockTime=_G.NormalLightingSettings.ClockTime
-an.FogEnd=_G.NormalLightingSettings.FogEnd
-an.GlobalShadows=_G.NormalLightingSettings.GlobalShadows
-an.Ambient=_G.NormalLightingSettings.Ambient
+as.Brightness=_G.NormalLightingSettings.Brightness
+as.ClockTime=_G.NormalLightingSettings.ClockTime
+as.FogEnd=_G.NormalLightingSettings.FogEnd
+as.GlobalShadows=_G.NormalLightingSettings.GlobalShadows
+as.Ambient=_G.NormalLightingSettings.Ambient
 end
 end
 
-local ao=false
+local at=false
 spawn(function()
 while wait()do
-if _G.FullBrightEnabled~=ao then
+if _G.FullBrightEnabled~=at then
 applyFullBright()
-ao=_G.FullBrightEnabled
+at=_G.FullBrightEnabled
 end
 end
 end)
@@ -2020,74 +2020,74 @@ initialSetup()
 
 
 b.Heartbeat:Connect(function()
-if k.autoCoinFlip and isGameInProgress()then
-local an=h.PlayerGui:FindFirstChild"MainUI"and
-h.PlayerGui.MainUI:FindFirstChild"AbilityContainer"and
-h.PlayerGui.MainUI.AbilityContainer:FindFirstChild"Shoot"and
-h.PlayerGui.MainUI.AbilityContainer.Shoot:FindFirstChild"Charges"
+if p.autoCoinFlip and isGameInProgress()then
+local as=m.PlayerGui:FindFirstChild("MainUI")and
+m.PlayerGui.MainUI:FindFirstChild("AbilityContainer")and
+m.PlayerGui.MainUI.AbilityContainer:FindFirstChild("Shoot")and
+m.PlayerGui.MainUI.AbilityContainer.Shoot:FindFirstChild("Charges")
 
-local ao=h.PlayerGui:FindFirstChild"MainUI"and
-h.PlayerGui.MainUI:FindFirstChild"AbilityContainer"and
-h.PlayerGui.MainUI.AbilityContainer:FindFirstChild"Reroll"and
-h.PlayerGui.MainUI.AbilityContainer.Reroll:FindFirstChild"Charges"
+local at=m.PlayerGui:FindFirstChild("MainUI")and
+m.PlayerGui.MainUI:FindFirstChild("AbilityContainer")and
+m.PlayerGui.MainUI.AbilityContainer:FindFirstChild("Reroll")and
+m.PlayerGui.MainUI.AbilityContainer.Reroll:FindFirstChild("Charges")
 
-local ap=h.PlayerGui:FindFirstChild"MainUI"and
-h.PlayerGui.MainUI:FindFirstChild"AbilityContainer"and
-h.PlayerGui.MainUI.AbilityContainer:FindFirstChild"HatFix"and
-h.PlayerGui.MainUI.AbilityContainer.HatFix:FindFirstChild"Charges"
+local au=m.PlayerGui:FindFirstChild("MainUI")and
+m.PlayerGui.MainUI:FindFirstChild("AbilityContainer")and
+m.PlayerGui.MainUI.AbilityContainer:FindFirstChild("HatFix")and
+m.PlayerGui.MainUI.AbilityContainer.HatFix:FindFirstChild("Charges")
 
-local aq=an and an:IsA"TextLabel"and an.Text
-local ar=ao and ao:IsA"TextLabel"and ao.Text
-local as=ap and ap:IsA"TextLabel"and ap.Text
+local av=as and as:IsA("TextLabel")and as.Text
+local aw=at and at:IsA("TextLabel")and at.Text
+local ax=au and au:IsA("TextLabel")and au.Text
 
-local at=true
+local ay=true
 
-if aq and aq=="3"then
-at=false
+if av and av=="3"then
+ay=false
 end
-if ar and ar=="3"then
-at=false
+if aw and aw=="3"then
+ay=false
 end
-if as and as=="1"then
-at=false
+if ax and ax=="1"then
+ay=false
 end
 
-if at then
-local au=game:GetService"ReplicatedStorage".Modules.Network.RemoteEvent
-au:FireServer("UseActorAbility","CoinFlip")
+if ay then
+local az=game:GetService("ReplicatedStorage").Modules.Network.RemoteEvent
+az:FireServer("UseActorAbility","CoinFlip")
 end
 task.wait(0.5)
 end
 end)
 
 
-b.RenderStepped:Connect(function(an)
-if k.cframeSpeedEnabled and h.Character and h.Character:FindFirstChild"HumanoidRootPart"then
-local ao=h.Character.HumanoidRootPart
-local ap=h.Character.Humanoid.MoveDirection
-if ap.Magnitude>0 then
-ao.CFrame=ao.CFrame+ap*k.cframeSpeedValue*an
+b.RenderStepped:Connect(function(as)
+if p.cframeSpeedEnabled and m.Character and m.Character:FindFirstChild("HumanoidRootPart")then
+local at=m.Character.HumanoidRootPart
+local au=m.Character.Humanoid.MoveDirection
+if au.Magnitude>0 then
+at.CFrame=at.CFrame+au*p.cframeSpeedValue*as
 end
 end
 end)
 
 
-local an=0
-b.RenderStepped:Connect(function(ao)
-if k.aimbotRGB then
-an=(an+ao*90)%360
-local ap=Color3.fromHSV(an/360,1,1)
-n.Color=ap
+local as=0
+b.RenderStepped:Connect(function(at)
+if p.aimbotRGB then
+as=(as+at*90)%360
+local au=Color3.fromHSV(as/360,1,1)
+s.Color=au
 else
-n.Color=Color3.new(1,1,1)
+s.Color=Color3.new(1,1,1)
 end
 
-if k.aimbotFOVVisible then
-m.Visible=true
-local ap=k.aimbotFOV
-m.Size=UDim2.new(0,ap*2,0,ap*2)
-m.Position=UDim2.new(0.5,-ap,0.5,-ap)
+if p.aimbotFOVVisible then
+r.Visible=true
+local au=p.aimbotFOV
+r.Size=UDim2.new(0,au*2,0,au*2)
+r.Position=UDim2.new(0.5,-au,0.5,-au)
 else
-m.Visible=false
+r.Visible=false
 end
 end)
