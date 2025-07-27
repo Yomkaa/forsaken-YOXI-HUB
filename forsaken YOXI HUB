@@ -1,2 +1,1645 @@
 -- This script was generated using the MoonVeil Obfuscator v1.3.1 [https://moonveil.cc]
-local ce=game:GetService('Players')local Xa=game:GetService('RunService')local Bd=game:GetService('ReplicatedStorage')local ef=game:GetService('Workspace')local cb=game:GetService('VirtualUser')local mc=game:GetService('UserInputService')local oc=game:GetService('HttpService')local Kc=game:GetService('StarterGui')local ub=game:GetService('TweenService')local _c=game:GetService('VirtualInputManager')local zc=game:GetService('GuiService')local ca=game:GetService('CoreGui')local Hc=ce.LocalPlayer local ae=ef.CurrentCamera local xb={GENERATOR_WAIT_TIME_DEFAULT=1,GENERATOR_WAIT_TIME_MAX=30,NOTIFICATION_IMAGE_ID=83784037333375}local Y={autoGenerator=false,generatorWaitTime=xb.GENERATOR_WAIT_TIME_DEFAULT,autoCollectItems=false,killerESP=false,playerESP=false,generatorESP=false,itemESP=false,pizzaEsp=false,speedBoost=false,sprintSpeed=26,noStaminaLoss=false,fieldOfView=70,autoRemovePopups=false,noClip=false,antiSlateskinDebuff=false,antiFallDebuff=false,antiMedkitDebuff=false,antiColaDebuff=false,antiSubspaceDebuff=false,antiGlitchedEffect=false,antiBlindness=false,antiBurgerDebuff=false,antiSlashDebuff=false,antiChickenDebuff=false,antiBlockDebuff=false,bypassChargeSpeed=false,antiSlowAfterChargeEnd=false,antiAutoFovCharge=false,bypassPunchSpeed=false,antiTaphTripwire=false,antiSubspaceTripmine=false,antiPlasmaBeam=false,antiSpawnProtection=false,antiTwoTimeStab=false,antiTwoTimeCrouching=false,antiCoolGui=false,antiBehead=false,antiEnraged=false,antiAFK=false,aimBotPlasmaBeamSurvivor=false,aimBotPlasmaBeamKiller=false,antiWalkSpeedOverride=false,antiCorruptNature=false,antiPizzaDelivery=false,pizzaDeliveryEsp=false,zombieEsp=false,antiShootDebuff=false,aimBotShootKiller=false,fullBright=false,aimBotMassInfection=false,aimBotEntanglement=false,antiMassInfection=false,antiEntanglement=false,autoCoinFlip=false,aimbotFOV=1000,aimbotWallCheck=false,aimbotSmoothing=true,aimbotAimStrength=0.5,aimbotFOVVisible=true,aimbotRGB=false,cframeSpeedEnabled=false,cframeSpeedValue=50}local Ha=nil local _=nil local gf=nil local de=Instance.new('ScreenGui')de.Name='AimbotGUI'de.Parent=ca de.ResetOnSpawn=false de.ZIndexBehavior=Enum.ZIndexBehavior.Sibling local Xe=Instance.new('Frame')Xe.Size=UDim2 .new(0,Y.aimbotFOV*2,0,Y.aimbotFOV*2)Xe.Position=UDim2 .new(0.5,-Y.aimbotFOV,0.5,-Y.aimbotFOV)Xe.BackgroundTransparency=1 Xe.Parent=de Xe.ZIndex=10 local Bb=Instance.new('UIStroke')Bb.Thickness=2 Bb.Color=Color3 .new(1,1,1)Bb.Parent=Xe local b=Instance.new('UICorner')b.CornerRadius=UDim.new(1,0)b.Parent=Xe local V=true local Ca local Uc={}local hf local He local qb=false local A={}local U=0.20000000000000001 local ya={'PizzaDeliveryRig','Mafiaso1','Mafiaso2','Builderman','Elliot','ShedletskyCORRUPT','ChancecORRUPT','ChanceCORRUPT','Mafia1','Mafia2','Mafia3','Mafia4','Mafia5','Mafia6','Mafia7','Mafia8','Mafia9'}local function se(f)local bd=Hc.Character if not bd or not bd:FindFirstChild('HumanoidRootPart')then return false end local Be=f:FindFirstChild('ItemRoot')if Be and Be:FindFirstChild('ProximityPrompt')then local O=Be.ProximityPrompt bd.HumanoidRootPart.CFrame=Be.CFrame;task.wait(0.5);fireproximityprompt(O);task.wait(1)return true end return false end local function Q(be,y,R,of,Nf)if be:FindFirstChild('TAOWARE_Highlight')then return end if R and be:FindFirstChild('Progress')and be.Progress.Value==100 then return end local nc if R then nc=be:FindFirstChild('Main')if not nc then return end elseif of then nc=be:FindFirstChild('ItemRoot')if not nc then return end elseif Nf then nc=be if not nc then return end else nc=be:FindFirstChild('HumanoidRootPart')if not nc then return end end local e=Instance.new('Highlight')e.Name='TAOWARE_Highlight'e.Adornee=be e.FillColor=y e.OutlineColor=y e.FillTransparency=0.5 e.OutlineTransparency=0 e.Parent=be local Wb=Instance.new('BillboardGui')Wb.Name='TAOWARE_Billboard'Wb.Adornee=nc Wb.Size=UDim2 .new(0,150,0,60)Wb.StudsOffset=Vector3 .new(0,4,0)Wb.AlwaysOnTop=true Wb.Parent=be if not R and not of and not Nf then local qd=ce:GetPlayerFromCharacter(be)local Mc=qd and qd.Name or'Unknown'local s=be:FindFirstChild('Humanoid')local Va=s and string.format('%.0f',s.Health)or'N/A'local Fe='Unknown'if qd and qd:FindFirstChild('PlayerData')and qd.PlayerData:FindFirstChild('Equipped')then if be.Parent.Name=='Killers'and qd.PlayerData.Equipped:FindFirstChild('Killer')then Fe=qd.PlayerData.Equipped.Killer.Value elseif be.Parent.Name=='Survivors'and qd.PlayerData.Equipped:FindFirstChild('Survivor')then Fe=qd.PlayerData.Equipped.Survivor.Value end end local W=Instance.new('TextLabel')W.Size=UDim2 .new(1,0,0.33000000000000002,0)W.Position=UDim2 .new(0,0,0,0)W.BackgroundTransparency=1 W.Text=Mc W.Font=Enum.Font.GothamBlack W.TextColor3=y W.TextSize=12 W.TextStrokeTransparency=0.59999999999999998 W.TextStrokeColor3=Color3 .fromRGB(0,0,0)W.Parent=Wb local ea=Instance.new('TextLabel')ea.Size=UDim2 .new(1,0,0.33000000000000002,0)ea.Position=UDim2 .new(0,0,0.33000000000000002,0)ea.BackgroundTransparency=1 ea.Text='HP: '..Va ea.Font=Enum.Font.GothamBlack ea.TextColor3=y ea.TextSize=12 ea.TextStrokeTransparency=0.59999999999999998 ea.TextStrokeColor3=Color3 .fromRGB(0,0,0)ea.Parent=Wb local uf=Instance.new('TextLabel')uf.Size=UDim2 .new(1,0,0.33000000000000002,0)uf.Position=UDim2 .new(0,0,0.66000000000000003,0)uf.BackgroundTransparency=1 uf.Text=Fe uf.Font=Enum.Font.GothamBlack uf.TextColor3=y uf.TextSize=12 uf.TextStrokeTransparency=0.59999999999999998 uf.TextStrokeColor3=Color3 .fromRGB(0,0,0)uf.Parent=Wb else local G=Instance.new('TextLabel')G.Size=UDim2 .new(1,0,1,0)G.BackgroundTransparency=1 G.Text=be.Name G.Font=Enum.Font.GothamBlack G.TextColor3=y G.TextSize=R and 14 or 12 G.TextStrokeTransparency=0.59999999999999998 G.TextStrokeColor3=Color3 .fromRGB(0,0,0)G.Parent=Wb end end local function Sb(cf)if cf:FindFirstChild('TAOWARE_Highlight')then cf.TAOWARE_Highlight:Destroy()end if cf:FindFirstChild('TAOWARE_Billboard')then cf.TAOWARE_Billboard:Destroy()end end local function Le(we)local Ta=ef:FindFirstChild('Players')if not Ta then return nil end local Lb if we=='killer'then local Mb=Ta:FindFirstChild('Killers')if Mb then Lb=Mb:GetChildren()else Lb={}end elseif we=='survivor'then local Xc=Ta:FindFirstChild('Survivors')if Xc then Lb=Xc:GetChildren()else Lb={}end else return nil end local C=nil local l=Y.aimbotFOV for ja,Ud in ipairs(Lb)do if Ud==Hc.Character then continue end local Yb=Ud:FindFirstChildOfClass('Humanoid')if not Yb or Yb.Health<=0 then continue end local gb=Ud:FindFirstChild('HumanoidRootPart')if not gb then continue end local dc,oe=ae:WorldToViewportPoint(gb.Position)if not oe then continue end local _f=(Vector2 .new(dc.X,dc.Y)-Vector2 .new(ae.ViewportSize.X/2,ae.ViewportSize.Y/2)).Magnitude if _f>Y.aimbotFOV then continue end if Y.aimbotWallCheck then local Ef=ae.CFrame.Position local ld=gb.Position-Ef local Oa=RaycastParams.new()Oa.FilterDescendantsInstances={Hc.Character,Ud}Oa.FilterType=Enum.RaycastFilterType.Blacklist local Td=ef:Raycast(Ef,ld,Oa)if Td then continue end end if _f<l then l=_f C=Ud end end return C end local function fd()local ie=ef:FindFirstChild('Map')if not ie or not ie:FindFirstChild('Ingame')then return false end local Dd=ef:FindFirstChild('Players')if Dd then local Qc=Dd:FindFirstChild('Survivors')if Qc and#Qc:GetChildren()>0 then return true end end return false end local function Nb()local Qa=ef:FindFirstChild('Map')if Qa and Qa:FindFirstChild('Ingame')and Qa.Ingame:FindFirstChild('Map')then for ta,Zb in ipairs(Qa.Ingame.Map:GetChildren())do if Zb:IsA('Model')and Zb.Name:lower():find('generator')then return true end end end return false end local Sd=false local function Ja()if Sd then return end Sd=true;task.spawn(function()while Sd and Y.autoGenerator and Nb()and fd()do pcall(function()local Jf=ef:FindFirstChild('Map')if not Jf then return end local fc=Jf:FindFirstChild('Ingame')if not fc then return end local Z=fc:FindFirstChild('Map')if not Z then return end for yb,rd in ipairs(Z:GetChildren())do if rd:IsA('Model')and rd.Name:lower():find('generator')then local Dc=rd:FindFirstChild('Remotes')if Dc then local fe=Dc:FindFirstChild('RE')local Ra=Dc:FindFirstChild('RF')if fe and Ra then pcall(function()fe:FireServer()end);pcall(function()Ra:InvokeServer()end)end end;task.wait(0.10000000000000001)end end end);task.wait(Y.generatorWaitTime)end Sd=false end)end local function qf()Sd=false;task.wait(0.10000000000000001)if Y.autoGenerator then Ja()end end local xa=loadstring(game:HttpGetAsync('https://raw.githubusercontent.com/3345-c-a-t-s-u-s/NOTHING/main/source.lua'))();local re=xa.Notification();re.new({Title='THX FOR USING YOXI HUB',Description='Telegram: @YomkaMadeIt',Duration=5,Icon='rbxassetid://82898985676372'})local Ad=xa.new({Title='YOXI HUB | Forsaken',Description='Made by: Yomka',Keybind=Enum.KeyCode.B,Logo='http://www.roblox.com/asset/?id=82898985676372'})local function xd(ge)local if_=tick()local Pc=tostring(ge)if A[Pc]and(if_-A[Pc])<U then return end A[Pc]=if_ if ge==Enum.KeyCode.X then qf();re.new({Title='Auto Generator',Description='Auto Generator Restarted!',Duration=3,Icon='rbxassetid://82898985676372'})elseif ge==Enum.KeyCode.V then Y.autoCollectItems=not Y.autoCollectItems;re.new({Title='Auto Collect',Description='Auto Collect Items: '..(Y.autoCollectItems and'ON'or'OFF'),Duration=3,Icon='rbxassetid://82898985676372'})elseif ge==Enum.KeyCode.N then Y.noClip=not Y.noClip if Hc.Character then if Y.noClip then Uc={}for wd,Ed in ipairs(Hc.Character:GetDescendants())do if Ed:IsA('BasePart')then Uc[Ed]=Ed.CanCollide Ed.CanCollide=false end end V=false if Ca then Ca:Disconnect()end Ca=Xa.Stepped:Connect(function()if not V and Hc.Character then for La,Oc in ipairs(Hc.Character:GetDescendants())do if Oc:IsA('BasePart')and Oc.Parent then Oc.CanCollide=false end end end end);re.new({Title='NoClip',Description='NoClip Enabled!',Duration=3,Icon='rbxassetid://82898985676372'})else V=true if Ca then Ca:Disconnect()Ca=nil end for h,Vc in pairs(Uc)do if h and h.Parent then h.CanCollide=Vc end end Uc={};re.new({Title='NoClip',Description='NoClip Disabled!',Duration=3,Icon='rbxassetid://82898985676372'})end end end end;mc.InputBegan:Connect(function(Lf,Jc)if Jc then return end if Lf.UserInputType==Enum.UserInputType.Keyboard then xd(Lf.KeyCode)end end)local sc=Ad:NewTab({Title='Info',Description='Information',Icon='rbxassetid://82898985676372'})local df=Ad:NewTab({Title='Farm',Description='Farming Features',Icon='rbxassetid://82898985676372'})local i=Ad:NewTab({Title='ESP',Description='ESP Features',Icon='rbxassetid://82898985676372'})local je=Ad:NewTab({Title='Player',Description='Player Modifications',Icon='rbxassetid://82898985676372'})local db=Ad:NewTab({Title='AimBot',Description='AimBot Features',Icon='rbxassetid://82898985676372'})local ba=Ad:NewTab({Title='Antis',Description='Anti-Debuff Features',Icon='rbxassetid://82898985676372'})local Hd=sc:NewSection({Title='Information',Icon='rbxassetid://82898985676372',Position='Left'});Hd:NewTitle('UI TOGGLE KEY - B');Hd:NewTitle('Made by: Yomka');Hd:NewTitle('Telegram: @YomkaMadeIt');Hd:NewButton({Title='Join Telegram',Callback=function()setclipboard('https://t.me/YomkaMadeIt');re.new({Title='Link Copied',Description='Telegram channel link copied to clipboard!',Duration=5,Icon='rbxassetid://82898985676372'})end})local yf=df:NewSection({Title='Generator Automation',Icon='rbxassetid://82898985676372',Position='Left'});yf:NewToggle({Title='Auto Generator',Default=Y.autoGenerator,Callback=function(vd)Y.autoGenerator=vd if vd then Ja()else Sd=false end end});yf:NewSlider({Title='Generator Wait Time',Default=Y.generatorWaitTime,Min=0,Max=xb.GENERATOR_WAIT_TIME_MAX,Step=0.10000000000000001,Callback=function(Me)Y.generatorWaitTime=Me end});yf:NewTitle('Click the button below to restart the auto gens.');yf:NewButton({Title='Restart Auto Generator',Callback=function()qf();re.new({Title='Auto Generator Restarted',Description='Auto generators have been restarted.',Duration=5,Icon='rbxassetid://82898985676372'})end});yf:NewKeybind({Title='Restart Generator Hotkey (X)',Default=Enum.KeyCode.X,Callback=function()qf();re.new({Title='Auto Generator Restarted',Description='Auto generators have been restarted.',Duration=5,Icon='rbxassetid://82898985676372'})end});yf:NewTitle('DONT SPAM IT PLS!!!')local Zd=df:NewSection({Title='Item Collection',Icon='rbxassetid://82898985676372',Position='Right'});Zd:NewToggle({Title='Auto Collect Items',Default=Y.autoCollectItems,Callback=function(wb)Y.autoCollectItems=wb end});Zd:NewKeybind({Title='Auto Collect Hotkey (V)',Default=Enum.KeyCode.V,Callback=function()Y.autoCollectItems=not Y.autoCollectItems end})local If=i:NewSection({Title='Player ESP',Icon='rbxassetid://82898985676372',Position='Left'});If:NewToggle({Title='Killer ESP',Default=Y.killerESP,Callback=function(ab)Y.killerESP=ab end});If:NewToggle({Title='Survivor ESP',Default=Y.playerESP,Callback=function(Ne)Y.playerESP=Ne end})local Cf=i:NewSection({Title='Object ESP',Icon='rbxassetid://82898985676372',Position='Right'});Cf:NewToggle({Title='Generator ESP',Default=Y.generatorESP,Callback=function(n)Y.generatorESP=n end});Cf:NewToggle({Title='Item ESP',Default=Y.itemESP,Callback=function(sd)Y.itemESP=sd end});Cf:NewToggle({Title='Esp For Elliot Pizza',Default=Y.pizzaEsp,Callback=function(za)Y.pizzaEsp=za end})local ze=i:NewSection({Title='Killer Dummies ESP',Icon='rbxassetid://82898985676372',Position='Left'});ze:NewToggle({Title='c00lkidd Esp for pizza delivery guys',Default=Y.pizzaDeliveryEsp,Callback=function(Af)Y.pizzaDeliveryEsp=Af end});ze:NewToggle({Title='1x1x1x1 Esp For 1x1x1x1 Zombies',Default=Y.zombieEsp,Callback=function(Gd)Y.zombieEsp=Gd end})local N=je:NewSection({Title='Movement Modifications',Icon='rbxassetid://82898985676372',Position='Left'});N:NewToggle({Title='Sprint Speed Boost (VERY risky!!)',Default=Y.speedBoost,Callback=function(r)Y.speedBoost=r if not r then local Ba,nf=pcall(function()return require(Bd.Systems.Character.Game.Sprinting)end)if Ba and nf then nf.SprintSpeed=origSprintSpeed end end end});N:NewSlider({Title='Sprint Speed',Default=Y.sprintSpeed,Min=26,Max=50,Callback=function(Df)Y.sprintSpeed=Df end});N:NewTitle('Do not set above 35-40, anti-cheat kicks');N:NewToggle({Title='Inf Stamina',Default=Y.noStaminaLoss,Callback=function(Ff)Y.noStaminaLoss=Ff end})local Ub=je:NewSection({Title='Camera Settings',Icon='rbxassetid://82898985676372',Position='Right'});Ub:NewSlider({Title='Field of View',Default=Y.fieldOfView,Min=0,Max=120,Callback=function(tf)Y.fieldOfView=tf local Fd=Hc:FindFirstChild('PlayerData')if Fd and Fd:FindFirstChild('Settings')and Fd.Settings:FindFirstChild('Game')and Fd.Settings.Game:FindFirstChild('FieldOfView')then Fd.Settings.Game.FieldOfView.Value=tf end end})local na=je:NewSection({Title='Physical Modifications',Icon='rbxassetid://82898985676372',Position='Left'});na:NewToggle({Title='NoClip',Default=Y.noClip,Callback=function(We)Y.noClip=We if Hc.Character then if We then Uc={}for jb,uc in ipairs(Hc.Character:GetDescendants())do if uc:IsA('BasePart')then Uc[uc]=uc.CanCollide uc.CanCollide=false end end V=false if Ca then Ca:Disconnect()end Ca=Xa.Stepped:Connect(function()if not V and Hc.Character then for Cc,cc in ipairs(Hc.Character:GetDescendants())do if cc:IsA('BasePart')and cc.Parent then cc.CanCollide=false end end end end);re.new({Title='NoClip',Description='NoClip has been enabled.',Duration=5,Icon='rbxassetid://82898985676372'})else V=true if Ca then Ca:Disconnect()Ca=nil end for la,B in pairs(Uc)do if la and la.Parent then la.CanCollide=B end end Uc={};re.new({Title='NoClip',Description='NoClip has been disabled.',Duration=5,Icon='rbxassetid://82898985676372'})end end end});na:NewKeybind({Title='NoClip Hotkey (N)',Default=Enum.KeyCode.N,Callback=function()Y.noClip=not Y.noClip;pcall(function()na:GetToggle('NoClip'):Set(Y.noClip)end)end})local yd=je:NewSection({Title='Miscellaneous',Icon='rbxassetid://82898985676372',Position='Right'});yd:NewToggle({Title='Anti AFK',Default=Y.antiAFK,Callback=function(xc)Y.antiAFK=xc if xc then if hf then hf:Disconnect()end hf=Hc.Idled:Connect(function()cb:CaptureController();cb:ClickButton2(Vector2 .new())end)else if hf then hf:Disconnect()hf=nil end end end})local Vb=je:NewSection({Title='Visual Modifications',Icon='rbxassetid://82898985676372',Position='Left'});Vb:NewToggle({Title='FullBright',Default=Y.fullBright,Callback=function(I)Y.fullBright=I _G.FullBrightEnabled=I end})local k=je:NewSection({Title='Auto Coin Flip',Icon='rbxassetid://82898985676372',Position='Right'});k:NewToggle({Title='Auto Coin Flip (Chance)',Default=Y.autoCoinFlip,Callback=function(P)Y.autoCoinFlip=P end})local ed=je:NewSection({Title='CFrame Speed',Icon='rbxassetid://82898985676372',Position='Right'});ed:NewToggle({Title='CFrame Speed Enabled',Default=Y.cframeSpeedEnabled,Callback=function(ud)Y.cframeSpeedEnabled=ud end});ed:NewSlider({Title='CFrame Speed Value',Default=Y.cframeSpeedValue,Min=0,Max=100,Step=1,Callback=function(Tc)Y.cframeSpeedValue=Tc end})local sa=db:NewSection({Title='General Aimbot Settings',Icon='rbxassetid://82898985676372',Position='Left'});sa:NewSlider({Title='FOV Size',Default=Y.aimbotFOV,Min=10,Max=1000,Step=10,Callback=function(tb)Y.aimbotFOV=tb end});sa:NewToggle({Title='Wall Check',Default=Y.aimbotWallCheck,Callback=function(id)Y.aimbotWallCheck=id end});sa:NewToggle({Title='Smoothing',Default=Y.aimbotSmoothing,Callback=function(E)Y.aimbotSmoothing=E end});sa:NewSlider({Title='Aim Strength (%)',Default=Y.aimbotAimStrength*100,Min=1,Max=100,Step=1,Callback=function(me)Y.aimbotAimStrength=me/100 end});sa:NewToggle({Title='FOV Visible',Default=Y.aimbotFOVVisible,Callback=function(o)Y.aimbotFOVVisible=o end});sa:NewToggle({Title='FOV RGB',Default=Y.aimbotRGB,Callback=function(Yc)Y.aimbotRGB=Yc end})local Gc=db:NewSection({Title='Dusekkar',Icon='rbxassetid://82898985676372',Position='Left'});Gc:NewToggle({Title='AimBot for Plasma Beam Skill (Survivors)',Default=Y.aimBotPlasmaBeamSurvivor,Callback=function(jf)Y.aimBotPlasmaBeamSurvivor=jf end});Gc:NewToggle({Title='AimBot for Plasma Beam Skill (Killers)',Default=Y.aimBotPlasmaBeamKiller,Callback=function(Za)Y.aimBotPlasmaBeamKiller=Za end})local Qe=db:NewSection({Title='Chance',Icon='rbxassetid://82898985676372',Position='Right'});Qe:NewToggle({Title='AimBot for Shoot Skill',Default=Y.aimBotShootKiller,Callback=function(Ld)Y.aimBotShootKiller=Ld end})local Ma=db:NewSection({Title='1x1x1x1',Icon='rbxassetid://82898985676372',Position='Left'});Ma:NewToggle({Title='AimBot for Mass Infection',Default=Y.aimBotMassInfection,Callback=function(qc)Y.aimBotMassInfection=qc end});Ma:NewToggle({Title='AimBot for Entanglement',Default=Y.aimBotEntanglement,Callback=function(g)Y.aimBotEntanglement=g end})local md=ba:NewSection({Title='General Anti-Debuffs',Icon='rbxassetid://82898985676372',Position='Right'});md:NewToggle({Title='Auto Remove 1x1x1x1 Popups',Default=Y.autoRemovePopups,Callback=function(qa)Y.autoRemovePopups=qa end});md:NewTitle("DONT RUN TOO MUCH AFTER POPUP\'S REMOVED!!");md:NewToggle({Title='Anti Speed Debuff when using Cola',Default=Y.antiColaDebuff,Callback=function(De)Y.antiColaDebuff=De end});md:NewToggle({Title='Anti Subspace',Default=Y.antiSubspaceDebuff,Callback=function(ra)Y.antiSubspaceDebuff=ra end});md:NewToggle({Title='Anti Glitched Effect',Default=Y.antiGlitchedEffect,Callback=function(pc)Y.antiGlitchedEffect=pc end});md:NewToggle({Title='Anti Blindness',Default=Y.antiBlindness,Callback=function(ve)Y.antiBlindness=ve end});md:NewToggle({Title='Anti Fall Speed Debuff',Default=Y.antiFallDebuff,Callback=function(Aa)Y.antiFallDebuff=Aa end});md:NewToggle({Title='Anti Speed Debuff when using Medkit',Default=Y.antiMedkitDebuff,Callback=function(Wc)Y.antiMedkitDebuff=Wc end})local q=ba:NewSection({Title='Noob Section',Icon='rbxassetid://82898985676372',Position='Right'});q:NewToggle({Title='Anti Slateskin Speed Debuff',Default=Y.antiSlateskinDebuff,Callback=function(Pa)Y.antiSlateskinDebuff=Pa end});q:NewToggle({Title='Anti Burger Speed Debuff',Default=Y.antiBurgerDebuff,Callback=function(kc)Y.antiBurgerDebuff=kc end})local eb=ba:NewSection({Title='Shedletsky Section',Icon='rbxassetid://82898985676372',Position='Left'});eb:NewToggle({Title='Anti Slash Speed Debuff',Default=Y.antiSlashDebuff,Callback=function(lc)Y.antiSlashDebuff=lc end});eb:NewToggle({Title='Anti Chicken Speed Debuff',Default=Y.antiChickenDebuff,Callback=function(Wd)Y.antiChickenDebuff=Wd end})local _b=ba:NewSection({Title='Guest1337 Section',Icon='rbxassetid://82898985676372',Position='Right'});_b:NewToggle({Title='Anti Block Speed Debuff',Default=Y.antiBlockDebuff,Callback=function(gc)Y.antiBlockDebuff=gc end});_b:NewToggle({Title='Anti Small Slow After Charge End',Default=Y.antiSlowAfterChargeEnd,Callback=function(Pe)Y.antiSlowAfterChargeEnd=Pe end});_b:NewToggle({Title='Bypass Speed on Charge Ability',Default=Y.bypassChargeSpeed,Callback=function(rf)Y.bypassChargeSpeed=rf end});_b:NewToggle({Title='Anti Auto FOV on Charge Ability',Default=Y.antiAutoFovCharge,Callback=function(x)Y.antiAutoFovCharge=x end});_b:NewToggle({Title='Bypass Speed on Punch Ability',Default=Y.bypassPunchSpeed,Callback=function(Rd)Y.bypassPunchSpeed=Rd end})local xe=ba:NewSection({Title='Taph Section',Icon='rbxassetid://82898985676372',Position='Left'});xe:NewToggle({Title='Anti Speed Debuff for Tripwire Skill',Default=Y.antiTaphTripwire,Callback=function(od)Y.antiTaphTripwire=od end});xe:NewToggle({Title='Anti Speed Debuff for Subspace Tripmine Skill',Default=Y.antiSubspaceTripmine,Callback=function(Ec)Y.antiSubspaceTripmine=Ec end})local m=ba:NewSection({Title='Dusekkar Section',Icon='rbxassetid://82898985676372',Position='Right'});m:NewToggle({Title='Anti Speed Debuff for Plasma Beam Skill',Default=Y.antiPlasmaBeam,Callback=function(le)Y.antiPlasmaBeam=le end});m:NewToggle({Title='Anti Speed Debuff for Spawn Protection Skill',Default=Y.antiSpawnProtection,Callback=function(he)Y.antiSpawnProtection=he end})local zb=ba:NewSection({Title='TwoTime Section',Icon='rbxassetid://82898985676372',Position='Left'});zb:NewToggle({Title='Small Anti Stun Debuff for Dagger Skill',Default=Y.antiTwoTimeStab,Callback=function(kd)Y.antiTwoTimeStab=kd end});zb:NewToggle({Title='Anti Speed Debuff for Crouch Skill',Default=Y.antiTwoTimeCrouching,Callback=function(Md)Y.antiTwoTimeCrouching=Md end})local nd=ba:NewSection({Title='007n7 Section',Icon='rbxassetid://82898985676372',Position='Right'});nd:NewToggle({Title='Anti Speed Debuff for c00lgui Skill',Default=Y.antiCoolGui,Callback=function(hd)Y.antiCoolGui=hd end})local D=ba:NewSection({Title='Chance Section',Icon='rbxassetid://82898985676372',Position='Left'});D:NewToggle({Title='Anti Speed Debuff for Shoot Skill',Default=Y.antiShootDebuff,Callback=function(Ab)Y.antiShootDebuff=Ab end})local wf=ba:NewSection({Title='Jason Section',Icon='rbxassetid://82898985676372',Position='Left'});wf:NewToggle({Title='Anti Stun For Behead and Gashing Wound Skills',Default=Y.antiBehead,Callback=function(Ka)Y.antiBehead=Ka end});wf:NewToggle({Title='Bypass Speed Raging Pace',Default=Y.antiEnraged,Callback=function(_d)Y.antiEnraged=_d end})local ue=ba:NewSection({Title='c00lkidd',Icon='rbxassetid://82898985676372',Position='Right'});ue:NewToggle({Title='Very Small Anti Stun after WalkSpeed Override',Default=Y.antiWalkSpeedOverride,Callback=function(Qd)Y.antiWalkSpeedOverride=Qd end});ue:NewToggle({Title='Anti Stun for Corrupt Nature',Default=Y.antiCorruptNature,Callback=function(L)Y.antiCorruptNature=L end});ue:NewToggle({Title='Anti Stun for Pizza Delivery',Default=Y.antiPizzaDelivery,Callback=function(Db)Y.antiPizzaDelivery=Db end})local Ee=ba:NewSection({Title='1x1x1x1',Icon='rbxassetid://82898985676372',Position='Left'});Ee:NewToggle({Title='Anti Speed Debuff for Mass Infection',Default=Y.antiMassInfection,Callback=function(Na)Y.antiMassInfection=Na end});Ee:NewToggle({Title='Anti Speed Debuff for Entanglement',Default=Y.antiEntanglement,Callback=function(Ea)Y.antiEntanglement=Ea end})local oa,ec,Yd do local mf,ne=pcall(function()return require(Bd.Systems.Character.Game.Sprinting)end)if mf and ne then oa=ne.DefaultConfig.SprintSpeed or 26 ec=ne.DefaultConfig.StaminaLoss or 10 Yd=ne.DefaultConfig.MaxStamina or 100 else oa=26 ec=10 Yd=100 end end local function ka()local Da=ef:FindFirstChild('Map')if not Da or not Da:FindFirstChild('Ingame')then return end local Ze=Da.Ingame if Y.pizzaDeliveryEsp then for X,yc in ipairs(Ze:GetChildren())do if table.find(ya,yc.Name)and yc:FindFirstChild('HumanoidRootPart')then local Ga=yc:FindFirstChild('TAOWARE_Highlight')~=nil if not Ga then Q(yc,Color3 .fromRGB(255,0,0),false,false,false)end end end else for _e,ha in ipairs(Ze:GetChildren())do if table.find(ya,ha.Name)then Sb(ha)end end end if Y.zombieEsp then for wc,Rb in ipairs(Ze:GetChildren())do if Rb.Name=='1x1x1x1Zombie'and Rb:FindFirstChild('HumanoidRootPart')then local bc=Rb:FindFirstChild('TAOWARE_Highlight')~=nil if not bc then Q(Rb,Color3 .fromRGB(255,0,0),false,false,false)end end end else for Ib,hb in ipairs(Ze:GetChildren())do if hb.Name=='1x1x1x1Zombie'then Sb(hb)end end end if Y.pizzaEsp then local Zc=Ze:FindFirstChild('Pizza')if Zc then local Oe=Zc:FindFirstChild('TAOWARE_Highlight')~=nil if not Oe then Q(Zc,Color3 .fromRGB(255,165,0),false,false,true)end end else local nb=Ze:FindFirstChild('Pizza')if nb then Sb(nb)end end if not fd()then return end local jc=ef:FindFirstChild('Players')if jc then local M=jc:FindFirstChild('Killers')if M then for ob,kb in ipairs(M:GetChildren())do local ga=kb:FindFirstChild('TAOWARE_Highlight')~=nil if Y.killerESP and not ga and kb:FindFirstChild('HumanoidRootPart')then Q(kb,Color3 .fromRGB(255,0,0),false,false,false)elseif not Y.killerESP and ga then Sb(kb)end end end local zf=jc:FindFirstChild('Survivors')if zf then for lb,ad in ipairs(zf:GetChildren())do local Cb=ad:FindFirstChild('TAOWARE_Highlight')~=nil if Y.playerESP and not Cb and ad:FindFirstChild('HumanoidRootPart')then Q(ad,Color3 .fromRGB(0,255,0),false,false,false)elseif not Y.playerESP and Cb then Sb(ad)end end end end if Ze:FindFirstChild('Map')then for hc,F in ipairs(Ze.Map:GetChildren())do if F:IsA('Model')and F.Name:lower():find('generator')then local c=F:FindFirstChild('Progress')local Id=F:FindFirstChild('TAOWARE_Highlight')~=nil if Y.generatorESP and c and c.Value<100 and not Id then Q(F,Color3 .fromRGB(255,0,255),true,false,false)elseif(not Y.generatorESP or(c and c.Value>=100))and Id then Sb(F)end end end end local K={'1x1x1x1Zombie'}for fb,T in ipairs(ya)do table.insert(K,T)end for Hf,_a in ipairs(Ze:GetDescendants())do if _a:IsA('Model')and _a:FindFirstChild('ItemRoot')and not table.find(K,_a.Name)then local Te=_a:FindFirstChild('TAOWARE_Highlight')~=nil if Y.itemESP and not Te then Q(_a,Color3 .fromRGB(255,255,0),false,true,false)elseif not Y.itemESP and Te then Sb(_a)end end end end;task.spawn(function()while true do if Y.autoCollectItems and fd()then local Bc=ef:FindFirstChild('Map')if not Bc or not Bc:FindFirstChild('Ingame')then task.wait(0.10000000000000001)continue end for Kd,tc in ipairs(Bc.Ingame:GetDescendants())do if not Y.autoCollectItems then break end if tc.Name=='ItemRoot'and tc:IsA('BasePart')then local H=tc:FindFirstChild('ProximityPrompt')if H then se(tc.Parent);task.wait(0.5)end end end;task.wait(0.10000000000000001)else task.wait(0.10000000000000001)end end end);task.spawn(function()local Pb,Jb=pcall(function()return require(Bd.Systems.Character.Game.Sprinting)end)if not Pb or not Jb then return end;Xa.RenderStepped:Connect(function()if Y.speedBoost then Jb.SprintSpeed=Y.sprintSpeed end if Y.noStaminaLoss then Jb.MaxStamina=999999 Jb.Stamina=999999 else Jb.MaxStamina=Yd Jb.Stamina=math.clamp(Jb.Stamina,Jb.MinStamina,Yd)end end)end)local function da()local Tb=Hc.Character if not Tb then return false end local jd=Tb:FindFirstChild('SpeedMultipliers')if not jd then return false end return jd:FindFirstChild('PlasmaBeam')~=nil end local function gd()local Vd=Hc.Character if not Vd then return false end local rc=Vd:FindFirstChild('SpeedMultipliers')if not rc then return false end return rc:FindFirstChild('ShootingGun')~=nil end local function te()local ma=Hc.Character if not ma then return false end local Od=ma:FindFirstChild('SpeedMultipliers')if not Od then return false end return Od:FindFirstChild('MassInfection')~=nil end local function Kb()local Ob=Hc.Character if not Ob then return false end local dd=Ob:FindFirstChild('SpeedMultipliers')if not dd then return false end return dd:FindFirstChild('Entanglement')~=nil end;task.spawn(function()local function Wa()return(Y.aimBotPlasmaBeamSurvivor and da())or(Y.aimBotPlasmaBeamKiller and da())or(Y.aimBotShootKiller and gd())or(Y.aimBotMassInfection and te())or(Y.aimBotEntanglement and Kb())end;Xa.RenderStepped:Connect(function()local Re=Wa()if Re and not qb then qb=true mc.MouseBehavior=Enum.MouseBehavior.LockCenter elseif not Re and qb then qb=false mc.MouseBehavior=Enum.MouseBehavior.Default end if not(Y.aimBotPlasmaBeamSurvivor or Y.aimBotPlasmaBeamKiller or Y.aimBotShootKiller or Y.aimBotMassInfection or Y.aimBotEntanglement)or not Re then if He then He:Disconnect()He=nil end return end if not He then He=Xa.RenderStepped:Connect(function()local ff=nil if da()then if Y.aimBotPlasmaBeamSurvivor then ff=Le('survivor')elseif Y.aimBotPlasmaBeamKiller then ff=Le('killer')end elseif gd()and Y.aimBotShootKiller then ff=Le('killer')elseif te()and Y.aimBotMassInfection then ff=Le('survivor')elseif Kb()and Y.aimBotEntanglement then ff=Le('survivor')end if ff and ff:FindFirstChild('HumanoidRootPart')then local Xd=ff.HumanoidRootPart.Position local Ac=CFrame.new(ae.CFrame.Position,Xd)if Y.aimbotSmoothing then ae.CFrame=ae.CFrame:Lerp(Ac,Y.aimbotAimStrength)else ae.CFrame=Ac end if(Y.aimBotShootKiller and gd())or(Y.aimBotMassInfection and te())or(Y.aimBotEntanglement and Kb())then local Ke=Hc.Character.HumanoidRootPart.Position local Ya=(Xd-Ke).Unit Hc.Character.HumanoidRootPart.CFrame=CFrame.new(Ke,Ke+Ya*10)end end end)end end)end)do local Se,ib=pcall(function()return require(Bd.Modules.StatusEffects.SurvivorExclusive.Subspaced)end)if Se and ib then ib.Applied=function()end ib.Removed=function()end end end do local p,mb=pcall(function()return require(Bd.Modules.StatusEffects.KillerExclusive.Glitched)end)if p and mb then local fa=mb.Applied mb.Applied=function(bb)if Y.antiGlitchedEffect then return end return fa(bb)end end end do local Ic,v=pcall(function()return require(Bd.Modules.StatusEffects.Blindness)end)if Ic and v then local Kf=v.Applied v.Applied=function(Ua)if Y.antiBlindness then return end return Kf(Ua)end end end;task.spawn(function()while true do local rb=ef:FindFirstChild('Players')if rb then for Lc,J in ipairs(rb:GetChildren())do for wa,ic in ipairs(J:GetChildren())do if ic:IsA('Model')then if Y.antiWalkSpeedOverride then local Rc=ic:FindFirstChild('Result')if Rc then Rc:Destroy()end end local pf=ic:FindFirstChild('SpeedMultipliers')if pf then local Jd=pf:FindFirstChild('HinderedMovement')if Jd and(Y.antiCorruptNature or Y.antiPizzaDelivery)then Jd.Value=1.8 end if Y.antiMassInfection then local Ve=pf:FindFirstChild('MassInfection')if Ve then Ve.Value=1.8 end end if Y.antiEntanglement then local ye=pf:FindFirstChild('Entanglement')if ye then ye.Value=1.8 end end local vc=pf:FindFirstChild('SlowedStatus')if vc then vc:Destroy()end local Cd=pf:FindFirstChild('FallSlowness')if Cd and Y.antiFallDebuff then Cd:Destroy()end if Y.antiColaDebuff then local Fc=pf:FindFirstChild('DrinkingCola')if Fc then Fc.Value=1.8 end local ke=pf:FindFirstChild('BloxyColaItem')if ke then ke.Value=1.8 end end if Y.antiSlateskinDebuff then local bf=pf:FindFirstChild('DrinkingSlateskin')if bf then bf.Value=1.8 end local qe=pf:FindFirstChild('SlateskinStatus')if qe then qe.Value=1.8 end end if Y.antiBurgerDebuff then local lf=pf:FindFirstChild('EatingGhostburger')if lf then lf.Value=1.8 end end if Y.antiSlashDebuff then local Ge=pf:FindFirstChild('StunningKiller')if Ge then Ge.Value=1.8 end end if Y.antiChickenDebuff then local Mf=pf:FindFirstChild('EatFriedChicken')if Mf then Mf.Value=1.8 end end if Y.antiBlockDebuff then local vf=pf:FindFirstChild('GuestBlocking')if vf then vf.Value=1.8 end end if Y.bypassChargeSpeed then local Fa=pf:FindFirstChild('Guest1337Charge')if Fa then Fa.Value=3.3999999999999999 end end if Y.bypassPunchSpeed then local Ae=pf:FindFirstChild('PunchAbility')if Ae then Ae.Value=1.8 end end if Y.antiTaphTripwire then local Pd=pf:FindFirstChild('TaphTripwire')if Pd then Pd.Value=1.8 end end if Y.antiSubspaceTripmine then local Ia=pf:FindFirstChild('SubspaceTripmine')if Ia then Ia.Value=1.8 end end if Y.antiPlasmaBeam then local Fb=pf:FindFirstChild('PlasmaBeam')if Fb then Fb.Value=1.8 end end if Y.antiSpawnProtection then local Nd=pf:FindFirstChild('SpawnProtection')if Nd then Nd.Value=1.8 end end if Y.antiTwoTimeCrouching then local ua=pf:FindFirstChild('TwoTimeCrouching')if ua then ua.Value=1.8 end end if Y.antiTwoTimeStab then local vb=pf:FindFirstChild('TwoTimeStab')if vb then vb.Value=1.8 end end if Y.antiCoolGui then local kf=pf:FindFirstChild('c00lgui')if kf then kf.Value=1.8 end end if Y.antiBehead then local cd=pf:FindFirstChild('BeheadAbility')if cd then cd.Value=1.8 end end if Y.antiEnraged then local af=pf:FindFirstChild('ENRAGED')if af then af.Value=2.7000000000000002 end end if Y.antiShootDebuff then local xf=pf:FindFirstChild('ShootingGun')if xf then xf.Value=1.8 end end end local Hb=ic:FindFirstChild('FOVMultipliers')if Hb then local pe=Hb:FindFirstChild('SlowedStatus')if pe and(Y.autoRemovePopups or Y.antiSlowAfterChargeEnd or Y.antiSpawnProtection)then pe:Destroy()end if Y.antiSlateskinDebuff then local va=Hb:FindFirstChild('SlateskinStatus')if va then va:Destroy()end end if Y.antiAutoFovCharge then local z=Hb:FindFirstChild('Guest1337Charge')if z then z:Destroy()end end end end end end if Y.autoRemovePopups then for Je,Bf in ipairs(ce:GetPlayers())do local pd=Bf:FindFirstChild('PlayerGui')if pd then local u=pd:FindFirstChild('TemporaryUI')if u then local Xb=u:FindFirstChild('1x1x1x1Popup')if Xb then Xb:Destroy()end end end end end if Y.antiMedkitDebuff then if not Ha then local aa,Eb=pcall(function()return require(Bd.Assets.Items.Medkit.Config)end)if aa and Eb then Ha=Eb _=Eb.HealTime gf=Eb.HealSpeedMultiplier end end if Ha then Ha.HealTime=0 Ha.HealSpeedMultiplier=1 end else if Ha then Ha.HealTime=_ Ha.HealSpeedMultiplier=gf end end;task.wait(0.10000000000000001)else task.wait(0.10000000000000001)end end end)if not _G.FullBrightExecuted then _G.FullBrightEnabled=false _G.NormalLightingSettings={Brightness=game:GetService('Lighting').Brightness,ClockTime=game:GetService('Lighting').ClockTime,FogEnd=game:GetService('Lighting').FogEnd,GlobalShadows=game:GetService('Lighting').GlobalShadows,Ambient=game:GetService('Lighting').Ambient}local function ac()local Nc=game:GetService('Lighting')for w,Qb in ipairs({'DepthOfField','ColorCorrection','Blur','Atmosphere'})do local sb=Nc:FindFirstChild(Qb)if sb then sb:Destroy()end end end local Ce=game:GetService('Lighting');Ce.Changed:Connect(function(Ie)if _G.FullBrightEnabled then if Ie=='Brightness'then Ce.Brightness=1 elseif Ie=='ClockTime'then Ce.ClockTime=12 elseif Ie=='FogEnd'then Ce.FogEnd=786543 elseif Ie=='GlobalShadows'then Ce.GlobalShadows=false elseif Ie=='Ambient'then Ce.Ambient=Color3 .fromRGB(178,178,178)end;ac()else if Ie=='Brightness'then _G.NormalLightingSettings.Brightness=Ce.Brightness elseif Ie=='ClockTime'then _G.NormalLightingSettings.ClockTime=Ce.ClockTime elseif Ie=='FogEnd'then _G.NormalLightingSettings.FogEnd=Ce.FogEnd elseif Ie=='GlobalShadows'then _G.NormalLightingSettings.GlobalShadows=Ce.GlobalShadows elseif Ie=='Ambient'then _G.NormalLightingSettings.Ambient=Ce.Ambient end end end);task.spawn(function()while true do if _G.FullBrightEnabled then ac()end;task.wait(0.10000000000000001)end end)local function Gb()if _G.FullBrightEnabled then Ce.Brightness=1 Ce.ClockTime=12 Ce.FogEnd=786543 Ce.GlobalShadows=false Ce.Ambient=Color3 .fromRGB(178,178,178);ac()else Ce.Brightness=_G.NormalLightingSettings.Brightness Ce.ClockTime=_G.NormalLightingSettings.ClockTime Ce.FogEnd=_G.NormalLightingSettings.FogEnd Ce.GlobalShadows=_G.NormalLightingSettings.GlobalShadows Ce.Ambient=_G.NormalLightingSettings.Ambient end end local Sc=false;spawn(function()while wait()do if _G.FullBrightEnabled~=Sc then Gb()Sc=_G.FullBrightEnabled end end end)_G.FullBrightExecuted=true end;task.spawn(function()while true do if fd()then ka()end;task.wait(0.20000000000000001)end end)local function sf()if fd()then ka()end end;sf();Xa.Heartbeat:Connect(function()if Y.autoCoinFlip and fd()then local a=Hc.PlayerGui:FindFirstChild('MainUI')and Hc.PlayerGui.MainUI:FindFirstChild('AbilityContainer')and Hc.PlayerGui.MainUI.AbilityContainer:FindFirstChild('Shoot')and Hc.PlayerGui.MainUI.AbilityContainer.Shoot:FindFirstChild('Charges')local S=Hc.PlayerGui:FindFirstChild('MainUI')and Hc.PlayerGui.MainUI:FindFirstChild('AbilityContainer')and Hc.PlayerGui.MainUI.AbilityContainer:FindFirstChild('Reroll')and Hc.PlayerGui.MainUI.AbilityContainer.Reroll:FindFirstChild('Charges')local pb=Hc.PlayerGui:FindFirstChild('MainUI')and Hc.PlayerGui.MainUI:FindFirstChild('AbilityContainer')and Hc.PlayerGui.MainUI.AbilityContainer:FindFirstChild('HatFix')and Hc.PlayerGui.MainUI.AbilityContainer.HatFix:FindFirstChild('Charges')local Sa=a and a:IsA('TextLabel')and a.Text local j=S and S:IsA('TextLabel')and S.Text local pa=pb and pb:IsA('TextLabel')and pb.Text local d=true if Sa and Sa=='3'then d=false end if j and j=='3'then d=false end if pa and pa=='1'then d=false end if d then local td=game:GetService('ReplicatedStorage').Modules.Network.RemoteEvent;td:FireServer('UseActorAbility','CoinFlip')end;task.wait(0.5)end end);Xa.RenderStepped:Connect(function(t)if Y.cframeSpeedEnabled and Hc.Character and Hc.Character:FindFirstChild('HumanoidRootPart')then local ia=Hc.Character.HumanoidRootPart local Ye=Hc.Character.Humanoid.MoveDirection if Ye.Magnitude>0 then ia.CFrame=ia.CFrame+Ye*Y.cframeSpeedValue*t end end end)local ee=0;Xa.RenderStepped:Connect(function(Ue)if Y.aimbotRGB then ee=(ee+Ue*90)%360 local zd=Color3 .fromHSV(ee/360,1,1)Bb.Color=zd else Bb.Color=Color3 .new(1,1,1)end if Y.aimbotFOVVisible then Xe.Visible=true local Gf=Y.aimbotFOV Xe.Size=UDim2 .new(0,Gf*2,0,Gf*2)Xe.Position=UDim2 .new(0.5,-Gf,0.5,-Gf)else Xe.Visible=false end end)
+
+local Nb=(getfenv())
+local sf,Sa,pd=(string.char),(string.byte),(bit32 .bxor)
+local yf=function(ug,Ee)
+    local Hb=''
+    for A=2.6627752359967332e-07*863760474,(#ug-(456355964-456355963))+(1782895106+-1782894876)do
+        Hb=Hb..sf(pd(Sa(ug,(A- -2.6524248122241514e-07*-867131083)+(93136527+-93136526)),Sa(Ee,(A- -2.5456825810592456e-07*-903490489)%#Ee+-5.8470717959460818e-10*-1710257775)))
+    end
+    return Hb
+end
+local F,Nd,qe,pf,Ad,bb,ce,dg,I,Ab,yc,Af=Nb[yf(')^#Z','N?')]:GetService(yf('\177\136\255\152\129\236\146','\225\228\158')),Nb[yf('\6+\f/','aJ')]:GetService(yf('\162\212^3 \130\215Y\3 ','\240\161\48\96E')),Nb[yf('?I5M','X(')]:GetService(yf('\247\136\249\19\193\51\vj\192\137\218\v\199\"\vy\192','\165\237\137\127\168Pj\30')),Nb[yf('\174\168\164\172','\201\201')]:GetService(yf('\130\24R\230\166\aA\238\176','\213w \141')),Nb[yf('\186\203\176\207','\221\170')]:GetService(yf('yGXF\175NB\127A\191]','/.*2\218')),Nb[yf('\163F\169B',"\196\'")]:GetService(yf('!\214\172\20\51\237\164\251\0\246\172\20\f\234\183\235','t\165\201fz\131\212\142')),Nb[yf('\202\55\192\51','\173V')]:GetService(yf('\230\v\157#\128\203\r\159:\176\203','\174\127\233S\211')),Nb[yf('\166\170\172\174','\193\203')]:GetService(yf('\225\170\128KM\215\172\166LP','\178\222\225\57\57')),Nb[yf('\238\180\228\176','\137\213')]:GetService(yf('\139\f\172L\136\217\186\t\191@\133\239','\223{\201)\230\138')),Nb[yf('\221\241\215\245','\186\144')]:GetService(yf('\158,\156\208G\aW\227\50\184\48\154\233S\bZ\205\57\186','\200E\238\164\50f;\170\\')),Nb[yf('V\130\\\134','1\227')]:GetService(yf('\247\138\52\51\226\194\137\52\3\226','\176\255]\96\135')),Nb[yf('\176\147\186\151','\215\242')]:GetService(yf('w\0\209Q(\214]','4o\163'))
+local Sd,Cb,_a=F[yf('Y\160C\25\133E\163A\1\140g','\21\207 x\233')],pf[yf('\164m\6\151\196\140\147[\21\136\196\144\134','\231\24t\229\161\226')],{[yf('k\249\15\141\54/%\185U\21+O\nx\227\21\129)+.\178B\f=[\15x',',\188A\200dnq\246\aJ|\14C')]=2.2144887844890296e-09*451571490,[yf('_qUkC\17\183l#\185\168Y}OqE\25\174f.\171\190@','\24\52\27.\17P\227#q\230\255')]=-4.0051322886583909e-08*-749038929,[yf('\aw\2\255\170\220\251>\159u\6v\t\255\161\212\255:\148u\r','I8V\182\236\149\184\127\203<')]=83783469209313+568124062}
+local Vc,c,Yf,Zf,Ne={[yf('G\14\48\127\128\96H\30\54q\179jT','&{D\16\199\5')]=false,[yf('\167\230\f\53j6\235V\178\212\3\57l\3\246T\165','\192\131bP\24W\159\57')]=_a[yf('\a\244\135\234:6\194\133\236\206;>U\20\238\157\230%2\201\142\251\215-*P\20','@\177\201\175hw\150\202\190\145l\127\28')],[yf("\142\228\"\1B\222\254\191\138\242\"\'u\212\255\160",'\239\145Vn\1\177\146\211')]=false,[yf("\154&\247\'\148=\222\24\161",'\241O\155K')]=false,[yf('\238\27z\v\251\5^!\206','\158w\27r')]=false,[yf('7\174jXV\5$\164vxw4','P\203\4=$d')]=false,[yf('\194\227\22\198\210 \251','\171\151s')]=false,[yf('\153\a\238\1\136+\231\v','\233n\148{')]=false,[yf('\190s\169m\209\143l\163{\193','\205\3\204\b\181')]=false,[yf('\23\255\235\170\192\16\220\233\166\203\0','d\143\153\195\174')]=-358006280- -358006306,[yf('\159\252an\212\248\152\253SV\218\230\130','\241\147\50\26\181\149')]=false,[yf('\205RH\16\149\228]{\21\148\220','\171;-|\241')]=1.5871112221277776e-07*504060452,[yf('u\218\200\230\178\199U\24b\202\236\230\144\215H\4','\20\175\188\137\224\162\56w')]=false,[yf('=\213\251?\211\200','S\186\184')]=false,[yf('G\238G\237\143\215\218\18\232U\235Z\234\152\222\217\19\235@','&\128\51\132\220\187\187f\141')]=false,[yf('\28\168.(\30\127y\17\130?#-xs','}\198ZAX\30\21')]=false,[yf('\142\130\4\248\146\224f#\134\152\52\244\189\240d.','\239\236p\145\223\133\2H')]=false,[yf('\232\t#\134\3\19\192\232#2\141\53\26\202','\137gW\239@|\172')]=false,[yf('V\2\198\224\167^\159g\251V\15\215\205\145I\136r\237','7l\178\137\244+\253\20\139')]=false,[yf('\210\183\24\206\144\20\199#\138\219\188\b\226\177\30\203\52\157','\179\217l\167\215x\174W\233')]=false,[yf('\17\56\215\163\214:\25\56\199\164\241%\3','pV\163\202\148V')]=false,[yf('L8T\183\142\230uiH$d\187\174\230ah','-V \222\204\147\a\14')]=false,[yf('\208\24\128\128\167\247(\194\30\176\140\150\238/\215','\177v\244\233\244\155I')]=false,[yf('r\170\230\159\215\53btx\161\252\178\241?~qu','\19\196\146\246\148]\v\23')]=false,[yf('\241>\245\25\140\b\168\243;\197\21\172\17\161\246','\144P\129p\206d\199')]=false,[yf('\158%3E$3\168\237\157.$A\4\48\142\224\152','\252\\C$W@\235\133')]=false,[yf('4\149\0t!t\221\159^\236\161\48\137\55u\19j\213\141Z\228\177','U\251t\29r\24\178\232\31\138\213')]=false,[yf("1{\'\241\24\163\202\132\22z%\219\49\183\204\140\53",'P\21S\152Y\214\190\235')]=false,[yf('/(\194\157\170\203r\127#2\218\175\169\221Gn','MQ\178\252\217\184\"\n')]=false,[yf('\127\225\189\189\181\252\140\176J\253\160\164\150\244\142\189','\30\143\201\212\225\157\252\216')]=false,[yf('\220\226\242\164\164P\2\176u\223\222\233\210\191\158U\r\170k\219','\189\140\134\205\247%\96\195\5\190')]=false,[yf('\135\250\f\49~\166\211\149\249\25\26K\171\223','\230\148xX.\202\178')]=false,[yf('\29@\131K\143\128\167\216l,\\\152V\185\147\178\198m\18','|.\247\"\220\240\198\175\2')]=false,[yf('\206\215\v\163b\152\t\251\208\18\175e\155\a\205','\175\185\127\202\54\239f')]=false,[yf('Z\162\186/\172\250\201\195+\151^\143\188)\141\238\206\254,\157',';\204\206F\248\141\166\151B\250')]=false,[yf('\203\142\52\176\230\197\143,\158\208\195','\170\224@\217\165')]=false,[yf('\6\248\186\207\19\2\254\171\199\53','g\150\206\166Q')]=false,[yf('\183\136\24\160:\184\148\r\174\26\178','\214\230l\201\127')]=false,[yf('Q\196\136Y\235\186{','0\170\252')]=false,[yf('\226\244j\176\245H\215\170,Zv\147\193\248f\159\201I\245\176$_t\128','\131\157\a\242\154<\135\198M)\27\242')]=false,[yf('\222\bKb;\211\a\56\19\204\170\222#CA9\236>8\30\218\181','\191a& T\167WTr\191\199')]=false,[yf('n\146\176\237\251ME\31_\155j\153\160\203\218I[\6e\143j','\15\252\196\132\172,)t\f\235')]=false,[yf("3*\22\174Q\173\234\"\'\52\22\137s\182\237\"\55",'RDb\199\18\194\152P')]=false,[yf('\18Z(\248\151#.W\18p9\253\174<1_\n','s4\\\145\199JT-')]=false,[yf('U\n\184\150\204k\217#L\21\167\158\212j\207?','%c\194\236\173/\188O')]=false,[yf('\198\186\239\174\213\176\199\191\204','\188\213\130\204')]=false,[yf(':\175\241\178\181dk4\181\193\190\132yb=','[\193\133\219\230\f\4')]=false,[yf('\216\202\15_|,C\221\214\204\22Vz4|\208\203','\185\163b\29\19X\16\181')]=false,[yf('\184\149\166\130T\172\137\173\134b','\222\224\202\238\22')]=false,[yf('\228\20\241^\250\203\198\151\159\246\52\242z\240\220\255\159\131\235','\133}\156\28\149\191\139\246\236')]=false,[yf('mMs\190O^\188\135pmJy\144EG\156\135p','\f$\30\252 *\249\233\4')]=false,[yf('+\244\177|\210:#\253\3\244\163p\252/9\225$','J\154\197\21\159[P\142')]=false,[yf('WH:\176\21\242\29\185XA\"\188=\249\a\172','6&N\217P\156i\216')]=false,[yf("\148\215\96\223\r*\156\204R\220\'\53",'\245\162\20\176NE')]=false,[yf('\212\r\236\132\218\16\199\169\227','\181d\129\230')]=4.8990918377093132e-06*204119464,[yf('\20\22H{La\170\20\19IZKp\158\30','u\127%\25#\21\253')]=false,[yf("A\'\24n1\136\170M!\26x6\149\151G",' Nu\f^\252\249')]=false,[yf('IF\23Z\20\"\234\222E|\14J\30\56\204\195@','(/z8{V\171\183')]=-1479892088+1479892089,[yf('\180{\218\1\144\28\30m\131D\222\16\150\n\52G','\213\18\183c\255hX\"')]=false,[yf('\162/\14\234\172\50\49\207\129','\195Fc\136')]=false,[yf('[\241\255\167Q\226\164\182\135]\243\200\168]\229\155\163\134','8\151\141\198<\135\247\198\226')]=false,[yf('\210,{\219C\227\167h\212/m\236O\234\129}','\177J\t\186.\134\244\24')]=-2085644661- -2085644686,[yf('\187\219\242\183n\1\189\221\249\148U\3\173','\200\179\157\192<n')]=false},nil,nil,nil,Nb[yf('5oi\159\29oy\142','|\1\26\235')][yf('7<.','Y')](yf('r\167\169\4D\170\156\20H','!\196\219a'))
+Ne[yf('Y\206z\202','\23\175')]=yf('\132\146\173\179\170\143\135\132\140','\197\251\192\209')
+Ne[yf('=B^\bMX','m#,')]=Af
+Ne[yf('\26\222vb\217\31&\232uf\218>','H\187\5\a\173P')]=false
+Ne[yf('\163\186\131*\16\132\a\156\155\140\56\28\147\55','\249\243\237Nu\252E')]=Nb[yf('d1T2','!_')][yf('\187<\247\22\192\15\164\132\29\248\4\204\24\148','\225u\153r\165w\230')][yf('\21s\152*s\148!','F\26\250')]
+local Hf=Nb[yf('rI\209\191ZI\193\174',";\'\162\203")][yf('hcq','\6')](yf(' \184\a\167\3','f\202'))
+Hf[yf('\143\189\166\177','\220\212')]=Nb[yf('T\rh$3','\1I')][yf('\201\194\208','\167')](1266607420-1266607420,Vc[yf('2S\219=<N\240\16\5','S:\182_')]*(-1950066163- -1950066165),-1991016838- -1991016838,Vc[yf('n\rW\177\96\16|\156Y','\15d:\211')]*(24758702/12379351))
+Hf[yf('\227\134U\191\199\128I\184','\179\233&\214')]=Nb[yf('w\187K\146\16','\"\255')][yf('38*',']')](177550639.5+-177550639,-Vc[yf('F\207DCH\210onq',"\'\166)!")],9.5446292873047841e-10*523854814,-Vc[yf('\152\176\24\236\150\173\51\193\175','\249\217u\142')])
+Hf[yf('y?\137\134\151\176@\16K\199\vI?\132\158\128\163]\0K\192&',';^\234\237\240\194/e%\163_')]=-1162047393/-1162047393
+Hf[yf('\140\210|\185\221z','\220\179\14')]=Ne
+Hf[yf('s\4SM(E',')M=')]=664914975-664914965
+local ma=Nb[yf('q\128\54-Y\128&<','8\238EY')][yf('\175\164\182','\193')](yf('\236\189\55\195\203\155\15\210','\185\244d\183'))
+ma[yf('7\26K\237\b\28G\253\16','cr\"\142')]=721538226+-721538224
+ma[yf(' Y\15Y\17','c6')]=Nb[yf('e\162\248I\191\167','&\205\148')][yf('\23\28\14','y')](1819554458/1819554458,-813869942/-813869942,-1.3171134950929765e-09*-759236014)
+ma[yf('B\212\nw\219\f','\18\181x')]=Hf
+local lc=Nb[yf('\173:c]\133:sL','\228T\16)')][yf('odv','\1')](yf(')\221\169\248\14\250\143\229','|\148\234\151'))
+lc[yf('\235Z\19\190\t\132\250T\5\185\25\133','\168\53a\208l\246')]=Nb[yf('{\131G\170','.\199')][yf('\130\137\155','\236')](653201009/653201009,0/1089978734)
+lc[yf('\208\17P\229\30V','\128p\"')]=Hf
+local tf=true
+local Ng
+local Ag={}
+local h
+local Te
+local gg,Sb,jf,la,M=false,{},-311243942/-1556219710,{yf('?\230\134\232L\22\181N\6\249\153\224T\0\185E','o\143\252\146-R\208\"'),yf('\\\253\162\96p\239\171\56','\17\156\196\t'),yf("\246\'\247\57\218\53\254b",'\187F\145P'),yf('&\222&~\247\1\217\"s\253','d\171O\18\147'),yf('9h/\21k7','|\4C'),yf('\140\248\148\182\14E|\227\180\233\178\157\48r]\192\139','\223\144\241\210b \b\144'),yf('{\185\153?\142\215[\158\170\3\184\226l','8\209\248Q\237\178'),yf('\223\55\138\3\179\15\223\16\185?\133:\200','\156_\235m\208j'),yf('+\158\15\15\158X','f\255i'),yf('\198\\\134\226\\\210','\139=\224'),yf('\248dF\220d\19','\181\5 '),yf('\27d\160?d\242','V\5\198'),yf('\16<\144\52<\195',']]\246'),yf('i\218\212M\218\132','$\187\178'),yf('K\194Uo\194\4','\6\163\51'),yf('qKuUK+','<*\19'),yf('X\162r|\162-','\21\195\20')},{}
+local _g
+local Qa
+local Va
+local Zd=false
+local Md
+local b
+local function nb()
+    if _g then
+        return
+    end
+    _g=Nb[yf('\154\210\30\178\178\210\14\163','\211\188m\198')][yf('\20\31\r','z')](yf('\15\247Z\253\57\250o\237\53','\\\148(\152'))
+    _g[yf('\n\254)\250','D\159')]=yf('CT2t\179\131xV\"]\162\190','\17;G\26\215\215')
+    _g[yf('\a\149\199\50\154\193','W\244\181')]=Af
+    _g[yf('\205\129(D\n\29\241\183+@\t<','\159\228[!~R')]=false
+    Qa=Nb[yf('\14LQs&LAb','G\"\"\a')][yf('XSA','6')](yf('Q\230v\249r','\23\148'))
+    Qa[yf('\147\145\186\157','\192\248')]=Nb[yf("\220\'\224\14\187",'\137c')][yf('\235\224\242','\133')](-0*-419913046,-882362141+882362291,-0*-1361753730,-1604658127+1604658177)
+    local u=Cb[yf('cax\133\127\214G|N\155u\220','5\b\29\242\15\185')]
+    local ra,pg=u[yf('\254','\166')]*(1512612717.5+-1512612717)-(1113196943-1113196868),u[yf('\242','\171')]*(148259892.90000001/1482598929)
+    Qa[yf('>\184V\185\26\190J\190','n\215%\208')]=Nb[yf('G\179{\154 ','\18\247')][yf('\131\136\154','\237')](-648900965+648900965,ra,-1888834541- -1888834541,pg)
+    Qa[yf(':\146\247\253+\136C%\22\151\215\249 \149^c','x\243\148\150L\250,P')]=Nb[yf('\200-P\228\48\15','\139B<')][yf('d\231\157o\199\181@','\2\149\242')](-361097064- -361097094,1086647369+-1086647339,-1866384648- -1866384678)
+    Qa[yf("\255\'\250F\1A|\211\203\210\248\207\'\247^\22Ra\195\203\213\213",'\189F\153-f3\19\166\165\182\172')]=571449555/1904831850
+    Qa[yf('#\24\b\50\144\f\155\b\r\31\6\156\6\173\r','awzV\245~\200')]=-0*-1447709362
+    Qa[yf('Q\a\52y\18%','\16d@')]=true
+    Qa[yf('l\19NY\28H','<r<')]=_g
+    local La=Nb[yf('[\234CDs\234SU','\18\132\48\48')][yf('\24\19\1','v')](yf('\133\245\128\171\162\210\166\182','\208\188\195\196'))
+    La[yf('j\nXP\247c{\4NW\231b',')e*>\146\17')]=Nb[yf('C\166\127\143','\22\226')][yf('lgu','\2')](-0*-1331606077,-2129134915- -2129134925)
+    La[yf('\21\52p ;v','EU\2')]=Qa
+    Va=Nb[yf('\178\20\251\204\154\20\235\221','\251z\136\184')][yf('\217\210\192','\183')](yf('\227$z\216\251 \96\201\219','\183A\2\172'))
+    Va[yf('h\224A\236',';\137')]=Nb[yf('6+\n\2Q','co')][yf('\189\182\164','\211')](1273256727-1273256726,-0/-1024372349,8.7905496352253742e-10*1137585295,-1701536720- -1701536720)
+    Va[yf('G{_\236\v\200j\21\186\204\155w{R\244\28\219w\5\186\203\182','\5\26<\135l\186\5\96\212\168\207')]=-171892233+171892234
+    Va[yf('C\249o\232','\23\156')]=yf('\223\22\244o\249\29\191s\224\28\187!\173\r\209*\189','\141y\129\1\157=\235\26')
+    Va[yf('u\232]\243','3\135')]=Nb[yf('\236\178\220\177','\169\220')][yf('\153\r\177\22','\223b')][yf('xPD\195\252R}\\\202\254T','??0\171\157')]
+    Va[yf('\157\165D7G\166\172S17','\201\192<C\4')]=Nb[yf('6\232\235\26\245\180','u\135\135')][yf('p+\156{\v\180T','\22Y\243')](-1386865599+1386865854,1717119897-1717119642,2.5509313195154418e-06*99963491)
+    Va[yf('\234\223\186\132\237\211\184\149','\190\186\194\240')]=-71832896- -71832914
+    Va[yf('\bw\147=x\149','X\22\225')]=Qa
+    local qc,Ze,Cd=Nb[yf('S}Yy','4\28')]:GetService(yf('\134\222=\184G\4\183\219.\180J2','\210\169X\221)W')),Nb[yf('8H2L','_)')]:GetService(yf('\252P\132\4\48\220@\147\221p\132\4\15\219S\131','\169#\225vy\178\48\230')),false
+    local fa
+    local g
+    local md
+    local Pe=Nb[yf('@\236<\247z\210\55\244{','\20\155Y\146')][yf('\211\216\202','\189')](9.1381378116349432e-10*164147229,Nb[yf('\fd<g','I\n')][yf('Lri\"\164n@n2\166l','\t\19\26K\202')][yf('w\222G\207','&\171')],Nb[yf('\142\192\190\195','\203\174')][yf('t^\155\152g\f\222XM\141\146}\2\245_','1?\232\241\tk\154')][yf('\254\196\197','\177')],-0*-474219315,false,-0*-1317018014);
+    Qa[yf('\186\225\153t\149\177\234\142\96\143','\243\143\233\1\225')]:Connect(function(kf)
+        if not(kf[yf(yf('0\30\251\193\168\138\21\24\234\231\152\148\0','\136\49\254:J\218'),yf('6u\20R\130J','\219)t'))]==Nb[yf(yf('\n\200:\203','\162\185'),yf('\141\127','\96'))][yf(yf('$\239\180\"\173\25\1\233\165\4\157\a\20','\14\236\232gN\r'),yf('\a\26\49O\192r','xj\b'))][yf(yf('m!\200.\21\163U:\201\50\30\208','\213\199,S\247\157'),yf('\213\195\134.\205k',' J\23'))]or kf[yf(yf('w\163\238\251\134\211R\165\255\221\182\205G','X\162-\187\245s'),yf('~g\16\54/x','\4\21\182'))]==Nb[yf(yf('\14\166>\165','+\144'),yf('\255\199','\159'))][yf(yf('\180\128\240J\189t\145\134\225l\141j\132','\204\175\244\204\225}'),yf('\247\165n.\236h','\218\249\15'))][yf(yf('\161H\128D\157','\189\216'),yf('\147$','\219'))])then
+        else
+            Cd=true
+            fa=Qa[yf('\29\184W99\190K>','M\215$P')]
+            g=kf[yf('?<\136\186\27:\148\189','oS\251\211')];
+            kf[yf('\177\236\145\156\227\149\150','\242\132\240')]:Connect(function()
+                if not(kf[yf(yf('\26\156\255\217(\178N:\155\201\223\0\168[','\131AO&hYn'),yf('^T\3\31\243S\194','\146\250\214'))]==Nb[yf(yf('F\231v\228','*.'),yf('\196J','\237'))][yf(yf('\217\208\216\179b\231X\249\215\238\181J\253M','\249\140\253\214\161x\206'),yf('Y\208[;u\234\202',',\255\27'))][yf(yf('\27\48:','\136'),yf('z','\172'))])then
+                else
+                    Cd=false
+                end
+            end)
+        end
+    end);
+    Ze[yf('M.dm\203\185l!z\127\218\158','\4@\20\24\191\250')]:Connect(function(Ob)
+        if not(Cd and(Ob[yf(yf("\180\216\'xxe\145\222\54^H{\132",'\183MU\229=\203'),yf('\218\167\255cM(','\140A\232'))]==Nb[yf(yf('\200\185\248\186','?\16'),yf('?J','\141'))][yf(yf('=xi\253\164\50\24~x\219\148,\r','\2t\137*\3\165'),yf('\196\129\134\v\16\250','\174\254\3'))][yf(yf('\160mEpBI\130tUnBj\153','X\193\v\219\152\26'),yf('\175\173=\194\209\24','\26n\6'))]or Ob[yf(yf('\19\248\130\164x\167\54\254\147\130H\185#','\136@_\190&\226'),yf('\243\193\232U\29{','=\nP'))]==Nb[yf(yf('!=\17>','\22]'),yf('\174\210','\220'))][yf(yf("\189\151\220\228\'\55\152\145\205\194\23)\141",'\16\165\vH\143\251'),yf('@7\147f\151\131','\184v!'))][yf(yf('q=P1M','U\250'),yf('\0\216','p'))]))then
+        else
+            local qf=Ob[yf('\158B\215\135\186D\203\128','\206-\164\238')]-g
+            local db=Nb[yf('\237\245\209\220\138','\184\177')][yf('\213\222\204','\187')](0*1291536063,fa[yf('\231','\191')][yf('\195\138:\255\137(','\140\236\\')]+qf[yf('\r','U')],1776603276+-1776603276,fa[yf('x','!')][yf('\145[p\173Xb','\222=\22')]+qf[yf('\5','\\')])
+            if not(md)then
+            else
+                md:Cancel()
+            end
+            md=qc:Create(Qa,Pe,{[yf('\154\28\157\187\190\26\129\188','\202s\238\210')]=db});
+            md:Play()
+        end
+    end);
+    Nb[yf('!c&i','U\2')][yf('8>*9%','KN')](function()
+        while Vc[yf('a\154\180s\a;g\156\191P<9w','\18\242\219\4UT')]do
+            local ef=Sd[yf('\127\128\191\25J\158\153\21F','/\236\222\96')]:FindFirstChild(yf('x0\144\166\2~6\136\173\20','*_\229\200f'))
+            local Se=ef and ef:FindFirstChild(yf('\31\r;\2','Rl'))
+            local Rg=Se and Se:FindFirstChild(yf('\224\194\217\206','\180\171'))
+            if not(Rg and Rg:IsA(yf(yf('\134\219\186\129\158\223\160\144\190','\193\229M\213'),yf('xE\228>','k\30'))))then
+                Va[yf(';\233\23\248','o\140')]=yf("\185\15\55=\152|\163\130\r\'i\220\18\216\170",'\235\96BS\252\\\247')
+            else
+                Va[yf('/M\3\\','{(')]=yf("\192\'$v\24\190\198!<}F\190",'\146HQ\24|\158')..Rg[yf('Cvog','\23\19')]
+            end;
+            Nb[yf('b\211e\217','\22\178')][yf('=\143#\154','J\238')](-0*-788409176)
+        end
+    end)
+end
+local function Hg()
+    if not(_g)then
+    else
+        _g:Destroy()
+        _g=nil
+    end
+end
+local function Ld(od)
+    local Y=Sd[yf('JY)\198hR<\209{','\t\49H\180')]
+    if not Y or not Y:FindFirstChild(yf('8\194\165\155\19\28\53w\"\216\167\142-\18.g','p\183\200\250}s\\\19'))then
+        return false
+    end
+    local Ig=od:FindFirstChild(yf('\150\249\139\153\141\226\129\128','\223\141\238\244'))
+    if Ig and Ig:FindFirstChild(yf("\223\245\16\"\165J\'\251\254/(\163J>\251","\143\135\127Z\204\'N"))then
+        local jd=Ig[yf('i\197|\249\165\246\177M\206C\243\163\246\168M','9\183\19\129\204\155\216')]
+        Y[yf('\203\158\b\173(\188\179\185\209\132\n\184\22\178\168\169','\131\235e\204F\211\218\221')][yf('\140\186\249\174\145\238','\207\252\139')]=Ig[yf('\229\208\25\199\251\14','\166\150k')];
+        Nb[yf('\236\188\235\182','\152\221')][yf('\196\214\218\195','\179\183')](-891195127.5- -891195128);
+        Nb[yf('#A\t\6\152\227c\181\25(A\15\26\152\227c\160\0\49','E({c\232\145\f\205p')](jd);
+        Nb[yf('c\fd\6','\23m')][yf("[2E\'",',S')](-1289213820+1289213821)
+        return true
+    end
+    return false
+end
+local function Nc(d,Wb,mg,se,V)
+    if d:FindFirstChild(yf("\210L\15\21O\23\255H\206d\'*b,\221\127\242",'\134\r@B\14E\186\23'))then
+        return
+    end
+    if mg and d:FindFirstChild(yf('g\29\194\157E\n\222\137','7o\173\250'))and d[yf('\185\182\251f\155\161\231r','\233\196\148\1')][yf('\247\27\205\15\196','\161z')]==1439457207-1439457107 then
+        return
+    end
+    local te
+    if mg then
+        te=d:FindFirstChild(yf('nCJL','#\"'))or d[yf('X\218\54u\197z\209\15y\214|','\b\168_\24\164')]or d:FindFirstChildWhichIsA(yf('\146\158%\200\128\158$\217','\208\255V\173'))
+        if not te then
+            return
+        end
+    elseif se then
+        te=d:FindFirstChild(yf('\192R\138\238\219I\128\247','\137&\239\131'))
+        if not te then
+            return
+        end
+    elseif V then
+        te=d
+        if not te then
+            return
+        end
+    else
+        te=d:FindFirstChild(yf('K\165\191\131\195\154s\186Q\191\189\150\253\148h\170','\3\208\210\226\173\245\26\222'))
+        if not te then
+            return
+        end
+    end
+    local ye=Nb[yf('\188F\238\190\148F\254\175','\245(\157\202')][yf('\218\209\195','\180')](yf('R\211\133Zv\211\133Zn','\26\186\226\50'))
+    ye[yf('\f\143/\139','B\238')]=yf('_\164\187T\238\15\226\29C\140\147k\195\52\192*\127','\v\229\244\3\175]\167B')
+    ye[yf('\221Uy\238_s\249','\156\49\22')]=d
+    ye[yf('=\159\134\3\56\153\134\0\t','{\246\234o')]=Wb
+    ye[yf('i\157\160/\217\138C\171\187/\223\150','&\232\212C\176\228')]=Wb
+    ye[yf('{^L\145\205\"\250\207NGA\143\252>\248\216','=7 \253\153P\155\161')]=-864918985.5+864918986
+    ye[yf('\191%c\14\48\166\239U\213\145>d\18\56\186\239o\196\137','\240P\23bY\200\138\1\167')]=-0/-1574702366
+    ye[yf('\180\180v\129\187p','\228\213\4')]=d
+    local Mb=Nb[yf('\22B\253d>B\237u','_,\142\16')][yf(']VD','3')](yf('\180\147\250\223\196\222\151\136\242\244\211\216','\246\250\150\179\166\177'))
+    Mb[yf('w\fT\b','9m')]=yf('^\208\234\250\18-\242\246H\248\201\193\49\16\214\219n','\n\145\165\173S\127\183\169')
+    Mb[yf('\"\135;\17\141\49\6','c\227T')]=te
+    Mb[yf('@NiB',"\19\'")]=Nb[yf('\207\140\243\165\168','\154\200')][yf('\159\148\134','\241')](-0*-1765787288,-962124662+962124812,2068663423+-2068663423,-47808777360/-796812956)
+    Mb[yf(";\209\tCg\'\195\26Tq\28","h\165|\'\20")]=Nb[yf('N>\229l4\244+','\24[\134')][yf('\234\225\243','\132')](0/1406042610,784288504-784288500,1594481416-1594481416)
+    Mb[yf('\177\167j\246\144\131\132s\195\134\128','\240\203\29\151\233')]=true
+    Mb[yf('>P\15\v_\t','n1}')]=d
+    if not mg and not se and not V then
+        local ia=F:GetPlayerFromCharacter(d)
+        local Yc,ha=ia and ia[yf('b\252A\248',',\157')]or yf('\225*\202\218+\214\218','\180D\161'),d:FindFirstChild(yf('\28-\n\16:7\14\21','TXgq'))
+        local Rd,Ba=ha and Nb[yf('\96\211dz\201q','\19\167\22')][yf('\149\244\n\158\250\f','\243\155x')](yf('l\211y\155','I\253'),ha[yf('}lbY}k','5\t\3')])or yf('\226\131\237','\172'),yf('\189\127\22\134~\n\134','\232\17}')
+        if ia and ia:FindFirstChild(yf('\"\206B\16\236\0\230B\29\232','r\162#i\137'))and ia[yf('\153o\135\229\227\187G\135\232\231','\201\3\230\156\134')]:FindFirstChild(yf('i\161,V\\\160<[',',\208Y?'))then
+            if not(d[yf(yf('\212\26\165\225\21\163','\20\162\235'),yf('\17X\189','\129'))][yf(yf('j\30I\26','\139\236'),yf('\156\160','3'))]==yf(yf('\129\132\50\166\136,\185','h\161\24'),yf('\17\255\245','\179'))and ia[yf(yf('\143\6\178E\200\173.\178H\204','\215a\150\254\134'),yf('G\a\n\206d','O\f'))][yf(yf('w\197q\131B\196a\142','\14Y\129>'),yf('$/\157\22','\24\194'))]:FindFirstChild(yf(yf('T>\199s2\217','m\148\21'),yf('9\136\245','K'))))then
+                if not(d[yf(yf('\148\190^\161\177X','qjx'),yf('\132\132e','1'))][yf(yf('#P\0T','\196\139'),yf('\177\162','\24'))]==yf(yf('\157Wh\206\167Tu\202\189','\178\132\135^'),yf('E\145\164\209','97'))and ia[yf(yf('9_\245\228\236\27w\245\233\232','\183\136\2\247\228'),yf('f\188.m\213','\184\a'))][yf(yf('\23\127!\249\"~1\244','\228\134\222\160'),yf('\219\231\231_','mo'))]:FindFirstChild(yf(yf('N\17cst\18~w','2\18K\179'),yf('u\166\0f','Z\208'))))then
+                else
+                    Ba=ia[yf('\254\230\245\14\f\220\206\245\3\b','\174\138\148wi')][yf('#?\240\t\22>\224\4','fN\133\96')][yf('&\137\161\143\28\138\188\139','u\252\211\249')][yf('$8\30,\23','rY')]
+                end
+            else
+                Ba=ia[yf('\6A%\136\b$i%\133\f','V-D\241m')][yf('\247s\165\149\194r\181\152','\178\2\208\252')][yf('\161\215K\134\219U',"\234\190\'")][yf('\224@\218T\211','\182!')]
+            end
+        end
+        local rc=Nb[yf('\202 u\181\226 e\164','\131N\6\193')][yf('+ 2','E')](yf('\195G\147\132\219C\137\149\251','\151\"\235\240'))
+        rc[yf('\233\221\192\209','\186\180')]=Nb[yf('7\170\v\131P','b\238')][yf('fm\127','\b')](1848826301-1848826300,-1442173123+1442173123,159815456.46000001/484289262,0/1940905525)
+        rc[yf('\5\202\27\t!\204\a\14','U\165h\96')]=Nb[yf('\217\244\229\221\190','\140\176')][yf('zqc','\20')](-2079819557+2079819557,-1365166813- -1365166813,470963377+-470963377,1783482907+-1783482907)
+        rc[yf('/\19\17\51\181\3u\28\226\235K\31\19\28+\162\16h\f\226\236f','mrrX\210q\26i\140\143\31')]=114974313/114974313
+        rc[yf('\255M\211\\','\171(')]=Yc
+        rc[yf('\227\215\203\204','\165\184')]=Nb[yf('\149j\165i','\208\4')][yf('ffN}',' \t')][yf('\180A\135\188\19\158l\159\181\17\152','\243.\243\212r')]
+        rc[yf('\190\232^\212\184\133\225I\210\200','\234\141&\160\251')]=Wb
+        rc[yf('\216\184\153c\223\180\155r','\140\221\225\23')]=-15470953428/-1289246119
+        rc[yf('\227oW\175\1\195\226{\166br\197kA\168\"\214\226q\163d_','\183\n/\219R\183\144\20\205\a&')]=-5.8307850664638356e-10*-1029020952
+        rc[yf('^\194ID\188\234\133\252a\194r_\131\241\133\160','\n\167\49\48\239\158\247\147')]=Nb[yf('M\214ca\203<','\14\185\15')][yf('\129!\239\138\1\199\165','\231S\128')](1455405672-1455405672,-0*-822475005,-0/-1355722998)
+        rc[yf('\167{O\146tI','\247\26=')]=Mb
+        local hf=Nb[yf('4\255\r\225\28\255\29\240','}\145~\149')][yf('\150\157\143','\248')](yf('\96o5Hxk/YX','4\nM<'))
+        hf[yf('\146\147\187\159','\193\250')]=Nb[yf('\145\179\173\154\246','\196\247')][yf('NEW',' ')](-1155697614/-1155697614,0*837604576,3.0275599581162222e-10*1089986671,0*415431107)
+        hf[yf(',RYW\bTEP','|=*>')]=Nb[yf('\206\222\242\247\169','\155\154')][yf(':1#','T')](-0*-1196749346,-0/-468018614,-413954514.60000002/-1254407620,1617658228+-1617658228)
+        hf[yf("\143\246\190\'\50p\v%\163\166\149\191\246\179?%c\22\53\163\161\184",'\205\151\221LU\2dP\205\194\193')]=-1384973244+1384973245
+        hf[yf('h\167D\182','<\194')]=yf('0\209B\161','x\129')..Rd
+        hf[yf('\228r\204i','\162\29')]=Nb[yf('%\247\21\244','\96\153')][yf('\152K\176P','\222$')][yf('\b\229wJ\201\"\200oC\203$','O\138\3\"\168')]
+        hf[yf('W\222\172q\199l\215\187w\183','\3\187\212\5\132')]=Wb
+        hf[yf('z\250fK}\246dZ','.\159\30?')]=-8.5045297535083945e-08*-141101276
+        hf[yf('\169\234\199\219\127\136\196\186c\nJ\143\238\209\220\\\157\196\176f\fg','\253\143\191\175,\252\182\213\bo\30')]=354545351.39999998/590908919
+        hf[yf('\132\220\96\aN\6\136\219\187\220[\28q\29\136\135','\208\185\24s\29r\250\180')]=Nb[yf('\247\243C\219\238\28','\180\156/')][yf('-y\129&Y\169\t','K\v\238')](-712176885- -712176885,481226458-481226458,0/377519914)
+        hf[yf('?OW\n@Q','o.%')]=Mb
+        local Ub=Nb[yf('\201\2\218q\225\2\202\96','\128l\169\5')][yf('w|n','\25')](yf('\22@\5\135\14D\31\150.','B%}\243'))
+        Ub[yf('\254\28\215\16','\173u')]=Nb[yf('\248\48\196\25\159','\173t')][yf('ibp','\a')](1.391530107734724e-09*718633391,862914047+-862914047,198161927.70000002/600490690,1598409729+-1598409729)
+        Ub[yf('\20\223\134\205\48\217\154\202','D\176\245\164')]=Nb[yf('_\vc\"\56','\nO')][yf('\222\213\199','\176')](-0*-942078188,872707720-872707720,9.6933612528965517e-10*680878369,-297241166- -297241166)
+        Ub[yf('7\n[#\238d\133\28Tw\239\a\nV;\249w\152\fTp\194','uk8H\137\22\234i:\19\187')]=-1538441091/-1538441091
+        Ub[yf('\242!\222\48','\166D')]=Ba
+        Ub[yf('\135^\175E','\193\49')]=Nb[yf('\133+\181(','\192E')][yf('\214\140\254\151','\144\227')][yf('g\f\28\222tM!\4\215vK',' ch\182\21')]
+        Ub[yf('\237\4|\153m\214\rk\159\29','\185a\4\237.')]=Wb
+        Ub[yf('3\243\23\147\52\255\21\130','g\150o\231')]=191649997+-191649985
+        Ub[yf("\195\244\218\173No;&\30!\206\229\240\204\170mz;,\27\'\227",'\151\145\162\217\29\27IIuD\154')]=1.2557852587952086e-09*477788695
+        Ub[yf('\198\173\139@\162\240\165\209\249\173\176[\157\235\165\141','\146\200\243\52\241\132\215\190')]=Nb[yf('\140\190\249\160\163\166','\207\209\149')][yf('^&bU\6Jz','8T\r')](-2006719022- -2006719022,0/2131386928,-0*-1980963312)
+        Ub[yf('\224\192\2\213\207\4','\176\161p')]=Mb;
+        Nb[yf('\219-\205 \202','\175L')][yf('\182\22\139\186\n\140','\223x\248')](M,{[yf('g\17n\27f','\n~')]=d,[yf('\t\20\6\0\6/\r','adJ')]=hf,[yf(';l\14u\96\213\56\96!\127l\209\57','U\5m\30\14\180')]=rc,[yf('%\254A\2N\182\135#\228l\17M\176\159','F\150 p/\213\243')]=Ub})
+    else
+        local pc=Nb[yf('vS:\159^S*\142','?=I\235')][yf('\227\232\250','\141')](yf('\152\136\192\152\128\140\218\137\160','\204\237\184\236'))
+        pc[yf('T)}%','\a@')]=Nb[yf('\197\159\249\182\162','\144\219')][yf(",\'\53",'B')](-1185149375+1185149376,0/623274495,-1056227292/-1056227292,-833109781- -833109781)
+        pc[yf('\152q\225O\131u\228s72j\168q\236W\148f\249c75G','\218\16\130$\228\a\139\6YV>')]=-322535500/-322535500
+        pc[yf('\153v\181g','\205\19')]=d[yf('\30G=C','P&')]
+        pc[yf('\246@\222[','\176/')]=Nb[yf('DWtT','\1\57')][yf('4\n\28\17','re')][yf('\162\138g\153\143\136\167\127\144\141\142','\229\229\19\241\238')]
+        pc[yf('\26\243\5#\185!\250\18%\201','N\150}W\250')]=Wb
+        pc[yf('\219S\15\168\220_\r\185','\143\54w\220')]=mg and 1362630002-1362629988 or-726948168- -726948180
+        pc[yf('\24M\254\52\22G\151GQHk>I\232\51\53R\151MTNF','L(\134@E3\229(:-?')]=-3.5633874884907707e-10*-1683791061
+        pc[yf('&p\136\29\200=\251\178\25p\179\6\247&\251\238','r\21\240i\155I\137\221')]=Nb[yf('\205b\r\225\127R','\142\ra')][yf('\150\180\183\157\148\159\178','\240\198\216')](-0/-574294544,0/434639437,0/898278574)
+        pc[yf('\130\134\48\183\137\54','\210\231B')]=Mb
+    end
+end
+local function Lf(tb)
+    if not(tb:FindFirstChild(yf(yf('\179\210A\132\219M\169\233\175\250i\187\246v\139\222\147','t\ti\158D\179\17\176'),yf('\170\f\166o\231:<$','9\150\193\"'))))then
+    else
+        tb[yf('\27\239\128\196\168Y\196w\a\199\168\251\133b\230@;','O\174\207\147\233\v\129(')]:Destroy()
+    end
+    if tb:FindFirstChild(yf('\184\185\134lC\b\27\28\174\145\165W\96\53?1\136','\236\248\201;\2Z^C'))then
+        tb[yf('i&\r\"@:\133E\127\14.\25c\a\161hY','=gBu\1h\192\26')]:Destroy()
+    end
+    for Df,_d in Nb[yf('$\155z$\153h','M\235\27')](M)do
+        if _d[yf('z\170s\160{','\23\197')]==tb then
+            Nb[yf('\146\166\132\171\131','\230\199')][yf('\16H\203\r[\195','b-\166')](M,Df)
+            break
+        end
+    end
+end
+local function Jf(Qc)
+    local W=pf:FindFirstChild(yf('\231\253<\206\244/\196','\183\145]'))
+    if not W then
+        return nil
+    end
+    local uf
+    if not(Qc==yf(yf('\128\135\167\135\139\185',"-\r\'"),yf('Mhg','\139')))then
+        if not(Qc==yf(yf('\208\159J5\202\156W1','\96\210\49\151'),yf('\225\234+\6','\"\210')))then
+            return nil
+        else
+            local Wa=W:FindFirstChild(yf('%\252\136\52\31\255\149\48\5','v\137\250B'))
+            if Wa then
+                uf=Wa:GetChildren()
+            else
+                uf={}
+            end
+        end
+    else
+        local vf=W:FindFirstChild(yf('\151Ay\176Mg\175','\220(\21'))
+        if not(vf)then
+            uf={}
+        else
+            uf=vf:GetChildren()
+        end
+    end
+    local Zg,ed=nil,Vc[yf('\204*\201\2\194\55\226/\251','\173C\164\96')]
+    for Xe,hb in Nb[yf('.\t[.\vI','Gy:')](uf)do
+        if not(hb==Sd[yf(yf('W\20w\3u\31b\20f','\130\170\221<'),yf('\138$\215\191','\28\242'))])then
+        else
+            continue
+        end
+        local jb=hb:FindFirstChildOfClass(yf('5?\25\173\19%\29\168','}Jt\204'))
+        if not jb or jb[yf('\163\0\20\135\17\29','\235eu')]<=2049331898-2049331898 then
+            continue
+        end
+        local na=hb:FindFirstChild(yf("gi\127\144\'_D\187}s}\133\25Q_\171",'/\28\18\241I0-\223'))
+        if not na then
+            continue
+        end
+        local Cf,Od=Cb:WorldToViewportPoint(na[yf('\195l\183\14\231j\171\t','\147\3\196g')])
+        if not(not Od)then
+        else
+            continue
+        end
+        local ig=(Nb[yf('\96\192\55B\202&\4','6\165T')][yf('fm\127','\b')](Cf[yf('w','/')],Cf[yf('H','\17')])-Nb[yf('\197\188*\231\182;\161','\147\217I')][yf('\v\0\18','e')](Cb[yf('n\220\5\218\204=J\193\51\196\198\55','8\181\96\173\188R')][yf('\205','\149')]/(282717946-282717944),Cb[yf('+\133W\235\31\30\15\152a\245\21\20','}\236\50\156oq')][yf('*','s')]/(-2233071592/-1116535796)))[yf('P\202\244\49t\223\230;x','\29\171\147_')]
+        if ig>Vc[yf('\138\144\191O\132\141\148b\189','\235\249\210-')]then
+            continue
+        end
+        if not(Vc[yf(yf('\235\49\187\186\224\150\0\235\52\186\155\231\135\52\225','\141\188\28g\202\139\25'),yf('\203\"\14s\131\173\130','\204\198\196'))])then
+        else
+            local we=Cb[yf('\1\212\252#\255\235','B\146\142')][yf('9g}\254\29aa\249','i\b\14\151')]
+            local bf,rb=na[yf("sN\'\226WH;\229",'#!T\139')]-we,Nb[yf('\241\197\232\\k\153\215\244\240Mk\135\208','\163\164\145?\n\234')][yf('1:(','_')]()
+            rb[yf('x\187]\215\3$8d\127\57\200H$_\188E\208/8\15um4\206C3','>\210\49\163fV|\1\fZ\173&@')]={Sd[yf('\140\145\19>\174\154\6)\189','\207\249rL')],hb}
+            rb[yf('\r\5\132\53;98\145\49;','Kl\232A^')]=Nb[yf('zLJO','?\"')][yf('\231zl-\206^\234)\220wa+\221y\231\31\208','\181\27\21N\175-\158o')][yf('\3\131S\130*\131[\146\53','A\239\50\225')]
+            local Ce=pf:Raycast(we,bf,rb)
+            if Ce then
+                continue
+            end
+        end
+        if ig<ed then
+            ed=ig
+            Zg=hb
+        end
+    end
+    return Zg
+end
+local function pa()
+    local Sf=pf:FindFirstChild(yf('\152\180\165','\213'))
+    if not(not Sf or not Sf:FindFirstChild(yf(yf('A\241Si\242Q','F\229\147'),yf('\193\245(','\143'))))then
+    else
+        return false
+    end
+    local Yg=pf:FindFirstChild(yf('\168Oc\129Fp\139','\248#\2'))
+    if not(Yg)then
+    else
+        local Uf=Yg:FindFirstChild(yf('i\a\203\"S\4\214&I',':r\185T'))
+        if Uf and#Uf:GetChildren()>-0*-384616981 then
+            return true
+        end
+    end
+    return false
+end
+local function of()
+    local Td=pf:FindFirstChild(yf('\176\156\141','\253'))
+    if Td and Td:FindFirstChild(yf('\242\212^\218\215\\','\187\186\57'))and Td[yf('\2uC*vA','K\27$')]:FindFirstChild(yf(' \f\29','m'))then
+        for ah,D in Nb[yf('8*88(*','QZY')](Td[yf('\240\129F\216\130D','\185\239!')][yf('yUD','4')]:GetChildren())do
+            if D:IsA(yf('\b\141!\135)','E\226'))and D[yf('\212\166\247\162','\154\199')]:lower():find(yf('E\195\"\133P\199\56\143P','\"\166L\224'))and D[yf('\250N\217J','\180/')]~=yf('X\196\bF\t\166p\192\17B:\172l','\30\165c#N\195')then
+                return true
+            end
+        end
+    end
+    return false
+end
+local function He()
+    local T=pf:FindFirstChild(yf('-\1\16','\96'))
+    if not T or not T:FindFirstChild(yf('+x0\3{2','b\22W'))or not T[yf('\\;\17t8\19','\21Uv')]:FindFirstChild(yf('\29\49 ','P'))then
+        return{}
+    end
+    local ea={}
+    for _c,G in Nb[yf('\25\230P\25\228B','p\150\49')](T[yf('V8\153~;\155','\31V\254')][yf('@l}','\r')]:GetChildren())do
+        if G:IsA(yf('\169\158\128\148\136','\228\241'))and G[yf('\r\195.\199','C\162')]:lower():find(yf('\31\166\145\210\n\162\139\216\n','x\195\255\183'))and G[yf('F\250e\254','\b\155')]~=yf('\206Z\133r\218\198\230^\156v\233\204\250','\136;\238\23\157\163')and G:FindFirstChild(yf("\241{n3\211lr\'",'\161\t\1T'))and G[yf('\197\159\235z\231\136\247n','\149\237\132\29')][yf('i\233S\253Z','?\136')]<-1142297941+1142298041 then
+            Nb[yf('N\216X\213_',':\185')][yf('<+\6\48\55\1','UEu')](ea,G)
+        end
+    end
+    return ea
+end
+local function df()
+    local qb=Sd[yf('a\213\181\151C\222\160\128P','\"\189\212\229')]
+    if not(not qb or not qb:FindFirstChild(yf(yf('\23\129\173\169|\203\238\161\r\155\175\188B\197\245\177','m\25@2Z\209\178I'),yf('1\248\v\224K\96\190\150','\3\21\139\26'))))then
+    else
+        return
+    end
+    local xc=He()
+    if#xc==1673051569-1673051569 then
+        return
+    end
+    local wf,kb=nil,Nb[yf('#\229:\236','N\132')][yf('\206|\193l','\166\t')]
+    for Dc,zf in Nb[yf('\237\164N\237\166\\','\132\212/')](xc)do
+        local Zb=zf:FindFirstChild(yf('t\20P\27','9u'))or zf[yf('\22\136\v\138,4\131\50\134?2','F\250b\231M')]
+        if not(not Zb)then
+        else
+            for Id,wb in Nb[yf('\193Nd\193Lv','\168>\5')](zf:GetChildren())do
+                if wb:IsA(yf('\212\226\228J\198\226\229[','\150\131\151/'))then
+                    Zb=wb
+                    break
+                end
+            end
+        end
+        if not(Zb)then
+        else
+            local E=(qb[yf('\243\192\131\25D\250b\188\233\218\129\fz\244y\172','\187\181\238x*\149\v\216')][yf('\5\173i|!\171u{','U\194\26\21')]-Zb[yf('\192\56\235\54\228>\247\49','\144W\152_')])[yf('\241\ba\230\213\29s\236\217','\188i\6\136')]
+            if not(E<kb)then
+            else
+                kb=E
+                wf=Zb
+            end
+        end
+    end
+    if wf then
+        local kg=Nb[yf('M\252\ro\246\28(','\27\153n')][yf('\227\232\250','\141')](0*1504297105,3.3135467627593815e-09*1508957126,-0/-1723165252)
+        qb[yf('\211W\127\238h\205\141\3\201M}\251V\195\150\19','\155\"\18\143\6\162\228g')][yf('\246*a\212\1v','\181l\19')]=Nb[yf('\176\130\128\146\169\151','\243\196\242')][yf('\155\144\130','\245')](wf[yf('\219\201z\209\255\207f\214','\139\166\t\184')]+kg)
+    end
+end
+local Qd=false
+local function H()
+    if Qd then
+        return
+    end
+    Qd=true;
+    Nb[yf('\239\144\232\154','\155\241')][yf('\160\172\178\171\189','\211\220')](function()
+        while Qd and Vc[yf('\152E\233q/\246\151U\239\127\28\252\139','\249\48\157\30h\147')]and of()and pa()do
+            Nb[yf('m\142|\129q','\29\237')](function()
+                local bh=pf:FindFirstChild(yf('\203\231\246','\134'))
+                if not(not bh)then
+                else
+                    return
+                end
+                local xf=bh:FindFirstChild(yf('\220\214\163\244\213\161','\149\184\196'))
+                if not(not xf)then
+                else
+                    return
+                end
+                local nc=xf:FindFirstChild(yf('\244\216\201','\185'))
+                if not(not nc)then
+                else
+                    return
+                end
+                for aa,Vg in Nb[yf('\175^\188\175\\\174','\198.\221')](nc:GetChildren())do
+                    if not(Vg:IsA(yf(yf('Zqs{{','\"\164'),yf('n\225','[')))and Vg[yf(yf('\204\4\239\0','v\243'),yf('\254\156','\n'))]:lower():find(yf(yf('\14.\191\247\27*\165\253\27','\173.*\196'),yf('\189$\130\23','yA')))and Vg[yf(yf('\170\187\137\191','$k'),yf('\150\231','V'))]~=yf(yf('\141\183\51\178GI\165\179*\182tC\185','\135\128\232\217i\219'),yf('\154\16\251\216/\188','\214FK')))then
+                    else
+                        local ga=Vg:FindFirstChild(yf('d\233$Y\248,E','6\140I'))
+                        if ga then
+                            local Oe,Jb=ga:FindFirstChild(yf('bu','0')),ga:FindFirstChild(yf('9-','k'))
+                            if Oe and Jb then
+                                Nb[yf('\191\"\174-\163','\207A')](function()
+                                    Oe:FireServer()
+                                end);
+                                Nb[yf('\164\177\181\190\184','\212\210')](function()
+                                    Jb:InvokeServer()
+                                end)
+                            end
+                        end;
+                        Nb[yf('\22Z\17P','b;')][yf('\250\188\228\169','\141\221')](-148869242.20000002/-1488692422)
+                    end
+                end
+            end);
+            Nb[yf('\155\b\156\2','\239i')][yf('(\192\54\213','_\161')](Vc[yf('\"\174\56\240\229\136\250\246\55\156\55\252\227\189\231\244 ','E\203V\149\151\233\142\153')])
+        end
+        Qd=false
+    end)
+end
+local function eg()
+    Qd=false;
+    Nb[yf(" \140\'\134",'T\237')][yf('\245B\235W','\130#')](-5.2285128002714516e-11*-1912589752)
+    if Vc[yf('\212\205\3\193\233\211\219\221\5\207\218\217\199','\181\184w\174\174\182')]then
+        H()
+    end
+end
+local Wd=Nb[yf('.\201\170\254\229\54\212\162\244\241','B\166\203\154\150')](Nb[yf('T\21^\17','3t')]:HttpGetAsync(yf("\165\232\245R\140\147\155\242\211f%\27$u\237<\150\239\152\3\187\231\166\176\142O\19\144\197%@a\199{g\23{\248\177\226\15\158\132\192\240\210*\'\24\48\51\215\27\183\197\164>\153\186\168\190\137UY\141\222~Qm\207z8Q.",'\205\156\129\"\255\169\180\221\161\aR5C\28\153T\227\141\237p\222\149\197\223\224;v\254\177\v#\14\170TT$O')))();
+local nf=Wd[yf('K8#\252\"\28f6#\252+\27','\5WW\149Du')]();
+nf[yf('w|n','\25')]({[yf('\30\237>\232/','J\132')]=yf('\242%\204\151\23\215\251QJ\228\169\232*\180\238\30\192\224QW\226\162','\166m\148\183Q\152\169q\31\183\224'),[yf('\243\175\168\198\31\222\186\175\204\2\217','\183\202\219\165m')]=yf('\184\177\2\199.\209\209\225\225)2\181\187\3\201(\238\209\232\190@\6','\236\212n\162I\163\176\140\219\tr'),[yf("\222\133\241\'\238\153\236(",'\154\240\131F')]=2.8249325644104186e-09*1769953755,[yf('}:[7','4Y')]=yf('\136\245\172y#\254\164\186n\0\52l\181\194\165\236!h\180\249\251\49S8p\173\200','\250\151\212\24P\141\193\206\ad\14C\154')})
+local ya=Wd[yf('\166\173\191','\200')]({[yf("\175\'\143\"\158",'\251N')]=yf('\15\194\224\196\133s\22\167?*\173\254\226\215H\"\142z8','V\141\184\141\165;C\229\31'),[yf('\147)Y\218\\\190<^\208A\185','\215L*\185.')]=yf("?\'\233\145f\v\30Hf\212\155+\2\6",'rF\141\244Fig'),[yf('\0x\194)t\213/','K\29\187')]=Nb[yf('\137\153\185\154','\204\247')][yf('\158\248\0\150\242\29\176','\213\157y')][yf('\240','\178')],[yf('\231_\204_','\171\48')]=yf('\131\96\135\254\228\137\169V\247\228J\134\96\244\248\225\150Mb)AV\139\152g\150\250\241\153\239E\189\171V\204\54\174\173\182\219U6p\31N\216','\235\20\243\142\222\166\134!\128\147d\244\15\150\148\142\238c\1F,y\234')})
+local function Fa(rd)
+    local We,Ic=Nb[yf('\28g\ve','h\14')](),Nb[yf('\1\210QB\a\212LQ','u\189\"\54')](rd)
+    if Sb[Ic]and(We-Sb[Ic])<jf then
+        return
+    end
+    Sb[Ic]=We
+    if rd==Nb[yf('F\183v\180','\3\217')][yf('\238\133\214\230\143\203\192','\165\224\175')][yf('+','s')]then
+        eg();
+        nf[yf('do}','\n')]({[yf('I\249i\252x','\29\144')]=yf('|\245\238\209B\232\55S\229\232\223\22\192 ','=\128\154\190b\175R'),[yf('\207>\127ae\226+xkx\229','\139[\f\2\23')]=yf('7\30\242\210\52\232Xw3\14\137O\25\25\166\239q\220Ix$\b\141_W','vk\134\189\20\175=\25V|\232;'),[yf('r\aC\249B\27^\246','6r1\152')]=-1359151923+1359151926,[yf('P\136v\133','\25\235')]=yf('\141\171\18\195\157\49\2\236\143Evyx\199\251R\155\214{_\173\208\22ze\96\205','\255\201j\162\238Bg\152\230!LVW')})
+    elseif rd==Nb[yf('\179]\131^','\246\51')][yf('h\254r\96\244oF','#\155\v')][yf('\v',']')]then
+        Vc[yf('d\168f\14Y}\199/\96\190f(nw\198\48','\5\221\18a\26\18\171C')]=not Vc[yf('5\224\22w\168\179\184\190\49\246\22Q\159\185\185\161','T\149b\24\235\220\212\210')];
+        nf[yf('\177\186\168','\223')]({[yf('\184\154\152\159\137','\236\243')]=yf(']\240\b\3\159hs\233\16\t\220_','\28\133|l\191+'),[yf('!\167\140\163\16\f\178\139\169\r\v','e\194\255\192b')]=yf('O9\228\174\142\249\18\210x\225m8\176\136\218\223\16\205.\164','\14L\144\193\174\186}\190\20\132')..(Vc[yf('q\180.\227-q\248\212u\162.\197\26{\249\203','\16\193Z\140n\30\148\184')]and yf('\138\139','\197')or yf('V__','\25')),[yf('\18\147;\131\"\143&\140','V\230I\226')]=-6312598593/-2104199531,[yf('\6\172 \161','O\207')]=yf('}\144\225\18\193j\25\240\49\237\207\170\239\55\192\161J\138 D\177n\190\195\182\247=','\15\242\153s\178\25|\132X\137\245\133\192')})
+    elseif rd==Nb[yf('\163\195\147\192','\230\173')][yf('\191p\158\183z\131\145','\244\21\231')][yf('\158','\208')]then
+        Vc[yf(')\205\176+\203\131','G\162\243')]=not Vc[yf('&9V$?e','HV\21')]
+        if not(Sd[yf(yf('\189Z\163\176\159Q\182\167\140','\191\165\19s'),yf('\188},[','\253\234'))])then
+        else
+            if Vc[yf('\219\217\166\217\223\149','\181\182\229')]then
+                Ag={}
+                for Of,O in Nb[yf('\180^\215\180\\\197','\221.\182')](Sd[yf('4\144\187k\22\155\174|\5','w\248\218\25')]:GetDescendants())do
+                    if O:IsA(yf('p\206T\216b\206U\201',"2\175\'\189"))then
+                        Ag[O]=O[yf('\5\186\225\144\232*\183\230\183\226','F\219\143\211\135')]
+                        O[yf('\174\128l8\210\129\141k\31\216','\237\225\2{\189')]=false
+                    end
+                end
+                tf=false
+                if Ng then
+                    Ng:Disconnect()
+                end
+                Ng=Nd[yf('\131>b\160:b\180','\208J\a')]:Connect(function()
+                    if not tf and Sd[yf('\135GD\5\165LQ\18\182','\196/%w')]then
+                        for Jd,R in Nb[yf('A\132TA\134F','(\244\53')](Sd[yf('\166*U%\132!@2\151','\229B4W')]:GetDescendants())do
+                            if R:IsA(yf('\145lQt\131lPe','\211\r\"\17'))and R[yf('\15\205Y:\194_','_\172+')]then
+                                R[yf('\158\48\234\176\18\177=\237\151\24','\221Q\132\243}')]=false
+                            end
+                        end
+                    end
+                end);
+                nf[yf('\201\194\208','\167')]({[yf('M\29m\24|','\25t')]=yf('\225\238\30\195\232-','\175\129]'),[yf('\6\194kn\175+\215ld\178,','B\167\24\r\221')]=yf('\133\211\250AaI\"\142\210\216Od\\f\234','\203\188\185-\b\57\2'),[yf('\232\143\14O\216\147\19@','\172\250|.')]=-5066707284/-1688902428,[yf('\4\51\">','MP')]=yf('\250\127jO\232\224o\26\234G\207\48\194\176/*\23\163\170\50[\181\20\195,\218\186','\136\29\18.\155\147\nn\131#\245\31\237')})
+            else
+                tf=true
+                if Ng then
+                    Ng:Disconnect()
+                    Ng=nil
+                end
+                for Za,ff in Nb[yf('\178\131\171\144\177','\194\226')](Ag)do
+                    if not(Za and Za[yf(yf('\128u\160\181z\166','\205\146\194'),yf('\127\228r','b'))])then
+                    else
+                        Za[yf("u?j\244-Z2m\211\'",'6^\4\183B')]=ff
+                    end
+                end
+                Ag={};
+                nf[yf('\188\183\165','\210')]({[yf('2\129\18\132\3','f\232')]=yf('\187\209_\153\215l','\245\190\28'),[yf('I\180\29@Md\161\26JPc','\r\209n#?')]=yf('\243%s\1\223DN\135\212\57Q\15\218Q\n\226','\189J0m\182\52n\195'),[yf('\3\211\4\150\51\207\25\153','G\166v\247')]=1985105595+-1985105592,[yf('(\145\14\156','a\242')]=yf('\128\240\158_6;@\141r\197\24\157N\202\160\222\a}q\29\204-\150\20\129V\192','\242\146\230>EH%\249\27\161\"\178a')})
+            end
+        end
+    elseif not(rd==Nb[yf(yf('\96\149P\150','\225\57'),yf('nh','\170'))][yf(yf('F\154\248N\144\229h','7\212{'),yf('\t\24\201','3'))][yf(yf('@','\230'),yf('U','\169'))])then
+    else
+        df()
+    end
+end;
+bb[yf('\158\20\141Z\254\149\31\154N\228','\215z\253/\138')]:Connect(function(De,Fg)
+    if not(Fg)then
+    else
+        return
+    end
+    if De[yf('$\252?Y\177\219\1\250.\127\129\197\20','q\143Z+\248\181')]==Nb[yf('\194\50\242\49','\135\\')][yf('\178\rj\139\245W\151\v{\173\197I\130','\231~\15\249\188\57')][yf('\176\na\\\148\14jZ','\251o\24>')]then
+        Fa(De[yf('4t0<~-\26','\127\17I')])
+    end
+end)
+local Nf,Gc,Ha,Je,sb,P=ya:NewTab({[yf('\136\200\168\205\185','\220\161')]=yf('x\223W\222','1\177'),[yf('9,\199C\152\20\57\192I\133\19','}I\180 \234')]=yf('?\174\t\129G\27\161\27\135Z\24','v\192o\238\53'),[yf('\140\167\170\170','\197\196')]=yf('\200=\202\56\128M\200\214$\139\181\n\188\130m\138\96\203\a\149\151{\216\185\22\164\136','\186_\178Y\243>\173\162M\239\143%\147')}),ya:NewTab({[yf('\220\57\252<\237','\136P')]=yf('\187e\143i','\253\4'),[yf(' \192\137f\186\r\213\142l\167\n','d\165\250\5\200')]=yf('\127\161\128\50\194\214\185I\127\165\147+\222\202\187\26','9\192\242_\171\184\222i'),[yf('\147\224\181\237','\218\131')]=yf(';\96~\241\198\207G\25\21\54\213\"\\q0>\169\141\133\26XJe\217>D{','I\2\6\144\181\188\"m|R\239\rs')}),ya:NewTab({[yf('U3u6d','\1Z')]=yf('\221\203\200','\152'),[yf('O]>g\213bH9m\200e','\v\56M\4\167')]=yf('\138@}\240\50L\174gX\162\17Z','\207\19-\208t)'),[yf('V8p5','\31[')]=yf('\229\238\0\215\217\27\b\206\200wtf\202\175\190@\143\146QU\143\151$xz\210\165','\151\140x\182\170hm\186\161\19NI\229')}),ya:NewTab({[yf('\130\133\162\128\179','\214\236')]=yf('g(\156N!\143','7D\253'),[yf('\149\20\0\185J\184\1\a\179W\191','\209qs\218\56')]=yf('\220C\178\225G\226e\139\154:\229I\186\251C\228,\169\155-','\140/\211\152\"\144E\198\245^'),[yf('7\149\17\152','~\246')]=yf('\249\245\236V29\227h\227C\24\175\205\179\165\172\14ys\190)\188\16\20\179\213\185',"\139\151\148\55AJ\134\28\138\'\"\128\226")}),ya:NewTab({[yf("\a}\'x6",'S\20')]=yf('.\14O-\bV','og\"'),[yf('\18\22\134Q\17?\3\129[\f\56','Vs\245\50c')]=yf('B\197\250v\188RTE\201\246@\166T\17p','\3\172\151\52\211&t'),[yf('\196[\226V','\141\56')]=yf('\229\19u:\154A\194\165^\137U\145\57\175C5b\209\v\159\228\1\218Y\141!\165','\151q\r[\233\50\167\209\55\237o\190\22')}),ya:NewTab({[yf('\205\239\237\234\252','\153\134')]=yf('\6k3l4','G\5'),[yf('&\141\249\172\235\v\152\254\166\246\f','b\232\138\207\153')]=yf("\161\149\21\14)l\19l\127\146\134\219\'\2e\\\3|o\135",'\224\251ag\4(v\14\n\244'),[yf('\215\168\241\165','\158\203')]=yf('\247\136\129\176\185\212N~n\169e\229\17\189\216\193\232\242\158\19?1\250i\249\t\183','\133\234\249\209\202\167+\n\a\205_\202>')})
+local Xc=Nf:NewSection({[yf('\235a\203d\218','\191\b')]=yf('j\194\204h\233N\205\222n\244M','#\172\170\a\155'),[yf('\2\248$\245','K\155')]=yf('_G\136\240d\rv\20=\160_s\243\21\23\200\168/G+Ub\243So\235\31','-%\240\145\23~\19\96T\196e\\\220'),[yf('G#\205Ic%\209N','\23L\190 ')]=yf('\179\n\153\27','\255o')});
+Xc:NewTitle(yf(';x*\28\135\201\246-+\17A\r\145\174\156A,','n1\nH\200\142\177a'));
+Xc:NewTitle(yf('\"\182\134\147R\225_U\247\187\153\31\232G','o\215\226\246r\131&'));
+Xc:NewTitle(yf('\215W\239\230\55 \154s\28~h\218]\238\232\49\31\154zC\23\\','\131\50\131\131PR\251\30&^('));
+Xc:NewButton({[yf('=\27\29\30\f','ir')]=yf('~\240Ik\231YQ\243Eb\181lY','4\159 \5\199\r'),[yf('\163\237\236H\130\237\227O','\224\140\128$')]=function()
+    Nb[yf('\239\127\3\206\237Y\236x\24\204\243T','\156\26w\173\129\48')](yf('Kl\137\29\235\235\51\161\49\154\127\228\fA\146\0\243\176Q\239!\209[\245','#\24\253m\152\209\28\142E\180\18\129'));
+    nf[yf('\31\20\6','q')]({[yf('\230\b\198\r\215','\178a')]=yf('\2\50\166\129\r\r\52\184\131H*','N[\200\234-'),[yf('\149\189\135\201\176\184\168\128\195\173\191','\209\216\244\170\194')]=yf('\199\227\51\202\165\208j:\16\170\137\242QS\141\180\250\30\130\216\247\179\229\48\223\171\199owD\166\193\240ST\152\186\181\19\153\210\189','\147\134_\175\194\162\vW0\201\225\147?=\232\216\218r\235\182\156'),[yf('\166\128@=\150\156]2','\226\245\50\\')]=1536445208+-1536445203,[yf('O\134i\139','\6\229')]=yf('\212D\180\217\48\173\170\48-\15\169\249\192\158\20\244\129{\231\247qr\\\165\229\216\148','\166&\204\184C\222\207DDk\147\214\239')})
+end})
+local ab=Gc:NewSection({[yf('\184G\152B\137','\236.')]=yf('\131<\154\228\1\27\255D\210\249\133,\128\238\30\27\255B\207\183','\196Y\244\129sz\139+\160\217'),[yf('\179\140\149\129','\250\239')]=yf('\127\191\28\240\128O\236;a\200\244\173\137\53\239\\\168\203\5\177z>\155\248\177\145?','\r\221d\145\243<\137O\b\172\206\130\166'),[yf("\3\131K\134\'\133W\129",'S\236\56\239')]=yf('\221J\247[','\145/')});
+ab:NewToggle({[yf('\"L\2I\19','v%')]=yf('*3\142\30\25\29\96\5#\136\16M5w','kF\250q9Z\5'),[yf('\22\17\204\51\1\198&','Rt\170')]=Vc[yf("\230\180\236ec\'\233\164\234kP-\245",'\135\193\152\n$B')],[yf('xg\255\18Yg\240\21',';\6\147~')]=function(ng)
+    Vc[yf('\163(K\17\227\226\172\56M\31\208\232\176','\194]?~\164\135')]=ng
+    if ng then
+        H()
+    else
+        Qd=false
+    end
+end});
+ab:NewSlider({[yf('\4\190$\187\53','P\215')]=yf('\132bh\203\134\166\178M\146\227Pg\199\128\231\146K\141\166','\195\a\6\174\244\199\198\"\224'),[yf('\138\171\140\175\187\134\186','\206\206\234')]=Vc[yf('G\169\133\206\14\205\57\238R\155\138\194\b\248$\236E',' \204\235\171|\172M\129')],[yf('\228\192\199','\169')]=-0/-1710388668,[yf('Amt','\f')]=_a[yf('W\5f\200\57\161\234\197@\207\4Q\t|\210?\169\243\207M\221\18H','\16@(\141k\224\190\138\18\144S')],[yf('-\155\27\159','~\239')]=-164841342.80000001/-1648413428,[yf('\5\0.\156$\0!\155','FaB\240')]=function(Le)
+    Vc[yf('\250i\222\144&\231\230\b\239[\209\156 \210\251\n\248','\157\f\176\245T\134\146g')]=Le
+end});
+ab:NewTitle(yf('Q\168\214\23\195\136[\136B\141-\234\211\209+\244\146H,\23\141\54\145\139}\228\205\17\219\220N\146S\141;\247\194\133%\239\198Ei\28\135/\194\209',"\18\196\191t\168\168/\224\'\173O\159\167\165D\154\178*I{\226A\177\255"));
+ab:NewButton({[yf('#I\3L\18','w ')]=yf('J&\\\253\244\53\236T\185m\241wch\236\251\"\234\21\140w\247','\24C/\137\149G\152t\248\24\133'),[yf('\\\170C\136}\170L\143','\31\203/\228')]=function()
+    eg();
+    nf[yf('\1\n\24','o')]({[yf('\184\165\152\160\137','\236\204')]=yf('\219\171\231\180=\181s\226A\25S\217\245\172\179\137x\129b\237V\31W\201','\154\222\147\219\29\242\22\140$k2\173'),[yf('\167^3M\"\138K4G?\141','\227;@.P')]=yf('x\186\200S\222\31\222\128\147z\199\176\196\48\237\158\31\193O\170\156^\155\29\213\206\132m\213\176\202\48\234\219\19\142','9\207\188<\254x\187\238\246\b\166\196\171B\158\190w\160'),[yf('e$M\251U8P\244','!Q?\154')]=1461981906+-1461981901,[yf('\175\179\137\190','\230\208')]=yf('~\229T\150;\203T\251\250\131a\144\0\52\181\20\206p\129\t\186\165\208m\140\24>','\f\135,\247H\184\49\143\147\231[\191/')})
+end});
+ab:NewKeybind({[yf('u\171U\174D','!\194')]=yf('\0HT\238\179\187\16\143b\199\152\146\211\200&BU\186\154\166\16\196@\219\214\223\249\128',"R-\'\154\210\201d\175%\162\246\247\161\169"),[yf('\17&z46p!','UC\28')]=Nb[yf('\155\22\171\21','\222x')][yf('\242[9\250Q$\220','\185>@')][yf('\137','\209')],[yf('\31A\243\56>A\252?','\\ \159T')]=function()
+    eg();
+    nf[yf('\239\228\246','\129')]({[yf('\140\50\172\55\189','\216[')]=yf('\177\165\205\254\156\209\210\236X\137\248\27\159\162\153\195\217\229\195\227O\143\252\v','\240\208\185\145\188\150\183\130=\251\153o'),[yf('\241\253_)\218\220\232X#\199\219','\181\152,J\168')]=yf('@\31\129\237\229\154\6\183\190\t\253cE0\208\238\155iw\15\213\224\160\152\r\249\169\30\239cK0\215\171\151&','\1j\245\130\197\253c\217\219{\156\23*B\163\206\243\b'),[yf('&\29\156\130\22\1\129\141','bh\238\227')]=-5259761055/-1051952211,[yf('\182\223\144\210','\255\188')]=yf("Mk}s\199=D\2\191\238\165\53?\a;=+\140w\25C\224\189\169)\'\r",'?\t\5\18\180N!v\214\138\159\26\16')})
+end});
+ab:NewTitle(yf('\139\226\191o\31#Iv:\239\228\165\27o<J\22V\238','\207\173\241;?p\25\55w'))
+local jc=Gc:NewSection({[yf('\t;)>8',']R')]=yf('\205\190\147\149\"\172C\232\166\147\155v\134C\234','\132\202\246\248\2\239,'),[yf('vUPX','?6')]=yf(',U\140w\131\a\48\243\225,\178\128ef\5\204/\200Mm\178\190\127\190\156}l','^7\244\22\240tU\135\136H\136\175J'),[yf('\145|>\5\181z\"\2','\193\19Ml')]=yf('\235\1\222\0\205','\185h')});
+jc:NewToggle({[yf('H&h#y','\28O')]=yf('4SX\212\213\ae\160\157\16EX\155\188\48o\161\130','u&,\187\245D\n\204\241'),[yf('\128\51\23\165#\29\176','\196Vq')]=Vc[yf('^e6\213\229\172w\210Zs6\243\210\166v\205','?\16B\186\166\195\27\190')],[yf('W\214X\"v\214W%','\20\183\52N')]=function(Xg)
+    Vc[yf('\31\152\26\192\159\193\223\154\27\142\26\230\168\203\222\133','~\237n\175\220\174\179\246')]=Xg
+end});
+jc:NewKeybind({[yf(')9\t<\24','}P')]=yf('\240k\230\233\24n\251O\16\153\15\197>\218\233LF\241Z\\\212:\152','\177\30\146\134\56-\148#|\252l'),[yf('\221\136\202\248\152\192\237','\153\237\172')]=Nb[yf('\220\21\236\22','\153{')][yf('n\0\139f\n\150@','%e\242')][yf('\236','\186')],[yf('\241\242\146-\208\242\157*','\178\147\254A')]=function()
+    Vc[yf('\156W\252\192\166\255\50\198\152A\252\230\145\245\51\217','\253\"\136\175\229\144^\170')]=not Vc[yf("\146:\26\154>\tA\'\150,\26\188\t\3@8",'\243On\245}f-K')]
+end})
+local ie=Gc:NewSection({[yf('C\20c\17r','\23}')]=yf('\173\222x\22l\240\139\207u\au\240\151','\249\187\20s\28\159'),[yf('K1m<','\2R')]=yf('\186hp6\167\209\54\128)L\218$\b\240\56\48n\236\155k\193v\31\214\56\16\250',"\200\n\bW\212\162S\244@(\224\v\'"),[yf('\"\b#\136\6\14?\143','rgP\225')]=yf('\222g\244v','\146\2')});
+ie:NewButton({[yf('\v\23+\18:','_~')]=yf('\182\20Z^H\168\19\219?xo\3\204\138!\30\n\96\237(\208+pu\5\205',"\226Dz*\'\136F\181Y\17\1j\191"),[yf('7^\175\166\22^\160\161','t?\195\202')]=function()
+    df()
+end});
+ie:NewKeybind({[yf('\213\182\245\179\228','\129\223')]=yf('Q\137\244/\187\177\162\220\184\189\t\56\246j\171\244\19\187\229\142\220\175\248S\3\171','\5\217\212[\212\145\229\185\214\216{Y\130'),[yf('\6\252\231#\236\237\54','B\153\129')]=Nb[yf('\172!\156\"','\233O')][yf('V\236\184^\230\165x','\29\137\193')][yf('b','8')],[yf('\0x\241M!x\254J','C\25\157!')]=function()
+    df()
+end})
+local rg=Ha:NewSection({[yf('\200\229\232\224\249','\156\140')]=yf('\218u\211\140/\248\57\247\166\26','\138\25\178\245J'),[yf('E\251c\246','\f\152')]=yf('%\136+\30\4\31tn\210\151\20\168\174o\216kFOU)/\141\196\24\180\182e','W\234S\127wl\17\26\187\243.\135\129'),[yf('\218k\206\218\254m\210\221','\138\4\189\179')]=yf('0\193\26\208','|\164')});
+rg:NewToggle({[yf('\239j\207o\222','\187\3')]=yf('\177}\236_U\136\52\197\96\96','\250\20\128\51\48'),[yf('\226\30O\199\14E\210','\166{)')]=Vc[yf('WUj\219YNC\228l','<<\6\183')],[yf('\208\213\248\202\241\213\247\205','\147\180\148\166')]=function(yd)
+    Vc[yf('\207\163)\134\193\184\0\185\244','\164\202E\234')]=yd
+end});
+rg:NewToggle({[yf(')\155\t\158\24','}\242')]=yf('\154\247oKx.\166\240=xB\b','\201\130\29=\17X'),[yf('/\185|\n\169v\31','k\220\26')]=Vc[yf('\28\175S\166\t\177w\140<','l\195\50\223')],[yf('e\177\210PD\177\221W','&\208\190<')]=function(Z)
+    Vc[yf('\247\202\204}\226\212\232W\215','\135\166\173\4')]=Z
+end})
+local Oa=Ha:NewSection({[yf(')f\tc\24','}\15')]=yf('\224(\218\189\252\219j\245\139\207','\175J\176\216\159'),[yf('>h\24e','w\v')]=yf('.\158\a\213\160\127W\\\210\54\17\4\130d\206G\141\235\53\n\29\141e\29\24\154n','\\\252\127\180\211\f\50(\187R++\173'),[yf('\160\154r\209\132\156n\214','\240\245\1\184')]=yf('\128-\181,\166','\210D')});
+Oa:NewToggle({[yf('\183;\151>\134','\227R')]=yf('E\20\161\200\146\18v\30\189\141\165 R','\2q\207\173\224s'),[yf('PB\15uR\5\96',"\20\'i")]=Vc[yf('\204kk\186G\t\223aw\154f8','\171\14\5\223\53h')],[yf('k\211\213\212J\211\218\211','(\178\185\184')]=function(Me)
+    Vc[yf('\150\216\127\212\246\137\133\210c\244\215\184','\241\189\17\177\132\232')]=Me
+end});
+Oa:NewToggle({[yf('\241\182\209\179\192','\165\223')]=yf('K9G\134\"\bq\187','\2M\"\235'),[yf('g6\\B&VW','#S:')]=Vc[yf(']$\169Y\21\159d','4P\204')],[yf('\30\132Np?\132Aw',']\229\"\28')]=function(tg)
+    Vc[yf('\1\25<\5(\n\56','hmY')]=tg
+end});
+Oa:NewToggle({[yf('\225\3\193\6\208','\181j')]=yf('\18\245\194\6\235\3\190\2R\216;\239\221R\141<\165Xm\213','W\134\178&\173l\204\"\23\180'),[yf('\239t\181\202d\191\223','\171\17\211')]=Vc[yf('\128\201\28\208\145\229\21\218','\240\160f\170')],[yf('\186\208\16\r\155\208\31\n','\249\177|a')]=function(sa)
+    Vc[yf('\16\"\226\164\1\14\235\174','\96K\152\222')]=sa
+end})
+local Ve=Ha:NewSection({[yf('\130k\162n\179','\214\2')]=yf('\172S\190\215F\247\244Lq\138W\187\222P\165\145[T','\231:\210\187#\133\212\b\4'),[yf('c\152E\149','*\251')]=yf("mE\188 :\'[\244\17\v\230\\\215\'\21\252xqm\6\181NX\234@\207-","\31\'\196AIT>\128xo\220s\248"),[yf('\206\164r\158\234\162n\153','\158\203\1\247')]=yf('\144D\186U','\220!')});
+Ve:NewToggle({[yf(' \153\0\156\17','t\240')]=yf('\26\225\57<\146:I\155M\142\179d-\179\132\220\215\254\16\171s1\217\55H\147\4\189\165ft\245\140\219\142\253','y\209\tP\249S-\255m\203\192\20\r\213\235\174\247\142'),[yf('|\148\18Y\132\24L','8\241t')]=Vc[yf('&Y\247\228.\252C\232?F\232\236\54\253U\244','V0\141\158O\184&\132')],[yf('\nS\242\153+S\253\158','I2\158\245')]=function(_)
+    Vc[yf('\144\195+\181\229\2\5\241\137\220\52\189\253\3\19\237','\224\170Q\207\132F\96\157')]=_
+end});
+Ve:NewToggle({[yf('\180\171\148\174\133','\224\194')]=yf('Fc\235\17\170\252\128\247<\165_N\193\218\15W*\162X\227\181\201\230Y\140@\3\229\220\24\4','w\27\218i\155\132\177\215y\214/n\135\181}'),[yf('\155\179:\190\163\48\171','\223\214\\')]=Vc[yf('t\252\b\153g\246 \136~','\14\147e\251')],[yf('&W\174g\aW\161\96','e6\194\v')]=function(qa)
+    Vc[yf('\170Y\30\146\185S6\131\160','\208\54s\240')]=qa
+end})
+local q=Je:NewSection({[yf('LWlR}','\24>')]=yf('z\135\137W8\132\141Jx&3S\129\153[6\128\151W7\5/','7\232\255\50U\225\227>Xk\\'),[yf('\17\216\55\213','X\187')]=yf('o\150JY1\128\154\230\223\222\211\199\164%\198\n\1z\202\199\167\128\141\223\219\188/','\29\244\50\56B\243\255\146\182\186\233\232\139'),[yf('|\213^\nX\211B\r',',\186-c')]=yf('\173\153\135\136','\225\252')});
+q:NewToggle({[yf('\209\148\241\145\224','\133\253')]=yf('\165Z1\t\162\183\171\57k\b\216\238\57\166\180\154\133^cH\154\134\217\51;\31\212\249r\157\250\212\223','\246*C\96\204\195\139j\27m\189\138\25\228\219\245'),[yf('z\176M_\160GJ','>\213+')]=Vc[yf("\'\17\218B\157\22\14\208T\141","Ta\191\'\249")],[yf('\174\193\220\n\143\193\211\r','\237\160\176f')]=function(ob)
+    Vc[yf('\133\223\155Mm\180\192\145[}','\246\175\254(\t')]=ob
+    if not(not ob)then
+    else
+        local ic,Bf=Nb[yf('K\191Z\176W',';\220')](function()
+            return Nb[yf('u\4)r\b*b','\aaX')](qe[yf('K\213Ol\201Qk','\24\172<')][yf('\215\15HD\245\4]S\230','\148g)6')][yf('\158[\180_','\217:')][yf('\241\128^\175\204\132E\168\197','\162\240,\198')])
+        end)
+        if not(ic and Bf)then
+        else
+            Bf[yf(',\14\214\245c\v-\212\249h\27','\127~\164\156\r')]=Nb[yf('N3\241b \161\54H/\236V\3\180!E','!A\152\5s\209D')]
+        end
+    end
+end});
+q:NewSlider({[yf('\232\213\200\208\217','\188\188')]=yf('%\231\191\190\207\174V\196\189\178\196\190','v\151\205\215\161\218'),[yf('\158fn\187vd\174','\218\3\b')]=Vc[yf(',Z\220&\254+y\222*\245;','_*\174O\144')],[yf('D\96g','\t')]=29379314458/1129973633,[yf('mAX',' ')]=-7.5716525813661861e-08*-660357821,[yf('=HGN\28HHI','~)+\"')]=function(le)
+    Vc[yf('\243\240h\247\171\244\211j\251\160\228','\128\128\26\158\197')]=le
+end});
+q:NewTitle(yf('\197\21\48\233\243j\167\222\173\252\15\252G\138h6\237@\155;\181J<\167\253p\243\196\229\235G\248D\145>8\164\16\197e','\129z\16\135\156\30\135\173\200\136/\157%\229\30S\205s\174\22'));
+q:NewToggle({[yf('\253\209\221\212\204','\169\184')]=yf('\232\228K\156;\213\235@\213\6\192','\161\138-\188h'),[yf('\242\135x\215\151r\194','\182\226\30')]=Vc[yf('>J\232]\228\185\57K\218e\234\167#','P%\187)\133\212')],[yf('\168d\147\190\137d\156\185','\235\5\255\210')]=function(Q)
+    Vc[yf('\198/<.\175\164\193.\14\22\161\186\219','\168@oZ\206\201')]=Q
+end})
+local fg=Je:NewSection({[yf('\4\127$z5','P\22')]=yf('\223c\196\164\55#m\207g\221\181,,*\239','\156\2\169\193EBM'),[yf('\205\4\235\t','\132g')]=yf('\150\frOK|\165\156Cz\144r\249\220\\\50\23\0\54\248\221\28)\156n\225\214','\228n\n.8\15\192\232*\30\170]\214'),[yf('\130\53\255X\166\51\227_','\210Z\140\49')]=yf('j\28_\29L','8u')});
+fg:NewSlider({[yf('y#Y&H','-J')]=yf('\168\128\196ec\252\129\143\129_n\185\153','\238\233\161\t\a\220'),[yf('\5\154\197 \138\207\53','A\255\163')]=Vc[yf('\6\199\167CF/\200\148FG\23','\96\174\194/\"')],[yf('Okl','\2')]=-0*-39629325,[yf('@lu','\r')]=1.6744930658530483e-07*716634798,[yf('\30\5\228C?\5\235D',']d\136/')]=function(oe)
+    Vc[yf('\255\155\"\0\195\214\148\17\5\194\238','\153\242Gl\167')]=oe
+    local va=Sd:FindFirstChild(yf('U@\163!\nwh\163,\14','\5,\194Xo'))
+    if not(va and va:FindFirstChild(yf(yf('a \185J[+\170M','-\200\141Z'),yf('(\"w\203','7\175')))and va[yf(yf('xS\145\225BX\130\230','\169\245Om'),yf('\163|\139G','!\191'))]:FindFirstChild(yf(yf('muGq','\145\227'),yf('a-','\218')))and va[yf(yf('\201|$\n\243w7\r','\219\158B\149'),yf('\213a\134\r','\148\230'))][yf(yf('\242<\216\56','E\176'),yf('\239\242','\31'))]:FindFirstChild(yf(yf('\14/\206\240\243\a \253\245\242?','\139\251\15;\\'),yf('G< &O','\132\129'))))then
+    else
+        va[yf('N\225\r\251t\234\30\252','\29\132y\143')][yf('a\255K\251','&\158')][yf('N\188\254(KG\179\205-J\127','\b\213\155D/')][yf('\1$;02','WE')]=oe
+    end
+end})
+local N=Je:NewSection({[yf('\31n?k.','K\a')]=yf('\231\231\144\173\198\208A\162R\234^\211\230\143\183\204\210T\167\29\201B','\183\143\233\222\175\179 \206r\167\49'),[yf('\182p\144}','\255\19')]=yf('\146\6\138n\175^%\nk\225\5|\234\216V\202\54\228\20xK4\178\t\96\242\210','\224d\242\15\220-@~\2\133?S\197'),[yf('\190\23\a\53\154\17\27\50','\238xt\\')]=yf('\183\253\157\236','\251\152')});
+N:NewToggle({[yf('\1F!C0','U/')]=yf('\246\28\53\212\26\6','\184sv'),[yf('%\163\188\0\179\182\21','a\198\218')]=Vc[yf('\198\191\167\196\185\148','\168\208\228')],[yf('(.\nR\t.\5U','kOf>')]=function(je)
+    Vc[yf('\202\206\27\200\200(','\164\161X')]=je
+    if not(Sd[yf(yf('\248\203\\Q\218\192IF\201','\255*Ob'),yf('Kw}\191','\15\254'))])then
+    else
+        if not(je)then
+            tf=true
+            if Ng then
+                Ng:Disconnect()
+                Ng=nil
+            end
+            for gd,X in Nb[yf('\128u\153f\131','\240\20')](Ag)do
+                if not(gd and gd[yf(yf('j$\162_+\164','\143\51y'),yf('\4\199\24','\177'))])then
+                else
+                    gd[yf('>o\204\213L\17b\203\242F','}\14\162\150#')]=X
+                end
+            end
+            Ag={};
+            nf[yf('mft','\3')]({[yf('{:[?J','/S')]=yf('A\2\200c\4\251','\15m\139'),[yf("\253\'\14I\153\208\50\tC\132\215",'\185B}*\235')]=yf("?b\4\50f>\250\144\150\208K\226\20h)~k\'\169\153\149\207\14\228_",'q\rG^\15N\218\248\247\163k\128'),[yf('<\223\245\57\f\195\232\54','x\170\135X')]=-60816762+60816767,[yf('\208:\246\55','\153Y')]=yf('\142\173\148\172\190Q\137\157\146\188\140\0B\196\253\212\244\245\27\212\220\205\239\128\28Z\206','\252\207\236\205\205\"\236\233\251\216\182/m')})
+        else
+            Ag={}
+            for Lg,dd in Nb[yf('\199>\165\199<\183','\174N\196')](Sd[yf('\214\162V\145\244\169C\134\231','\149\202\55\227')]:GetDescendants())do
+                if dd:IsA(yf('^x\181\183Lx\180\166','\28\25\198\210'))then
+                    Ag[dd]=dd[yf('{t\162>KTy\165\25A','8\21\204}$')]
+                    dd[yf('\29L\219\243\220\50A\220\212\214','^-\181\176\179')]=false
+                end
+            end
+            tf=false
+            if not(Ng)then
+            else
+                Ng:Disconnect()
+            end
+            Ng=Nd[yf('\227\210\187\192\214\187\212','\176\166\222')]:Connect(function()
+                if not tf and Sd[yf('o\236\171WM\231\190@^',',\132\202%')]then
+                    for w,ba in Nb[yf('t\235/t\233=','\29\155N')](Sd[yf('\142c\19\6\172h\6\17\191','\205\vrt')]:GetDescendants())do
+                        if not(ba:IsA(yf(yf('_\175\128\227M\175\129\242','\253\226\"\213'),yf('\fQ=.','\236}')))and ba[yf(yf('cI\178VF\180','\186q\16'),yf('\138Z\211','\3'))])then
+                        else
+                            ba[yf('\169M\145\224r\134@\150\199x','\234,\255\163\29')]=false
+                        end
+                    end
+                end
+            end);
+            nf[yf('\21\30\f','{')]({[yf('\177C\145F\128','\229*')]=yf('\228Ng\198HT','\170!$'),[yf('\144\127{\255B\189j|\245_\186','\212\26\b\156\48')]=yf('\182a\230\237\\\149\b\57\227R\175\133\157k\203\161P\139I3\238D\235\201','\248\14\165\129\53\229(Q\130!\143\231'),[yf('(\0\178\207\24\28\175\192','lu\192\174')]=-5762830445/-1152566089,[yf('\215\133\241\136','\158\230')]=yf('\221\192\199z\14\171\56\127\205]\139\197\223\151\144\135\"E\225e>\146\14\135\217\199\157','\175\162\191\27}\216]\v\164\57\177\234\240')})
+        end
+    end
+end});
+N:NewKeybind({[yf('\245\201\213\204\196','\161\160')]=yf('kR\232\152@5h\tJI\192\145Pe\96\15\f','%=\171\244)EHA'),[yf('\171\211\0\142\195\n\155','\239\182f')]=Nb[yf('2\230\2\229','w\136')][yf('\241\241}\249\251\96\223','\186\148\4')][yf('\239','\161')],[yf(' \216c2\1\216l5','c\185\15^')]=function()
+    Vc[yf('k\169vi\175E','\5\198\53')]=not Vc[yf('c\139\18a\141!','\r\228Q')];
+    Nb[yf('\251\172\234\163\231','\139\207')](function()
+        N:GetToggle(yf('Rk*pm\25','\28\4i')):Set(Vc[yf('/\202q-\204B','A\165\50')])
+    end)
+end})
+local ud=Je:NewSection({[yf('\219?\251:\234','\143V')]=yf('C\127\190o0\251bw\163i:\226}','\14\22\205\fU\151'),[yf('\v\191-\178','B\220')]=yf('\6\143\219R>\173\23\26f\18k\167\183L\223\155\nu\231J[9Ag\187\175F','t\237\163\51M\222rn\15vQ\136\152'),[yf('\221\206\147F\249\200\143A','\141\161\224/')]=yf('\t\127<~/','[\22')});
+ud:NewToggle({[yf('\164\164\132\161\149','\240\205')]=yf('\127]\206\171\30r\252\137','>3\186\194'),[yf('j\235\51O\251\57Z','.\142U')]=Vc[yf('\175\192\191\167\239\141\133','\206\174\203')],[yf(':\226\192\53\27\226\207\50','y\131\172Y')]=function(l)
+    Vc[yf('^%\170V\n\152t','?K\222')]=l
+    if l then
+        if h then
+            h:Disconnect()
+        end
+        h=Sd[yf('|\vY\nQ','5o')]:Connect(function()
+            Ad:CaptureController();
+            Ad:ClickButton2(Nb[yf('9\195\170\27\201\187]','o\166\201')][yf('\231\236\254','\137')]())
+        end)
+    else
+        if h then
+            h:Disconnect()
+            h=nil
+        end
+    end
+end});
+ud:NewToggle({[yf('$\187\4\190\21','p\210')]=yf('\152\215\v\nl\241\152\190\209\0]\24\202\154\174','\203\191d}L\163\247'),[yf('5\131\55\16\147=\5','q\230Q')]=Vc[yf('v0\173>\136sp6\166\29\179q\96','\5X\194I\218\28')],[yf('.\188\135\133\15\188\136\130','m\221\235\233')]=function(cd)
+    Vc[yf('\184R\180\0#\242\190T\191#\24\240\174','\203:\219wq\157')]=cd
+    if not(cd)then
+        Hg()
+    else
+        nb()
+    end
+end})
+local qg=Je:NewSection({[yf('P1p4a','\4X')]=yf('\31\239\221\2t\5#O\229L \224\199\20t\29jm\228[','I\134\174w\21i\3\2\138('),[yf('\254\132\216\137','\183\231')]=yf('\165\153\b\199W\237\30 \15\166Mn\16\239\201H\159\28\167CaP\245Ar\b\229','\215\251p\166$\158{Tf\194wA?'),[yf('R\135\201Hv\129\213O','\2\232\186!')]=yf('s\30Y\15','?{')});
+qg:NewToggle({[yf("\a\234\'\239\54",'S\131')]=yf('f\175\200\149HR\179\195\145~',' \218\164\249\n'),[yf("\2\178\226\'\162\232\50",'F\215\132')]=Vc[yf('\212{\26A\172\192g\17E\154','\178\14v-\238')],[yf('U1\138\166t1\133\161','\22P\230\202')]=function(Rc)
+    Vc[yf('R\141\bVnF\145\3RX','4\248d:,')]=Rc
+    Nb[yf('\216\192','\135')][yf('[\140\236\0_\212\175\209u\141\197\2|\196\170\211y','\29\249\128l\29\166\198\182')]=Rc
+end})
+local p=Je:NewSection({[yf('\174:\142?\159','\250S')]=yf('\a\191#5\144\193\52/\164w\28\220\235+','F\202WZ\176\130['),[yf('\152\231\190\234','\209\132')]=yf('}l\169t\147\161\1\178~\230)\238\25\55<\233,\216\235\\\243!\181%\242\1=','\15\14\209\21\224\210d\198\23\130\19\193\54'),[yf('\161\212\233\26\133\210\245\29','\241\187\154s')]=yf("\1Y4X\'",'S0')});
+p:NewToggle({[yf('\245\148\213\145\196','\161\253')]=yf('t\4L[\213\210\197\51\a\202wY\24H\20\221\210\194;\a\137T\28','5q84\245\145\170Zi\234\49'),[yf('\17Z,4J&!','U?J')]=Vc[yf('\172\241\145\1\235\184\164\234\163\2\193\167','\205\132\229n\168\215')],[yf('\197\217z\196\228\217u\195','\134\184\22\168')]=function(he)
+    Vc[yf('\130\217\204\219\144\214\138\194\254\216\186\201','\227\172\184\180\211\185')]=he
+end})
+local Ca=Je:NewSection({[yf('o\232O\237^',';\129')]=yf('p\175\56\226\136\217\19\186:\230\128\216','3\233J\131\229\188'),[yf('\177\156\151\145','\248\255')]=yf('\168\149\149\234&j\245\49I\250\154D\179\226\197\213\178m \168p\22\169\150X\171\232','\218\247\237\139U\25\144E \158\160k\156'),[yf('\238}\241o\202{\237h','\190\18\130\6')]=yf('\238\162\219\163\200','\188\203')});
+Ca:NewToggle({[yf('4\205\20\200\5','\96\164')]=yf('\23\202p\188\223%*\214\49\26\49\232\"\152\220!h\233$\27','T\140\2\221\178@\n\133A\127'),[yf('U\164!p\180+e','\17\193G')]=Vc[yf('\227\138,\149\226\2!\247\30\229\136\27\154\238\5\30\226\31','\128\236^\244\143gr\135{')],[yf('\244\96 \218\213\96/\221','\183\1L\182')]=function(vd)
+    Vc[yf('\155\226*uzj\16ls\157\224\29zvm/yr','\248\132X\20\23\15C\28\22')]=vd
+end});
+Ca:NewSlider({[yf('u\197U\192D','!\172')]=yf('\6\202&u&p%\244E \233\48\52\29ti\210P','E\140T\20K\21\5\167\53'),[yf('\214\182\176\243\166\186\230','\146\211\214')]=Vc[yf('f\149\238\140\30\227_u\96\150\248\187\18\234y\96','\5\243\156\237s\134\f\5')],[yf('9\29\26','t')]=-0/-1981195938,[yf('\204\224\249','\129')]=1307565736-1307565636,[yf('\15\165\57\161','\\\209')]=-1.0893145799549604e-08*-91800846,[yf('A\190\22U\96\190\25R','\2\223z9')]=function(Eb)
+    Vc[yf("\236\254\155\16\197\212\183E\234\253\141\'\201\221\145P",'\143\152\233q\168\177\228\53')]=Eb
+end})
+local td=sb:NewSection({[yf('5J\21O\4','a#')]=yf('Pm\214sD/\145\157\6\224=ug\204\54e+\137\201.\231\55d','\23\b\184\22\54N\253\189G\137P'),[yf('\156\232\186\229','\213\139')]=yf('\238\252(\158\"\202\142\51\164\159\200\160\55\164\172h\198i\128\211r\251\204\196\188/\174','\156\158P\255Q\185\235G\205\251\242\143\24'),[yf('\145\158\245\144\181\152\233\151','\193\241\134\249')]=yf('\187V\145G','\247\51')});
+td:NewSlider({[yf('\199\221\231\216\246','\147\180')]=yf('\198\r\190\26\211+\146_','\128B\232:'),[yf('\22\162\20\51\178\30&','R\199r')]=Vc[yf('\n\28T\136\4\1\127\165=','ku9\234')],[yf('qUR','<')]=-1337872498- -1337872508,[yf('\149\185\160','\216')]=-1734113360000/-1734113360,[yf('E\176s\180','\22\196')]=2042286773-2042286763,[yf('\23\bID6\bFC','Ti%(')]=function(Bd)
+    Vc[yf('\176\246v}\190\235]P\135','\209\159\27\31')]=Bd
+end});
+td:NewToggle({[yf('\nV*S;','^?')]=yf('J\29v\238J^\20\127\225\1','\29|\26\130j'),[yf("\'K:\2[0\23",'c.\\')]=Vc[yf('n6\184\148\96\155vn3\185\181g\138Bd','\15_\213\246\15\239!')],[yf('\193m\189\57\224m\178>','\130\f\209U')]=function(ae)
+    Vc[yf('\163\236C\26\t\0\163\163\233B;\14\17\151\169','\194\133.xft\244')]=ae
+end});
+td:NewToggle({[yf('\149<\181\57\164','\193U')]=yf('\209\96\232\129\246e\238\128\229','\130\r\135\238'),[yf('\177N\238\148^\228\129','\245+\136')]=Vc[yf('*W\180\203\179z\164&Q\182\221\180g\153,','K>\217\169\220\14\247')],[yf('f\171#\220G\171,\219','%\202O\176')]=function(Vb)
+    Vc[yf('q\129\179\29\225\132,}\135\177\v\230\153\17w','\16\232\222\127\142\240\127')]=Vb
+end});
+td:NewSlider({[yf('\173\225\141\228\156','\249\136')]=yf('\170\197\56\26MQ\158\210\133\203!R>\r\201\158','\235\172U:\30%\236\183'),[yf('\201W\237\236G\231\249','\141\50\139')]=Vc[yf('\233\250\23g\18\151\184\201\229\192\14w\24\141\158\212\224','\136\147z\5}\227\249\160')]*(571096199+-571096099),[yf('\136\172\171','\197')]=-192621554- -192621555,[yf('\168\132\157','\229')]=1755877856+-1755877756,[yf('[ym}','\b\r')]=-1338927250- -1338927251,[yf('\254\242\149S\223\242\154T','\189\147\249?')]=function(Da)
+    Vc[yf('U\248\206\130\176\228MyY\194\215\146\186\254kd\\','4\145\163\224\223\144\f\16')]=Da/(-415286819+415286919)
+end});
+td:NewToggle({[yf('\14T.Q?','Z=')]=yf('\149\236a\218\177\186\208^\152\139\182','\211\163\55\250\231'),[yf('\254*\184\219:\178\206','\186O\222')]=Vc[yf('\201q\135\154k\236q\128\254N\131\139m\250[\170','\168\24\234\248\4\152\55\207')],[yf('D\209\215:e\209\216=','\a\176\187V')]=function(mb)
+    Vc[yf('\208\240\b\135?\fc\222\231\207\f\150\57\26I\244','\177\153e\229Px%\145')]=mb
+end});
+td:NewToggle({[yf('\193\255\225\250\240','\149\150')]=yf('\20\213\143r\200\158\16','R\154\217'),[yf('\196\197\197\225\213\207\244','\128\160\163')]=Vc[yf('z\171\132\149t\182\187\176Y','\27\194\233\247')],[yf('\247\184\202!\214\184\197&','\180\217\166M')]=function(Hd)
+    Vc[yf(' \253\201^.\224\246{\3','A\148\164<')]=Hd
+end})
+local Ga=sb:NewSection({[yf('Q\212q\209\96','\5\189')]=yf('\224\162I\193\207\188[\214','\164\215:\164'),[yf('\188\234\154\231','\245\137')]=yf('\149}\5\164v\188v\182\133u{\141\138\223-E\252=\246+\247\218&w\145\146\213','\231\31}\197\5\207\19\194\236\17A\162\165'),[yf('/\236\217\240\v\234\197\247','\127\131\170\153')]=yf('Smy|','\31\b')});
+Ga:NewToggle({[yf("\a\a\'\2\54",'Sn')]=yf('\189\21\52\23\254K\21\224.\180\192\215\181\187\141\213\161\130\129\245\157\17y\6\250VY\234a\238\179\242\171\172\151\206\175\208\176\185','\252|YU\145?5\134A\198\224\135\217\218\254\184\192\162\195\144'),[yf('\4V;!F14','@3]')]=Vc[yf('8\227T\v\\\25\215\56\17|\244;\27\239X$\96\24\245\"\25y\246(','Y\138\57I3m\135Tp\15\153Z')],[yf('\179&\203A\146&\196F','\240G\167-')]=function(Fe)
+    Vc[yf('i\0r\205\142C\a\57\234\241\242\245J\f~\226\178B%#\226\244\240\230','\bi\31\143\225\55WU\139\130\159\148')]=Fe
+end});
+Ga:NewToggle({[yf('\231\156\199\153\214','\179\245')]=yf("\31\19\181\b\22\144\'(j\219\3\223\130\238\177\191\184\57\55;\27\181j*\143n\"i\137\v\196\135\227\174\183\171j\\",'^z\216Jy\228\aN\5\169#\143\238\143\194\210\217\25u'),[yf('r+\142W;\132B','6N\232')]=Vc[yf('\221\224\tw\177\188\208\254Se~\221\203\1T\179\131\233\254^sa','\188\137d5\222\200\128\146\50\22\19')],[yf('$\231\234\155\5\231\229\156','g\134\134\247')]=function(tc)
+    Vc[yf('U-\232\137>p\vD\f(aU\6\224\170<O2D\1>~','4D\133\203Q\4[(m[\f')]=tc
+end})
+local jg=sb:NewSection({[yf('1.\17+\0','eG')]=yf('\175\234Q\130\225U','\236\130\48'),[yf('t\150R\155','=\245')]=yf('l\226~\172\240\27\149\146\181\222v\173\218&\178>\244\187Q\200\211\234\141z\177\194,','\30\128\6\205\131h\240\230\220\186L\130\245'),[yf('\127\49\195\146[7\223\149','/^\176\251')]=yf('\t\\<]/','[5')});
+jg:NewToggle({[yf('\215?\247:\230','\131V')]=yf('\235rc\133\209\221\217w\r#\b\249sa\168\202\137\170z\v=D','\170\27\14\199\190\169\249\17bQ('),[yf('\239\176e\202\160o\223','\171\213\3')]=Vc[yf('7\153\5\2\188\29\240\221\57\159\28\v\186\5\207\208$','V\240h@\211i\163\181')],[yf('\197\228\21\t\228\228\26\14','\134\133ye')]=function(r)
+    Vc[yf('QX;\248R\5RG_^\"\241T\29mJB','01V\186=q\1/')]=r
+end})
+local Kb=sb:NewSection({[yf('\f\144,\149=','X\249')]=yf('\218\145\171\147\216\226\218','\235\233\154'),[yf('\178_\148R','\251<')]=yf('c\4\152K\208\187\160k\239\252\222\254\53)T\216\19\155\241\253*\176\175\210\226-#','\17f\224*\163\200\197\31\134\152\228\209\26'),[yf('I@T-mFH*',"\25/\'D")]=yf('\227\49\201 ','\175T')});
+Kb:NewToggle({[yf('\244\249\212\252\197','\160\144')]=yf('\244o\128\52\146 Y\196\188\203aW\212u\158V\180:\31\199\176\205(u\219','\181\6\237v\253Ty\162\211\185A\26'),[yf('\27h6>x<+','_\rP')]=Vc[yf('\3\57f\161\52jP\171\50\17\25e\133>}i\163.\f','bP\v\227[\30\29\202A')],[yf('\24\206\175\250\57\206\160\253','[\175\195\150')]=function(lf)
+    Vc[yf('\127\195\213e{\29\f Dm\227\214Aq\n\53(Xp',"\30\170\184\'\20iAA7")]=lf
+end});
+Kb:NewToggle({[yf('H\223h\218y','\28\182')]=yf('\248f\242Q\226_\151\202\172\134\236\252a\235r\227L\219\201\174\145\162\205','\185\15\159\19\141+\183\172\195\244\204'),[yf('g\223\21B\207\31W','#\186s')]=Vc[yf('\135\127\181x\163j\146\0\176\135x\191V\169s\178\0\176','\230\22\216:\204\30\215n\196')],[yf('z\133\243\185[\133\252\190','9\228\159\213')]=function(Dd)
+    Vc[yf('\146[S\142\239ra\127j\146\\Y\160\229kA\127j','\243\50>\204\128\6$\17\30')]=Dd
+end})
+local Gb=P:NewSection({[yf('\232v\200s\217','\188\31')]=yf('\213\3\127\29v\210\133\t\165\146\230\15<<a\209\156O\130\143','\146f\17x\4\179\233)\228\252'),[yf('\4\16\"\29','Ms')]=yf('zE\232\200\178}Q\157\221\203\180\51\159\48\21\168\144\249\55\f\220\130\152\184/\135:',"\b\'\144\169\193\14\52\233\180\175\142\28\176"),[yf('\23\250\f\189\51\252\16\186','G\149\127\212')]=yf('\227\201\214\200\197','\177\160')});
+Gb:NewToggle({[yf('\136\228\168\225\185','\220\141')]=yf('\170\147\181\24\30\251\0\199\r\228cC8\147\215\185FF\152E\250\r\226s\19z','\235\230\193w>\169e\170b\146\6c\t'),[yf('\163\242E\134\226O\147','\231\151#')]=Vc[yf('\238z*\26tV\3\31\249j\14\26VF\30\3','\143\15^u&3np')],[yf('\213\56 Y\244\56/^','\150YL5')]=function(Oc)
+    Vc[yf('@\17\177ND\30\18\52W\1\149Nf\14\15(','!d\197!\22{\127[')]=Oc
+end});
+Gb:NewTitle(yf("\186\170\"+\139\240\'\31_a\30\190\160w\2[E\251\224H\170\160>_\251\237\"\4/\18\2\209\210\127\26W[\158\229/\223",'\254\229l\127\171\162rQ\127\53Q\241\128:W\24\r\219\161\14'));
+Gb:NewToggle({[yf('\191;\159>\142','\235R')]=yf('\240\215\28\207\49\55\3F\176\254\0\206\249x\139\230\215\153\31\206t\nSV\166\243N\237\188Y\145\236\208','\177\185h\166\17ds#\213\154 \138\156\26\254\128'),[yf('N\137$k\153.~','\n\236B')]=Vc[yf('\201\231\169\176tJ\210\201\205\184\187BC\216','\168\137\221\217\55%\190')],[yf('\141\132\137\134\172\132\134\129','\206\229\229\234')]=function(Wc)
+    Vc[yf('\0e\212\239Q\196[\0O\197\228g\205Q','a\v\160\134\18\171\55')]=Wc
+end});
+Gb:NewToggle({[yf('\204\203\236\206\253','\152\162')]=yf('\157\52\178;\161P\169\56\181\"\224\96\185','\220Z\198R\129\3'),[yf('a\247\197D\231\207Q','%\146\163')]=Vc[yf('\147\193P:\185\203[\205\169\147\204A\23\143\220L\216\191','\242\175$S\234\190\57\190\217')],[yf('v\242i\131W\242f\132','5\147\5\239')]=function(Og)
+    Vc[yf("\6\176\2\n\223-\15\31\49\6\189\19\'\233:\24\n\'",'g\222vc\140XmlA')]=Og
+end});
+Gb:NewToggle({[yf('\145\250\177\255\160','\197\147')]=yf('\154%\159H\t!mtf\r\179.\143\1l\0gxq\26','\219K\235!)f\1\29\18n'),[yf('\197\182\220\224\166\214\245','\129\211\186')]=Vc[yf('\127\224r\131\136\183\55\215\147v\235b\175\169\189;\192\132','\30\142\6\234\207\219^\163\240')],[yf('\214o[\224\247oT\231','\149\14\55\140')]=function(_e)
+    Vc[yf('\162\175\255!\236\r\174\176\189\171\164\239\r\205\a\162\167\170','\195\193\139H\171a\199\196\222')]=_e
+end});
+Gb:NewToggle({[yf('@\247\96\242q','\20\158')]=yf("_\240\238\201\163<8w\240\254\206\230\r\'",'\30\158\154\160\131~T'),[yf('\185\178\197\156\162\207\137','\253\215\163')]=Vc[yf('\30\173\228\191\f\182\22\173\244\184+\169\f','\127\195\144\214N\218')],[yf('\166\238\190\182\135\238\177\177','\229\143\210\218')]=function(j)
+    Vc[yf('\206\19\221\146m\153\198\19\205\149J\134\220','\175}\169\251/\245')]=j
+end});
+Gb:NewToggle({[yf('HXh]y','\28\49')]=yf('3z^\164o\164\51\175d\\o\2qO\169o\166\55\161}\26Z','r\20*\205O\226R\195\b|<'),[yf('\127\52NZ$DO',';Q(')]=Vc[yf('bH\173\183/\230Wob\188\188\28\225]','\3&\217\222i\135;')],[yf('=\129\247;\28\129\248<','~\224\155W')]=function(Mg)
+    Vc[yf('\198\3\205N-<G\203)\220E\30;M',"\167m\185\'k]+")]=Mg
+end});
+Gb:NewToggle({[yf('\142\197\174\192\191','\218\172')]=yf('\141V\255\187|!@\0\218M\229\t\217Ci\136\222\236O\227\183\50RE\22\214G\162m\241Dx\133\209\184','\204\56\139\210\\r0e\191)\197M\188!\28\238\184'),[yf('\24\21\16=\5\26(','\\pv')]=Vc[yf('\21\227AD^>a\f\29\249qHq.c\1','t\141\53-\19[\5g')],[yf('\\\49\238\193}1\225\198','\31P\130\173')]=function(J)
+    Vc[yf('W\n\183NX\231\199m_\16\135Bw\247\197\96',"6d\195\'\21\130\163\6")]=J
+end})
+local a=P:NewSection({[yf('z\222Z\219K','.\183')]=yf('&\211t\137A\192\r\223o\130\14\253','h\188\27\235a\147'),[yf('\176\241\150\252','\249\146')]=yf('\6!\178\164\30\168M\183\159\222F\250bLq\242\252U\226\16\246\192\141J\230zF','tC\202\197m\219(\195\246\186|\213M'),[yf('\23\203\219\242\51\205\199\245','G\164\168\155')]=yf('\150b\163c\176','\196\v')});
+a:NewToggle({[yf('%\204\5\201\20','q\165')]=yf("|\253\28\127:H)x#jS\'JS\179;f\127~!9\19jB9E[",'=\147h\22\26\27E\25W\15 L#'),[yf('\245l\251\208|\241\197','\177\t\157')]=Vc[yf("\217\151\181q\190Y$\177\178\203\146\168v\169P\'\176\177\222",'\184\249\193\24\237\53E\197\215')],[yf('\170\53\167\234\139\53\168\237','\233T\203\134')]=function(de)
+    Vc[yf('\b_\"HuJNWi\26Z?ObCMVj\15','i1V!&&/#\f')]=de
+end});
+a:NewToggle({[yf('\182h\150m\135','\226\1')]=yf('^\194\171\6(\158\235\183\246QN\174L\220\186\nl\252\218\160\243AZ\232','\31\172\223o\b\220\158\197\145\52<\142'),[yf('\248\199\238\221\215\228\200','\188\162\136')]=Vc[yf('\\ojrm\196\250\192XsZ~M\196\238\193','=\1\30\27/\177\136\167')],[yf('c\234\57\151B\234\54\144',' \139U\251')]=function(Db)
+    Vc[yf('f\214\22\170\190\1\191\189b\202&\166\158\1\171\188','\a\184b\195\252t\205\218')]=Db
+end})
+local Wf=P:NewSection({[yf('\28|<y-','H\21')]=yf('\"\166\167\192-9m{:\b\238\145\193\"(pg?','q\206\194\164A\\\25\bQ'),[yf('\166\169\128\164','\239\202')]=yf('\192.~\182x\173\56\15y\19\226\143$\138~>\238\51\231eN&@\238\147<\128','\178L\6\215\v\222]{\16w\216\160\v'),[yf('\26\215\26\3>\209\6\4','J\184ij')]=yf('\19\163\57\178','_\198')});
+Wf:NewToggle({[yf('vMVHG','\"$')]=yf('J\222\142\244\170\235\175>J\157=X\192\159\248\238\152\135:[\128{m','\v\176\250\157\138\184\195_9\245\29'),[yf('\232\231\200\205\247\194\216','\172\130\174')]=Vc[yf('t\164\180\198\179\254)f\162\132\202\130\231.s','\21\202\192\175\224\146H')],[yf('J5\181\147k5\186\148','\tT\217\255')]=function(oc)
+    Vc[yf('\145^\174B\20\222[\131X\158N%\199\\\150','\240\48\218+G\178:')]=oc
+end});
+Wf:NewToggle({[yf('\177S\145V\128','\229:')]=yf('\v\246T\28\29\198\177H,?\221Tj\203P\16X\225\249e*6\205\\,','J\152 u=\133\217!OT\184:'),[yf('Au\192de\202q','\5\16\166')]=Vc[yf('@\238:\146\183\149V7J\229 \191\145\159J2G','!\128N\251\244\253?T')],[yf('\155\153Q\211\186\153^\212','\216\248=\191')]=function(bg)
+    Vc[yf('\129\248q\229\129{\195\195\139\243k\200\167q\223\198\134','\224\150\5\140\194\19\170\160')]=bg
+end})
+local fe=P:NewSection({[yf('*p\nu\27','~\25')]=yf('\237\176\240\3\224\229g\252\157\229\198\21\247\160=\160\196','\170\197\149p\148\212T\207'),[yf('Ewcz','\f\20')]=yf('zx\244;\28\165O\252\27\50\128O\165\48(\180cW\239\18\189Da\140S\189:','\b\26\140Zo\214*\136rV\186\96\138'),[yf('\208$\153\127\244\"\133x','\128K\234\22')]=yf('\249\144\204\145\223','\171\249')});
+fe:NewToggle({[yf('\143\28\175\25\190','\219u')]=yf('\235\144p\198\1\204\175\168rc\b\249\142a\202E\174\135\162s}N\204','\170\254\4\175!\142\195\199\17\b('),[yf('b\174\165G\190\175R','&\203\195')]=Vc[yf('4\152\26\167,]\224\54\157*\171\fD\233\51','U\246n\206n1\143')],[yf('\232&7\213\201&8\210','\171G[\185')]=function(Tg)
+    Vc[yf('\19>\200\t\96\221\148\17;\248\5@\196\157\20','rP\188\96\"\177\251')]=Tg
+end});
+fe:NewToggle({[yf('Ytyqh','\r\29')]=yf("\158\143\49\14\'\0/\184\t\tr\2\220\168d\149\158\135\49\2us\1\177\4\23\53\52\144\130}\209",'\223\225Eg\aSB\217eeRQ\176\199\19\181'),[yf('\225\168\0\196\184\n\209','\165\205f')]=Vc[yf('\205\21\152v\139\185\213\209\196*q\201\t\175w\185\167\221\195\192\"a','\172{\236\31\216\213\186\166\133L\5')],[yf('w\155=\137V\155\50\142','4\250Q\229')]=function(Ma)
+    Vc[yf("I;g\144u\158t\159\189&\204M\'P\145G\128|\141\185.\220",'(U\19\249&\242\27\232\252@\184')]=Ma
+end});
+fe:NewToggle({[yf('j\154J\159[','>\243')]=yf('7.)\131\166\224\55P5d\222\n\15O\166U\20\49\131\167\244r#\4c\210\2FT\177','uWY\226\213\147\23\3E\1\187n/ \200'),[yf('\0#X%3R0','DF>')]=Vc[yf('\a\169\222\158\190*\146\28\4\162\201\154\158)\180\17\1','e\208\174\255\205Y\209t')],[yf('E^\25\6d^\22\1','\6?uj')]=function(sd)
+    Vc[yf('\15\142\231\"~tM\157\f\133\240&^wk\144\t','m\247\151C\r\a\14\245')]=sd
+end});
+fe:NewToggle({[yf('\193\55\225\50\240','\149^')]=yf('W\205\155\53\138\238e\247\3\230G):\255\fx\131\172\52\203\221w\230L\135c\15\0\182\23o','\22\163\239\\\170\175\16\131l\198\1fl\223c'),[yf('\171\231M\142\247G\155','\239\130+')]=Vc[yf('\4.n\140\163\t\154N#/l\166\138\29\156F\0','e@\26\229\226|\238!')],[yf('\131\212\238s\162\212\225t','\192\181\130\31')]=function(Lb)
+    Vc[yf(' \156wS\241\195o\247\a\157uy\216\215i\255$','A\242\3:\176\182\27\152')]=Lb
+end});
+fe:NewToggle({[yf('7Y\23\\\6','c0')]=yf("\215%\237j\197\254\129\202\203j+J\195\15\251|\205~\216\238\201\185\250m\'B\138\20\236",'\149\\\157\v\182\141\161\153\187\15N.\227\96'),[yf('\243\215\146\214\199\152\195','\183\178\244')]=Vc[yf('H\131\174\229\52\237q\166D\153\182\215\55\251D\183','*\250\222\132G\158!\211')],[yf('k\225\220^J\225\211Y','(\128\176\50')]=function(Pg)
+    Vc[yf('\189\200\229t\219I\1n\177\210\253F\216_4\127','\223\177\149\21\168:Q\27')]=Pg
+end})
+local ch=P:NewSection({[yf('j\153J\156[','>\240')]=yf('\132\177\225\157;\247\181\179\229\156t\202','\208\208\145\245\27\164'),[yf('\219\205\253\192','\146\174')]=yf('\231\170\49\201\145j6\30\52$\152\142\231\173\250q\145\218 k_kw\148\146\255\167','\149\200I\168\226\25Sj]@\162\161\200'),[yf('pB\173ATD\177F',' -\222(')]=yf('\204\159\230\142','\128\250')});
+ch:NewToggle({[yf('\f\219,\222=','X\178')]=yf('*e\166\227\146\52\188\20\221\174%\227\239._g\223A\rd\160\170\230\21\165\1\207\163w\194\170\31Ah\213\r','k\v\210\138\178g\204q\184\202\5\167\138L*\1\185a'),[yf('\224\158\158\197\142\148\208','\164\251\248')]=Vc[yf('^\25\216\168\53\148\52Xk\5\197\177\22\156\54U','?w\172\193a\245D0')],[yf('\177\132\23\t\144\132\24\14','\242\229{e')]=function(fd)
+    Vc[yf('\14\228\189\253\19\227\193(;\248\160\228\48\235\195%','o\138\201\148G\130\177@')]=fd
+end});
+ch:NewToggle({[yf('\128\56\160=\177','\212Q')]=yf('w\216\175\155E\196\212\fXP\223[\196\22z\21\ayjr3Ne\195\185\129\21\246\199\f\29\96\141v\209\25f\29\4y_v(\2Z','6\182\219\242e\151\164i=4\255\31\161t\15saY\f\29An'),[yf('\29\198g8\214m-','Y\163\1')]=Vc[yf(']\179\131\232\212r\133\178R\213_\184\163\243\238w\138\168L\209','<\221\247\129\135\a\231\193\"\180')],[yf('\195R\0\224\226R\15\231','\128\51l\140')]=function(wd)
+    Vc[yf('\b\158/\245x\169U\210\170\4\n\149\15\238B\172Z\200\180\0','i\240[\156+\220\55\161\218e')]=wd
+end})
+local lg=P:NewSection({[yf('\144\b\176\r\161','\196a')]=yf('\149(\133b\236\154\1\192\241\14\147d\243\152\15\220','\209]\246\a\135\241\96\178'),[yf('\173\231\139\234','\228\132')]=yf('\203D\234\249\152\14\186|W\227\57o\244\129\20\170\161\211D\231=\b\176\53s\236\139','\185&\146\152\235}\223\b>\135\3@\219'),[yf('t\19\178\0P\21\174\a','$|\193i')]=yf('&\251\19\250\0','t\146')});
+lg:NewToggle({[yf('\199\158\231\155\246','\147\247')]=yf('\211\159|\248\201\28T\169\128\209,woeB\149\204f\136\253\131(\193\133.W\161\132\149NVkj\23\160\193/\130\254','\146\241\b\145\233O$\204\229\181\f\51\n\a\55\243\170F\238'),[yf('\135i\146\162y\152\183','\195\f\244')]=Vc[yf('\28\52D#\188\49T\14\55Q\b\137<X','}Z0J\236]5')],[yf('\218U\175B\251U\160E','\153\52\195.')]=function(ze)
+    Vc[yf('\129)-s\191\137\221\147*8X\138\132\209','\224GY\26\239\229\188')]=ze
+end});
+lg:NewToggle({[yf('\140\204\172\201\189','\216\165')]=yf('\161\168L\196\242%\166\192w\128t\211\21\173\198\159\231\6\199\187%w\179\182Y\218\188V\134\215}\144\49\244\4\166\220\151\161u\202\189;;','\224\198\56\173\210v\214\165\18\228T\151p\207\179\249\129&\161\212WW'),[yf('\245\179,\208\163&\197','\177\214J')]=Vc[yf('\187$\3\54\243\217\49i\250\138\56\24+\197\202$w\251\180','\218Jw_\160\169P\30\148')],[yf('\24PSC9P\\D','[1?/')]=function(Jg)
+    Vc[yf('\206U\31\140\169\139\6\166\241\255I\4\145\159\152\19\184\240\193','\175;k\229\250\251g\209\159')]=Jg
+end})
+local Xd=P:NewSection({[yf('L\150l\147}','\24\255')]=yf('\188<\202\190\57\15<\200\24\192\137$\v\54\134','\232K\165\234PbY'),[yf('\195\198\229\203','\138\165')]=yf('x]\170u\128y\188l\aS^\242\209\50\r\234-\203\51\225-X\0R\238\201\56','\n?\210\20\243\n\217\24n7d\221\254'),[yf('\139\164H\3\175\162T\4','\219\203;j')]=yf('Gzmk','\v\31')});
+Xd:NewToggle({[yf('\218\190\250\187\235','\142\215')]=yf('\28J\163\182\27\5;[\186\151\2\2S\14\\\186\153\27/:A\164\250\17J\b\21\138\159E6B\t\18\201\182\23!#',"O\'\194\218w%z5\206\254\"Q\'{2\154\221~M"),[yf('W\156Ir\140Cg','\19\249/')]=Vc[yf('H\223\216h\136\184~}\216\193d\143\187pK',')\177\172\1\220\207\17')],[yf('\201\19p\149\232\19\127\146','\138r\28\249')]=function(Ia)
+    Vc[yf('\21,v\138\216\140\153 +o\134\223\143\151\22','tB\2\227\140\251\246')]=Ia
+end});
+Xd:NewToggle({[yf('~\3^\6O','*j')]=yf('t\1\a[\161u\255\6\202\222\195Y\202\191\197P\15\21\t\28@\161e\253\f\218\217\139=\252\182\217Z\5','5os2\129&\143c\175\186\227\29\175\221\176\54i'),[yf('\149\247]\176\231W\165','\209\146;')]=Vc[yf('\187\232\154\26\137\6\192\243\53\183\191\197\156\28\168\18\199\206\50\189','\218\134\238s\221q\175\167\\\218')],[yf('\166\197 j\135\197/m','\229\164L\6')]=function(yb)
+    Vc[yf('2\199\148\49\\\144w\189\247\\\54\234\146\55}\132p\128\240V','S\169\224X\b\231\24\233\158\49')]=yb
+end})
+local rf=P:NewSection({[yf('I\247i\242x','\29\158')]=yf('{\143\179\157\131]\24\218\231\135\221\18%','K\191\132\243\180}'),[yf('\231\55\193:','\174T')]=yf('.\243\212B\147\\:\247\18uuWld\163\148\26\216\22g\182M&yKtn','\\\145\172#\224/_\131{\17OxC'),[yf('_\5\50\194{\3.\197','\15jA\171')]=yf('\156,\169-\186','\206E')});
+rf:NewToggle({[yf('\154k\186n\171','\206\2')]=yf('\150_\151p+A\192\160{N\t\23\248\243\135:\212\247W\140k+q\128\245rM\\:\189\194\153\53\222\187','\215\49\227\25\v\18\176\197\30*)S\157\145\242\\\178'),[yf('Y\27\229|\v\239i','\29~\131')]=Vc[yf('\vG\160v\154\5F\184X\172\3','j)\212\31\217')],[yf('XS{2ySt5','\27\50\23^')]=function(Pb)
+    Vc[yf('s-5\203\175},-\229\153{','\18CA\162\236')]=Pb
+end})
+local Cg=P:NewSection({[yf('\248\152\216\157\201','\172\241')]=yf('X\134[L\177\135FH\139YV\187\141\b','\27\238:\"\210\226f'),[yf(' %\6(','iF')]=yf('s\27i!\b\96\128^cm\189\185[9K)yC*\221\31<>\177\165C3','\1y\17@{\19\229*\n\t\135\150t'),[yf('\167\197,\21\131\195\48\18','\247\170_|')]=yf('\203\231\225\246','\135\130')});
+Cg:NewToggle({[yf('\153\174\185\171\168','\205\199')]=yf('\20j\144\230\230\240\156I\\x\6\155j\16\162\143\51$\130\224\180\131\191DVsR\255\\\25\190\133\57','U\4\228\143\198\163\236,9\28&\223\15r\215\233'),[yf('~\195w[\211}N',':\166\17')]=Vc[yf('\176\146a\242\163\215t\190\136Q\254\146\202}\183','\209\252\21\155\240\191\27')],[yf('\138\220\160k\171\220\175l','\201\189\204\a')]=function(_h)
+    Vc[yf('Yp)7r\196)Wj\25;C\217 ^','8\30]^!\172F')]=_h
+end})
+local Qf=P:NewSection({[yf('^M~Ho','\n$')]=yf('\155\244q\158P\199\130\240a\133W\136\191','\209\149\2\241>\231'),[yf('\246\212\208\217','\191\183')]=yf('\226\167l1\139L\210\187\151\209 \220c\168\247,i\192\6\143\250\200\130,\192{\162','\144\197\20P\248?\183\207\254\181\26\243L'),[yf('\245\252\189I\209\250\161N','\165\147\206 ')]=yf('\218\188\240\173','\150\217')});
+Qf:NewToggle({[yf(' <\0\57\17','tU')]=yf('\t\150\189\28\218\159\166&\210\221R\176\206\209\153\146\205\216<\t\247w&\156\233\50\155\191\186:\210\154\52\136\211\132\181\147\133\238\54\4\187z;','H\248\201u\250\204\210S\188\253\20\223\188\241\219\247\165\189]m\215\22'),[yf('3\148N\22\132D\3','w\241(')]=Vc[yf('\20\221>N\243\16\219/F\213',"u\179J\'\177")],[yf(',\174\133\20\r\174\138\19','o\207\233x')]=function(Ie)
+    Vc[yf('\n\17\26\127{\14\23\vw]','k\127n\22\57')]=Ie
+end});
+Qf:NewToggle({[yf('\162\148\130\145\147','\246\253')]=yf('K_\18^U\180s\180(\16N,)t\3XO\169\52\199\b\20H-','\t&b?&\199S\231Xu+H'),[yf('8Z0\29J:\b','|?V')]=Vc[yf('\0l\175\187\b\15p\186\181(\5','a\2\219\210M')],[yf("\238\243\251\'\207\243\244 ",'\173\146\151K')]=function(f)
+    Vc[yf("\239\204\29)\b\224\208\b\'(\234",'\142\162i@M')]=f
+end})
+local cg=P:NewSection({[yf('\244G\212B\197','\160.')]=yf('1\3\155\255\57Z\207\247','R3\171\147'),[yf('Z<|1','\19_')]=yf("\192\203\178\254]\254\164W\'\4\1\197\215\138\155\242\166\22\180\249\22xW\r\217\207\128",'\178\169\202\159.\141\193#N\96;\234\248'),[yf('\21\152\174F1\158\178A','E\247\221/')]=yf('\4\212\49\213\"','V\189')});
+cg:NewToggle({[yf('\225G\193B\208','\181.')]=yf('\rO-\156\175\195\248\186\aF(\26\140_/\n\48[\4\201\141\b=^:\151\175\199\244\183\0yx>\135Ofe\21J\3\213\196\r>','[*_\229\143\144\149\219k*\b[\226+F*c/q\167\173i'),[yf('\137\158\\\172\142V\185','\205\251:')]=Vc[yf(' \183I\131?\149H\245\50\23$\188Y\165\30\145V\236\b\3$','A\217=\234h\244$\158ag')],[yf('8A#7\25A,0','{ O[')]=function(C)
+    Vc[yf('\191\196\152\164\215^\190\166a\\\187\207\136\130\246Z\160\191[H\187','\222\170\236\205\128?\210\205\50,')]=C
+end});
+cg:NewToggle({[yf('\243\248\211\253\194','\167\145')]=yf('\6\179Y6\127]/\18\242\134,h\169g\4\178_-*~/G\210\199>r\169\"','G\221-__\14[g\156\166J\a\219G'),[yf('^b\204{r\198n','\26\a\170')]=Vc[yf('\134\241*\186\251\246sb\146\239*\157\217\237tb\130','\231\159^\211\184\153\1\16')],[yf('h\239&,I\239)+','+\142J@')]=function(Dg)
+    Vc[yf('-\128\237o\1fFy9\158\237H#}Ay)','L\238\153\6B\t\52\v')]=Dg
+end});
+cg:NewToggle({[yf('\183\224\151\229\134','\227\137')]=yf('NA\146\194\195\239\163z\238\142\181\209\135\55_F\156\209\130\156\147j\236\199\165\219\135n','\15/\230\171\227\188\215\15\128\174\211\190\245\23'),[yf('\b*\148-:\158\56','LO\242')]=Vc[yf('\153<\3EW7\24\187\153\22\18@n(\a\179\129','\248Rw,\a^b\193')],[yf('\209]|\226\240]s\229','\146<\16\142')]=function(i)
+    Vc[yf('\239/\244\213\215@\243{\239\5\229\208\238_\236s\247','\142A\128\188\135)\137\1')]=i
+end})
+local Xb=P:NewSection({[yf('\245\195\213\198\196','\161\170')]=yf('\255\193\19\182\136Z\255','\206\185\"'),[yf('.\211\b\222','g\176')]=yf('\127\205\206\31\163\202 \159\21J\241=\192\53\157\142G\232\128}\222J\25\253!\216?','\r\175\182~\208\185E\235|.\203\18\239'),[yf('7\175\169\141\19\169\181\138','g\192\218\228')]=yf('_\184u\169','\19\221')});
+Xb:NewToggle({[yf('\18.2+#','FG')]=yf('\216\137\222<=L\16\201\140qZ\208-\250\15\55nM\255\136\216uP~\19\223\201\\\20\242-\251\14\56g\3','\153\231\170U\29\31\96\172\233\21z\148H\152zQ\bm'),[yf('\222A\202\251Q\192\238','\154$\172')]=Vc[yf('5\127\56\"\244\131r\177\29\127*.\218\150h\173:','T\17LK\185\226\1\194')],[yf('\21\163\224?4\163\239\56','V\194\140S')]=function(Lc)
+    Vc[yf('\230\6\25\223\168%Cu\206\6\v\211\134\48Yi\233','\135hm\182\229D0\6')]=Lc
+end});
+Xb:NewToggle({[yf('\15\138/\143>','[\227')]=yf('\2\191\228\48, \243\146\129I\5p\143\v$7\239c\183\255+,6\237\131\133CBX\143\4\52?\253','C\209\144Y\fs\131\247\228-%4\234iQQ\137'),[yf('\f\239\152)\255\146<','H\138\254')]=Vc[yf('\251\209;\213\231\186\162\v\244\216#\217\207\177\184\30','\154\191O\188\162\212\214j')],[yf('\26\225\204\208;\225\195\215','Y\128\160\188')]=function(Ka)
+    Vc[yf("\166\140\"\185S}=\227\169\133:\181{v\'\246",'\199\226V\208\22\19I\130')]=Ka
+end})
+local Tf,vb,kd
+do
+    local o,t=Nb[yf('m\229|\234q','\29\134')](function()
+        return Nb[yf('\18\133\29\21\137\30\5','\96\224l')](qe[yf('4\151\145\19\139\143\20','g\238\226')][yf('M\226\20\162o\233\1\181|','\14\138u\208')][yf('m\166G\162','*\199')][yf('\140\171\216\139\177\175\195\140\184','\223\219\170\226')])
+    end)
+    if not(o and t)then
+        Tf=-1954098237- -1954098263
+        vb=3.1454307522725422e-07*31792148
+        kd=85406635500/854066355
+    else
+        Tf=t[yf('\204\149w\189\203\16\252\179~\178\216\21\239','\136\240\17\220\190|')][yf("\128\150\'\134\26\167\181%\138\17\183",'\211\230U\239t')]or-119152349+119152375
+        vb=t[yf('\2+\156\6~$2\r\149\tm!!','FN\250g\vH')][yf('kH_s\160V]rq\186K','8<>\30\201')]or 1234204047+-1234204037
+        kd=t[yf('^\138!f\216\171n\172(i\203\174}','\26\239G\a\173\199')][yf('p\247\250\147\24\\\251\235\174\r','=\150\130\192l')]or 4.7612607809787315e-08*2100284034
+    end
+end
+local function xd()
+    local re=pf:FindFirstChild(yf('[wf','\22'))
+    if not re or not re:FindFirstChild(yf('\251\136\214\211\139\212','\178\230\177'))then
+        return
+    end
+    local ve=re[yf('g\181\152O\182\154','.\219\255')]
+    if not(Vc[yf(yf('\22OX~\214\141\241\145\15PGv\206\140\231\141','\3\208\234\145\136B\161\218'),yf('2\130\160\132h\255]6','Wth\17'))])then
+        for ec,fb in Nb[yf('\16\136]\16\138O','y\248<')](ve:GetChildren())do
+            if Nb[yf('_\205I\192N','+\172')][yf('\238l\230a','\136\5')](la,fb[yf('\140\3\175\a','\194b')])then
+                Lf(fb)
+            end
+        end
+    else
+        for Tb,if_ in Nb[yf('_L\185_N\171','6<\216')](ve:GetChildren())do
+            if Nb[yf('\157$\139)\140','\233E')][yf('F$N)',' M')](la,if_[yf('rkQo','<\n')])and if_:FindFirstChild(yf('>\127\14^|\149\a\169$e\fKB\155\28\185','v\nc?\18\250n\205'))then
+                local Ec=if_:FindFirstChild(yf('\224\178\20\\\23\132\139-\252\154<c:\191\169\26\192','\180\243[\vV\214\206r'))~=nil
+                if not(not Ec)then
+                else
+                    Nc(if_,Nb[yf('\241hA\221u\30','\178\a-')][yf('\254G\3\245g+\218','\152\53l')](-547054034190/-2145309938,-0/-1045476871,-307659508- -307659508),false,false,false)
+                end
+            end
+        end
+    end
+    if not(Vc[yf(yf('N\rp\166]\aX\183D','C\237)\n'),yf('\159\154\220\219','\232\21'))])then
+        for Hc,Vf in Nb[yf('\250\236A\250\238S','\147\156 ')](ve:GetChildren())do
+            if Vf[yf('\1\"\"&','OC')]==yf('\0F\132\251{\138\0d\218\238(\155T','1>\181\131J\242')then
+                Lf(Vf)
+            end
+        end
+    else
+        for sg,ke in Nb[yf('\147I\233\147K\251','\250\57\136')](ve:GetChildren())do
+            if not(ke[yf(yf('$\175\a\171','\253p'),yf('\198\239','Q'))]==yf(yf('Q\212\22MphQ\246HX#y\5','\255\96(\232=\208'),yf('\219\n?\153\186\240','D\198\48'))and ke:FindFirstChild(yf(yf('\3o_\30\240mn\227\25u]\v\206cu\243','\191r\215\239\15fmI'),yf('\144\225\232\53\245\237gk','d\137\r\165'))))then
+            else
+                local fh=ke:FindFirstChild(yf('\223\253\167\14ok\139,\195\213\143\49BP\169\27\255','\139\188\232Y.9\206s'))~=nil
+                if not fh then
+                    Nc(ke,Nb[yf('U\18\163y\15\252','\22}\207')][yf('\245\56\232\254\24\192\209','\147J\135')](678615115-678614860,839819473-839819473,0/2057864263),false,false,false)
+                end
+            end
+        end
+    end
+    if Vc[yf('a\245\127\57p\217v3','\17\156\5C')]then
+        local m=ve:FindFirstChild(yf('\163\182\137\165\146','\243\223'))
+        if not(m)then
+        else
+            local dh=m:FindFirstChild(yf('\214\26\180\r\245\253\196\234\202\50\156\50\216\198\230\221\246','\130[\251Z\180\175\129\181'))~=nil
+            if not(not dh)then
+            else
+                Nc(m,Nb[yf('\"X\4\14E[','a7h')][yf('\237\215\193\230\247\233\201','\139\165\174')](-763427988+763428243,-971279427- -971279592,38311133-38311133),false,false,true)
+            end
+        end
+    else
+        local U=ve:FindFirstChild(yf('\28\217\54\202-','L\176'))
+        if not(U)then
+        else
+            Lf(U)
+        end
+    end
+    if not(not pa())then
+    else
+        return
+    end
+    local zd=pf:FindFirstChild(yf('\253b\153\212k\138\222','\173\14\248'))
+    if not(zd)then
+    else
+        local Zc=zd:FindFirstChild(yf('i\231 N\235>Q','\"\142L'))
+        if Zc then
+            for qd,wc in Nb[yf('qk\24qi\n','\24\27y')](Zc:GetChildren())do
+                local zc=wc:FindFirstChild(yf('C\232P\n>2\245\171_\192x5\19\t\215\156c','\23\169\31]\127\96\176\244'))~=nil
+                if Vc[yf('?\17\31\245\49\n\54\202\4','Txs\153')]and not zc and wc:FindFirstChild(yf('k\228\138\146\29LQ\14q\254\136\135#BJ\30','#\145\231\243s#8j'))then
+                    Nc(wc,Nb[yf('7-\232\27\48\183','tB\132')][yf('IARBazm','/3=')](-182303266605/-714914771,-1434919895- -1434919895,0*1943654275),false,false,false)
+                elseif not(not Vc[yf(yf('\r\240\229d\3\235\204[6','@\235\201\150'),yf('B\156$p','d\238'))]and zc)then
+                else
+                    Lf(wc)
+                end
+            end
+        end
+        local ge=zd:FindFirstChild(yf('\241\226a\212\203\225|\208\209','\162\151\19\162'))
+        if ge then
+            for n,id in Nb[yf('\242\182D\242\180V','\155\198%')](ge:GetChildren())do
+                local cb=id:FindFirstChild(yf('\248\230}\191}D\159{\228\206U\128P\127\189L\216','\172\167\50\232<\22\218$'))~=nil
+                if not(Vc[yf(yf('6L\21V#R1|\22','\229g\176\135'),yf('\236\173\139B','O\234'))]and not cb and id:FindFirstChild(yf(yf('6\26lH\139\217\221>,\0n]\181\215\198.','\147\142\205\242h\233\242\200'),yf('\25\180\174\174y\n$\231','\244Ubu'))))then
+                    if not(not Vc[yf(yf('z\233\192\157o\247\228\183Z','}\213\21E'),yf('=\194\254\51','J\146'))]and cb)then
+                    else
+                        Lf(id)
+                    end
+                else
+                    Nc(id,Nb[yf('%\227\130\t\254\221','f\140\238')][yf('\198\163\207\205\131\231\226','\160\209\160')](-0*-954618575,525657318750/2061401250,-0*-872333512),false,false,false)
+                end
+            end
+        end
+    end
+    if not(ve:FindFirstChild(yf(yf('\130\174\191','\172'),yf('\206','\173'))))then
+    else
+        for pe,Yd in Nb[yf('\205i\131\205k\145','\164\25\226')](ve[yf('\214\250\235','\155')]:GetChildren())do
+            if Yd:IsA(yf('?,\22&\30','rC'))and Yd[yf('c\17@\21','-p')]:lower():find(yf('\tN\182>\28J\172\52\28','n+\216['))and Yd[yf('A\160b\164','\15\193')]~=yf(',\0\215\136R\175\4\4\206\140a\165\24','ja\188\237\21\202')then
+                local Be,lb=Yd:FindFirstChild(yf('n\211O\220L\196S\200','>\161 \187')),Yd:FindFirstChild(yf('\236\223\170J\185\228\138\236\240\247\130u\148\223\168\219\204','\184\158\229\29\248\182\207\179'))~=nil
+                if not(Vc[yf(yf('z\182\135\127A1i\188\155_\96\0','x+=\161,\28'),yf('\236R\168\50\181\48','\137\170|'))]and Be and Be[yf(yf('\210\162\232\182\225','X\r'),yf('-?','\241'))]<-1.4763688267009984e+18/-1331076765+(676814317+-1785967998)and not lb)then
+                    if not((not Vc[yf(yf('T\146\241\195\252\20G\152\237\227\221%',"\173\'$\219!\184"),yf('Q\227\255\178\156\137','\207\51D'))]or(Be and Be[yf(yf('w\215M\195D','TH'),yf('q\250','\4'))]>=(-4.9793150909557162e+19/-1115447876)/(-1508488706- -1954884741)))and lb)then
+                    else
+                        Lf(Yd)
+                    end
+                else
+                    Nc(Yd,Nb[yf('a\129pM\156/','\"\238\28')][yf('\219\r)\208-\1\255','\189\127F')](-1.2902227002704775e-07*-1976402988,-0*-604833120,1.2215630481719268e-07*2087489470),true,false,false)
+                end
+            end
+        end
+    end
+    local kc={yf('p\159\192\167\2\202p\189\158\178Q\219$','A\231\241\223\51\178')}
+    for zg,Ta in Nb[yf('\188\194\230\188\192\244','\213\178\135')](la)do
+        Nb[yf('\201F\223K\216',"\189\'")][yf('\28|)\16\96.','u\18Z')](kc,Ta)
+    end
+    for Rb,gh in Nb[yf('\96v\"\96t0','\t\6C')](ve:GetDescendants())do
+        if gh:IsA(yf('\146\226\187\232\179','\223\141'))and gh:FindFirstChild(yf('\219\229\140\136\192\254\134\145','\146\145\233\229'))and not Nb[yf('\205\245\219\248\220','\185\148')][yf('\156\213\148\216','\250\188')](kc,gh[yf('\222J\253N','\144+')])then
+            local Qe=gh:FindFirstChild(yf('\v{\216b\148\1\6\140\23S\240]\185:$\187+','_:\151\53\213SC\211'))~=nil
+            if not(Vc[yf(yf('\236~\191\232O\137\213','9\209\15'),yf('o\b\6','\211'))]and not Qe)then
+                if not Vc[yf('\242\243\132\246\194\178\203','\155\135\225')]and Qe then
+                    Lf(gh)
+                end
+            else
+                Nc(gh,Nb[yf('^\208~r\205!','\29\191\18')][yf('\213\222!\222\254\t\241','\179\172N')](532136804235/2086810997,-433671404115/-1700672173,-1432274251+1432274251),false,true,false)
+            end
+        end
+    end
+end;
+Nb[yf('\252\143\251\133','\136\238')][yf("5\202\'\205(",'F\186')](function()
+    while true do
+        for Bb,og in Nb[yf('\199\28\225\199\30\243','\174l\128')](M)do
+            local Cc=og[yf('\243\223\250\213\242','\158\176')]
+            if not(Cc and Cc[yf(yf(';\208\241\14\223\247','\153]\155'),yf('\143\145e','}'))])then
+            else
+                local ag=Cc:FindFirstChild(yf('\135\149%x\161\143!}','\207\224H\25'))
+                if ag and og[yf('[\3\239R\17\198_','3s\163')]then
+                    og[yf('D\199\129M\213\168@',',\183\205')][yf(';\214\23\199','o\179')]=yf('\190\6\204v','\246V')..Nb[yf('\252\29\181\230\a\160','\143i\199')][yf('o\134\49d\136\55','\t\233C')](yf('\244\n\225B','\209$'),ag[yf('h\165\143L\180\134',' \192\238')])
+                end
+                local Pa=F:GetPlayerFromCharacter(Cc)
+                if not(Pa and og[yf(yf('\254\184Tqo\144\253\180{{c\148\252','*\201J@\141\225'),yf('\230\141%\6\25H','\\\149X'))]and og[yf(yf('\135\96\31\164\15\50\132\129z2\183\f\52\156','V\249=MX\217Z'),yf('\161R\n\136\149\193\185','\19\163I'))])then
+                else
+                    og[yf('\240W}\164,J\243[R\174 N\242','\158>\30\207B+')][yf('\205\218\225\203','\153\191')]=Pa[yf('t\nW\14',':k')]
+                    local cf=yf('Gj\232|k\244|','\18\4\131')
+                    if Pa:FindFirstChild(yf('A\158\198\191\252c\182\198\178\248','\17\242\167\198\153'))and Pa[yf('7+I\136\"\21\3I\133&','gG(\241G')]:FindFirstChild(yf('\188\246})\137\247m$','\249\135\b@'))then
+                        if Cc[yf('\183}\246\130r\240','\231\28\132')][yf('\158B\189F','\208#')]==yf('\148\173\142\179\161\144\172','\223\196\226')and Pa[yf('\195\57\3\139p\225\17\3\134t','\147Ub\242\21')][yf('X\180\168\128m\181\184\141','\29\197\221\233')]:FindFirstChild(yf('pv\220Wz\194',';\31\176'))then
+                            cf=Pa[yf('$c\161\212\202\6K\161\217\206','t\15\192\173\175')][yf('d\f\197\21Q\r\213\24','!}\176|')][yf('\174\54R\137:L','\229_>')][yf('\4\139>\159\55','R\234')]
+                        elseif not(Cc[yf(yf('}\151\153H\152\159','\24\n\239'),yf('6\255\a','\3'))][yf(yf('W;t?','\20\56'),yf('\152\247','\149'))]==yf(yf('!\251+\174\27\248\54\170\1','\243\222)3'),yf('\211F\"\253','R\22'))and Pa[yf(yf('\0h/\158\207\"@/\147\203','\160\179b\166K'),yf('22\238\196#','\194\133'))][yf(yf('\15\252!\189:\253\49\176','o\17\147\207'),yf('\254\238\28i','\219r'))]:FindFirstChild(yf(yf('y\232\130xC\235\159|','\154X+\28'),yf('\163@\200\151','\19\133'))))then
+                        else
+                            cf=Pa[yf('\18\236\160m\139\48\196\160\96\143','B\128\193\20\238')][yf('j\158\207\r_\159\223\0','/\239\186d')][yf('\\\205&\236f\206;\232','\15\184T\154')][yf('^jd~m','\b\v')]
+                        end
+                    end
+                    og[yf('KH\171;^\164\48MR\134(]\162(','( \202I?\199D')][yf('\213\152\249\137','\129\253')]=cf
+                end
+            end
+        end;
+        Nb[yf('\190]\185W','\202<')][yf('\20\218\n\207','c\187')](-257562874.5- -257562875)
+    end
+end);
+Nb[yf('\190A\185K','\202 ')][yf('\145\48\131\55\140','\226@')](function()
+    while true do
+        if Vc[yf('t\242g\191S\t\156\165p\228g\153d\3\157\186','\21\135\19\208\16f\240\201')]and pa()then
+            local Mc=pf:FindFirstChild(yf('\15#2','B'))
+            if not Mc or not Mc:FindFirstChild(yf('\202\21D\226\22F','\131{#'))then
+                Nb[yf('\182\238\177\228','\194\143')][yf('\162\52\188!','\213U')](40091714.100000001/400917141)
+                continue
+            end
+            for Uc,sc in Nb[yf('\175\202\96\175\200r','\198\186\1')](Mc[yf('\251F\2\211E\0','\178(e')]:GetDescendants())do
+                if not(not Vc[yf(yf('\168mp\253\14B4L\172{p\219\57H5S','\228Y\255\238#\5\216\247'),yf('\n\241k\\I\152\16\247',"\'\176\144 "))])then
+                else
+                    break
+                end
+                if not(sc[yf(yf('\30\140=\136','\255z'),yf('\"\26','\141'))]==yf(yf('+\127\205;0d\199\"','\147\180\\\138'),yf('\17\167\20\196','\224\24'))and sc:IsA(yf(yf('\142\231\250Y\156\231\251H','%\132\173\137'),yf('\162\155o,','K\153'))))then
+                else
+                    local zb=sc:FindFirstChild(yf('\156\192\224\156\151\a\132\184\203\223\150\145\a\157\184','\204\178\143\228\254j\237'))
+                    if zb then
+                        Ld(sc[yf('\245u\178\192z\180','\165\20\192')]);
+                        Nb[yf('\207R\200X','\187\51')][yf('\234J\244_','\157+')](-6.7134840878409983e-09*-74476977)
+                    end
+                end
+            end;
+            Nb[yf('5\165\50\175','A\196')][yf('\228\237\250\248','\147\140')](114499678.80000001/1144996788)
+        else
+            Nb[yf('\16\127\23u','d\30')][yf('NzPo','9\27')](1.2591916393623973e-10*794160292)
+        end
+    end
+end);
+Nb[yf(')\229.\239',']\132')][yf('\1\244\19\243\28','r\132')](function()
+    local Sc,oa=Nb[yf('\151P\134_\139','\231\51')](function()
+        return Nb[yf('\254\55\51\249;0\233','\140RB')](qe[yf('\252\28P\219\0N\220','\175e#')][yf('R}\156Zpv\137Mc','\17\21\253(')][yf('\247\147\221\151','\176\242')][yf("\152\'\31\162\165#\4\165\172",'\203Wm\203')])
+    end)
+    if not(not Sc or not oa)then
+    else
+        return
+    end;
+    Nd[yf("\17\5\249T&F\16\20\242@3Q\'",'C\96\151\48C4')]:Connect(function()
+        if not(Vc[yf(yf('8\141\28\131\217\t\146\22\149\201','^gK\212Z'),yf('x\151_?\138','m\r'))])then
+        else
+            oa[yf('|#\180\168\54[\0\182\164=K','/S\198\193X')]=Vc[yf('\145\23\223\16\240\150\52\221\28\251\134','\226g\173y\158')]
+        end
+        if Vc[yf("B\23\15\'Q/E\22=\31_1_",',x\\S0B')]then
+            oa[yf('\139,\242\20\219\167 \227)\206','\198M\138G\175')]=-1645565887- -1646565886
+            oa[yf('a\14\163_\19\172S','2z\194')]=-0.0031716069796647742*-315297263
+        else
+            oa[yf('\236\96+!G\192l:\28R','\161\1Sr3')]=kd
+            oa[yf('\206\b\236\240\21\227\252','\157|\141')]=Nb[yf('SCJJ','>\"')][yf('\96\241b\240s','\3\157')](oa[yf('\f\243\143\50\238\128>','_\135\238')],oa[yf('\19\228\27\142O?\224\28\179Z','^\141u\221;')],kd)
+        end
+    end)
+end)
+local function k()
+    local s=Sd[yf('(y\152\227\nr\141\244\25','k\17\249\145')]
+    if not(not s)then
+    else
+        return false
+    end
+    local vc=s:FindFirstChild(yf('\254b\204\18~\182\55#\217{\217\27s\158\48<','\173\18\169w\26\251BO'))
+    if not vc then
+        return false
+    end
+    return vc:FindFirstChild(yf('(c\181\212\225\25M\177\198\225','x\15\212\167\140'))~=nil
+end
+local function Ff()
+    local Ye=Sd[yf('EJ\209\190gA\196\169t','\6\"\176\204')]
+    if not Ye then
+        return false
+    end
+    local v=Ye:FindFirstChild(yf("!nJw7\239.\'\6w_~:\199)8",'r\30/\18S\162[K'))
+    if not v then
+        return false
+    end
+    return v:FindFirstChild(yf('\242\245_\21\253\200\243W=\252\207','\161\157\48z\137'))~=nil
+end
+local function Ya()
+    local Xa=Sd[yf("Ou\'\173m~2\186~",'\f\29F\223')]
+    if not Xa then
+        return false
+    end
+    local Gg=Xa:FindFirstChild(yf('{\245\223\127x\177\20b\\\236\202vu\153\19}','(\133\186\26\28\252a\14'))
+    if not(not Gg)then
+    else
+        return false
+    end
+    return Gg:FindFirstChild(yf('k9\238\178\14\217@=\254\181.\216H','&X\157\193G\183'))~=nil
+end
+local function Eg()
+    local Fb=Sd[yf('\130}\162C\160v\183T\179','\193\21\195\49')]
+    if not(not Fb)then
+    else
+        return false
+    end
+    local ub=Fb:FindFirstChild(yf('\247\138\4\240wB\246\181\208\147\17\249zj\241\170','\164\250a\149\19\15\131\217'))
+    if not ub then
+        return false
+    end
+    return ub:FindFirstChild(yf('\164-\247@\223\130\141&\238D\223\145','\225C\131!\177\229'))~=nil
+end
+local function Re(Ib,be)
+    local Kc=Ib:FindFirstChild(yf('Y\225\247\23\244\166N3C\251\245\2\202\168U#',"\17\148\154v\154\201\'W"))
+    if not(not Kc)then
+    else
+        return nil
+    end
+    local mf=Kc[yf('n\225\246\221[\237\238\203','8\132\154\178')]
+    local hg=Kc[yf('\219\207<\236\255\201 \235','\139\160O\133')]+mf*be
+    return hg
+end;
+Nb[yf('\160{\167q','\212\26')][yf(')\208;\215\52','Z\160')](function()
+    local function y()
+        return(Vc[yf(')\4\202\227a\255\178\177\145\237\r\143\n\b\198\204]\254\144\171\153\232\15\156','Hm\167\161\14\139\226\221\240\158\96\238')]and k())or(Vc[yf("7\"we\1\nj\21\255M\'\55\t\127F\3\53S\21\242[8","VK\26\'n~:y\158>J")]and k())or(Vc[yf('\210w\201\6:p\131A\220q\208\15<h\188L\193','\179\30\164DU\4\208)')]and Ff())or(Vc[yf('\209\206\234\153\175\150\157\127\20\195\238\233\189\165\129\164w\b\222','\176\167\135\219\192\226\208\30g')]and Ya())or(Vc[yf('\162\21\206\221;\v\132\234\214\162\18\196\243\49\18\164\234\214','\195|\163\159T\127\193\132\162')]and Eg())
+    end;
+    Nd[yf('\204\149\139U\142\215\205\132\128A\155\192\250','\158\240\229\49\235\165')]:Connect(function()
+        local ka=y()
+        if not(ka and not gg)then
+            if not ka and gg then
+                gg=false
+                bb[yf(':\f\194\134\27\21\18\v\214\131\23\56\5','wc\183\245~W')]=Nb[yf('\16R Q','U<')][yf('\220\3\27x\219u\244\4\15}\215X\227','\145ln\v\190\55')][yf('b\144\30G\128\20R','&\245x')]
+            end
+        else
+            gg=true
+            bb[yf('\160L\249\221\30\172\136K\237\216\18\129\159','\237#\140\174{\238')]=Nb[yf('<\155\f\152','y\245')][yf('\200:8,-p\224=,)!]\247','\133UM_H2')][yf('\166\218\221\4P\143\219\202\na','\234\181\190o\19')]
+        end
+        if not(Vc[yf('B\190\157\165\140 \193\239\190dM\159a\178\145\138\176!\227\245\182aO\140','#\215\240\231\227T\145\131\223\23 \254')]or Vc[yf('\vb\23\154\162\249#\223x\\\194\vI\31\185\160\198\26\223uJ\221','j\vz\216\205\141s\179\25/\175')]or Vc[yf('&\1!\150O\205[\198(\a\56\159I\213d\203\53','GhL\212 \185\b\174')]or Vc[yf('\133\tg\141\131\6\51\131t\151)d\169\137\17\n\139h\138','\228\96\n\207\236r~\226\a')]or Vc[yf('T/\20ht\a\221/4T(\30F~\30\253/4','5Fy*\27s\152A@')])or not ka then
+            if not(Te)then
+            else
+                Te:Disconnect()
+                Te=nil
+            end
+            return
+        end
+        if not Te then
+            Te=Nd[yf('\159\200F\31\48\253\158\217M\v%\234\169','\205\173({U\143')]:Connect(function()
+                local eh=nil
+                if k()then
+                    if not(Vc[yf(yf('!\19\211W\249:Q\24\211\242\150\207\2\31\223x\197;s\2\219\247\148\220','k-u\210\6\224\21\240\16\173#\170'),yf('\b\"Q\4:N7\241\56\239r\228','#u\154\195\170\224'))])then
+                        if Vc[yf('u\231)*_\96\15e%\133\145u\204!\t]_6e(\147\142','\20\142Dh0\20_\tD\246\252')]then
+                            eh=Jf(yf('\187\169<\188\165\"','\208\192P'))
+                        end
+                    else
+                        eh=Jf(yf('9 \212W##\201S','JU\166!'))
+                    end
+                elseif not(Ff()and Vc[yf(yf('\237\r\145w\214s\15h\227\v\136~\208k0e\254','.\"!\241K\143\210\244'),yf('\nO\128PZ\129\211\96','\168\t]\148'))])then
+                    if Ya()and Vc[yf('\243\147\27\a\6+g\166P\225\179\24#\f<^\174L\252','\146\250vEi_*\199#')]then
+                        eh=Jf(yf('\130\158\252\236\152\157\225\232','\241\235\142\154'))
+                    elseif not(Eg()and Vc[yf(yf('\189\96<\201#\246\190\b\247\189g6\231)\239\158\b\247','<\127\163\250\nt5\234\164'),yf('\215\199\182\165qG\138X\16','7\177D\212'))])then
+                    else
+                        eh=Jf(yf('\171\183q\213\177\180l\209','\216\194\3\163'))
+                    end
+                else
+                    eh=Jf(yf('B)\238E%\240',')@\130'))
+                end
+                if not(eh and eh:FindFirstChild(yf(yf('I\26S\198\184\152A\130S\0Q\211\134\150Z\146','\133\29\247O\219bnz'),yf('^\242\235\247\215\21d\131','\218\128\"\31'))))then
+                else
+                    local Ue=eh[yf('\171\144\55\172{~\214\159\177\138\53\185Ep\205\143','\227\229Z\205\21\17\191\251')]
+                    local ta,ne=(Ue[yf('c+jDG-vC','3D\25-')]-Cb[yf('$:D\6\17S','g|6')][yf('\245\28h\188\209\26t\187','\165s\27\213')])[yf('w6\31\243S#\r\249_',':Wx\157')],1936483353+-1936483113
+                    local xa=ta/ne
+                    local nd=Re(eh,xa)
+                    if not(nd)then
+                    else
+                        local ee=Nb[yf('\1\229V#\206A','B\163$')][yf('\165\174\188','\203')](Cb[yf('\207\252\193\237\215\214','\140\186\179')][yf('<\136\150%\24\142\138\"','l\231\229L')],nd)
+                        if Vc[yf('\133\175\55C\204BI\137\169\53U\203_t\131','\228\198Z!\163\54\26')]then
+                            Cb[yf('\1<\248#\23\239','Bz\138')]=Cb[yf('M,\no\a\29','\14jx')]:Lerp(ee,Vc[yf('\184\186x\252\204\52\235\199\180\128a\236\198.\205\218\177','\217\211\21\158\163@\170\174')])
+                        else
+                            Cb[yf('}&}_\rj','>\96\15')]=ee
+                        end
+                        if not((Vc[yf(yf('h\191\20\142f:\167Ef\185\r\135\96\"\152H{','EA\155\143f\25\162g'),yf('#\245X\196\0\53\236\205','ob\186\135'))]and Ff())or(Vc[yf(yf('Mj\223a\208\52\241\49\138_J\220E\218#\200\57\150B','t\160\187v\201L=B\142'),yf('\194\52p\r\236\155\248J\237','\154\151yX'))]and Ya())or(Vc[yf(yf('\251sMU#\194A-q\251tG{)\219a-q','\145{1\237\253\51Wc1'),yf('UTM\190\239\176\15dj','^5\\D'))]and Eg()))then
+                        else
+                            local ja=Sd[yf('$\\\182\160\6W\163\183\21','g4\215\210')][yf('T\234\150$~H\156\217N\240\148\49@F\135\201',"\28\159\251E\16\'\245\189")][yf('wux\26Ssd\29',"\'\26\vs")]
+                            local cc=(nd-ja)[yf('\21\19)\t','@}')]
+                            Sd[yf('\96\15\194\179B\4\215\164Q','#g\163\193')][yf('1\187\fQ~\225nL+\161\14D@\239u\\','y\206a0\16\142\a(')][yf('3\168\"\17\131\53','p\238P')]=Nb[yf('\197\"\231\231\t\240','\134d\149')][yf('GL^',')')](ja,ja+cc*(-539848460+539848461))
+                        end
+                    end
+                end
+            end)
+        end
+    end)
+end)
+do
+    local Ke,S=Nb[yf('E5T:Y','5V')](function()
+        return Nb[yf('\157\206b\154\194a\138','\239\171\19')](qe[yf('\227\166\218\219\165\219\221','\174\201\190')][yf('o\161\222\246A-y\179\217\231W*O','<\213\191\130\52^')][yf('\194JQ\232\56\226\26\246\212G@\242$\231\28\242\244','\145?#\158Q\148u\132')][yf('i\198\2\254J\210\3\232^',':\179\96\141')])
+    end)
+    if Ke and S then
+        S[yf("\227>A\206\'T\198",'\162N1')]=function()
+        end
+        S[yf('\254\f\196\195\31\204\200','\172i\169')]=function()
+        end
+    end
+end
+do
+    local dc,ua=Nb[yf('\226F\243I\254','\146%')](function()
+        return Nb[yf('j\n\189m\6\190}','\24o\204')](qe[yf('\249]\150\193^\151\199','\180\50\242')][yf('>\nM\149#R(\24J\132\53U\30','m~,\225V!')][yf('\211e\178\26\148\55M\224o\178\3\130,~\253','\152\f\222v\241E\b')][yf('Xi\130\2|m\142\18','\31\5\235v')])
+    end)
+    if dc and ua then
+        local Ud=ua[yf('\\h$qq1y','\29\24T')]
+        ua[yf('K\133\237f\156\248n','\n\245\157')]=function(Sg)
+            if Vc[yf('\29\230\230\213\0\181\251\175\185\20\237\246\249!\191\247\184\174','|\136\146\188G\217\146\219\218')]then
+                return
+            end
+            return Ud(Sg)
+        end
+    end
+end
+do
+    local _b,Aa=Nb[yf('\bQ\25^\20','x2')](function()
+        return Nb[yf(']\156\163Z\144\160J','/\249\210')](qe[yf('\223{\183\231x\182\225','\146\20\211')][yf('%\2\238\151A\196\51\16\233\134W\195\5','vv\143\227\52\183')][yf('\161\192\17\137\135\194\29\148\144','\227\172x\231')])
+    end)
+    if _b and Aa then
+        local Rf=Aa[yf('\178\195k\159\218~\151','\243\179\27')]
+        Aa[yf('J|fgeso','\v\f\22')]=function(Pd)
+            if Vc[yf('m\183\163P~ze\183\179WYe\127','\f\217\215\57<\22')]then
+                return
+            end
+            return Rf(Pd)
+        end
+    end
+end;
+Nb[yf('\132\150\131\156','\240\247')][yf('jsxtw','\25\3')](function()
+    while true do
+        local Fd=pf:FindFirstChild(yf('\143+V\166\"E\172','\223G7'))
+        if not(Fd)then
+            Nb[yf('M\226J\232','9\131')][yf('\1k\31~','v\n')](-91256182.100000009/-912561821)
+        else
+            for yg,bd in Nb[yf('\237\213^\237\215L','\132\165?')](Fd:GetChildren())do
+                for Ed,Tc in Nb[yf('\228\49\150\228\51\132','\141A\247')](bd:GetChildren())do
+                    if not(Tc:IsA(yf(yf('4=\29\55\21','!Y'),yf('e6','='))))then
+                    else
+                        if Vc[yf('\242s\147\225\230\174f\208Z\173\246x\131\199\199\170x\201\96\185\246','\147\29\231\136\177\207\n\187\t\221')]then
+                            local gb=Tc:FindFirstChild(yf('o\14\0H\a\a','=ks'))
+                            if gb then
+                                gb:Destroy()
+                            end
+                        end
+                        local Gd=Tc:FindFirstChild(yf(':\240\171\16\54[\183\206\29\233\190\25;s\176\209','i\128\206uR\22\194\162'))
+                        if Gd then
+                            local Pf=Gd:FindFirstChild(yf('\254\184\ac\219@4\176\251\190\31b\211W?\160','\182\209i\a\190\50Q\212'))
+                            if not(Pf and(Vc[yf(yf('X\1\166\204g\197\143\135L\31\166\235E\222\136\135\\',':\209q\180\23\220\141\129'),yf('\133\250>\204\181\50\237\169','\134D\157\221'))]or Vc[yf(yf('5\222o/\186B\172\180\53\244~*\131]\179\188-','\189!\177e\23\213\237\217'),yf('\251\194h\161\239\173\249\149','\18S\194\130'))]))then
+                            else
+                                Pf[yf('_\ne\30l','\tk')]=-3265038909/-1813910505
+                            end
+                            if Vc[yf('\237\149\224<3\184\191\183\197\149\242\48\29\173\165\171\226','\140\251\148U~\217\204\196')]then
+                                local ca=Gd:FindFirstChild(yf('\21Yz\153\53\208>]j\158\21\209\54','X8\t\234|\190'))
+                                if ca then
+                                    ca[yf('@1z%s','\22P')]=9.21900195484327e-10*1952489010
+                                end
+                            end
+                            if Vc[yf('\213\5\231A\142\246\137\164\218\f\255M\166\253\147\177','\180k\147(\203\152\253\197')]then
+                                local me=Gd:FindFirstChild(yf('\212L]\185#\154\253GD\189#\137','\145\")\216M\253'))
+                                if me then
+                                    me[yf('\179\22\137\2\128','\229w')]=-825512020.20000005/-458617789
+                                end
+                            end
+                            local Ea=Gd:FindFirstChild(yf('\200\23d\130\241p\200\15j\129\225g','\155{\v\245\148\20'))
+                            if not(Ea)then
+                            else
+                                Ea:Destroy()
+                            end
+                            local ld=Gd:FindFirstChild(yf('\190\215\189\205\245{\151\193\191\196\213d','\248\182\209\161\166\23'))
+                            if ld and Vc[yf('\252ki\235{\163F\241Ax\224H\164L','\157\5\29\130=\194*')]then
+                                ld:Destroy()
+                            end
+                            if not(Vc[yf(yf("\23\r\138\6u|\197\23\'\155\rCu\207",'\160\230\128L\253\171\249'),yf(':\179\216\207\253\30\188','\236\54\166'))])then
+                            else
+                                local xb=Gd:FindFirstChild(yf('\164h\222j\28\216\142}\244k\27\208','\224\26\183\4w\177'))
+                                if not(xb)then
+                                else
+                                    xb[yf('\21\249/\237&','C\152')]=-1.5940032153807794e-09*-1129232352
+                                end
+                                local Ra=Gd:FindFirstChild(yf('\160\150\173\218\155b\141\150\163\235\150D\143','\226\250\194\162\226!'))
+                                if Ra then
+                                    Ra[yf('H\171r\191{','\30\202')]=3739286993.4000001/2077381663
+                                end
+                            end
+                            if Vc[yf('6\a$\176\165F\f\176\133$\2\57\183\178O\15\177\134\49','WiP\217\246*m\196\224')]then
+                                local za=Gd:FindFirstChild(yf('\244\171\96\151\249\55|\255\227\181h\141\247-y\241\222','\176\217\t\249\146^\18\152'))
+                                if not(za)then
+                                else
+                                    za[yf('WIm]d','\1(')]=-1157690527.2/-643161404
+                                end
+                                local wg=Gd:FindFirstChild(yf('\246\4.7V\197\178\204\6\28\55R\194\172\214','\165hOC3\182\217'))
+                                if wg then
+                                    wg[yf('A\167{\179r','\23\198')]=-8.4244426115207843e-10*-2136639874
+                                end
+                            end
+                            if not(Vc[yf(yf('\253\29\193\168\145\219\160^\249\1\241\164\177\219\180_','K\136I\15l\133E\150'),yf('\227#\196\18\139\243\175s','4\216\56\220'))])then
+                            else
+                                local xg=Gd:FindFirstChild(yf('\167\142\146t\205\187\213Y\141\156\146\127\214\174\245T\144','\226\239\230\29\163\220\146\49'))
+                                if xg then
+                                    xg[yf('E\160\127\180v','\19\193')]=4.942427135300066e-09*364193533
+                                end
+                            end
+                            if Vc[yf('\175N\167\248\146\132\166\189H\151\244\163\157\161\168','\206 \211\145\193\232\199')]then
+                                local Qg=Gd:FindFirstChild(yf('t{\226\57gNx@D\254;eBd',"\'\15\151W\t\'\22"))
+                                if not(Qg)then
+                                else
+                                    Qg[yf('\157\246\167\226\174','\203\151')]=-3622426848/-2012459360
+                                end
+                            end
+                            if not(Vc[yf(yf('M\5\171]\157\227\30\31G\14\177p\187\233\2\26J','\19 \189\179\184\1\196\174'),yf('f\222Zs?\31\139&','Y\149\56\244'))])then
+                            else
+                                local Yb=Gd:FindFirstChild(yf('~\239\29\187\223\247\244_\205\1\148\206\245\244U',';\142i\253\173\158\145'))
+                                if not(Yb)then
+                                else
+                                    Yb[yf('D\155~\143w','\18\250')]=2226971804.4000001/1237206558
+                                end
+                            end
+                            if not(Vc[yf(yf('\181\234]=yT\149\183\239m1YM\156\178','N\239\236\161\255\50X'),yf('M\226\215\"M\24u','\215\137\18'))])then
+                            else
+                                local Ug=Gd:FindFirstChild(yf('\197\26\145\247Z\153\238\0\151\239G\181\229','\130o\244\132.\219'))
+                                if Ug then
+                                    Ug[yf('0\224\n\244\3','f\129')]=-9.1562592088759074e-10*-1965868330
+                                end
+                            end
+                            if Vc[yf('\133tz\234\31%\210\222\134\127m\238?&\244\211\131','\231\r\n\139lV\145\182')]then
+                                local Ua=Gd:FindFirstChild(yf('W\188\227\b\168t\1#\254\197\19\189\55Uu','\16\201\134{\220E2'))
+                                if not(Ua)then
+                                else
+                                    Ua[yf('\200\240\242\228\251','\158\145')]=3196591729.1999998/940174038
+                                end
+                            end
+                            if Vc[yf(' \222\226o\206\239\243\253,\196\250]\205\249\198\236','B\167\146\14\189\156\163\136')]then
+                                local K=Gd:FindFirstChild(yf('@\224P\19\199\49r\252R\25\219\t','\16\149>p\175p'))
+                                if K then
+                                    K[yf('\224\165\218\177\211','\182\196')]=767764737/426535965
+                                end
+                            end
+                            if Vc[yf('(#\195\239\140?2\250\29?\222\246\175\55\48\247','IM\183\134\216^B\146')]then
+                                local mc=Gd:FindFirstChild(yf(' \21\54\233;\24\29\4\49\232\29\15','ttF\129oj'))
+                                if mc then
+                                    mc[yf('\188X\134L\143','\234\57')]=-1.6299189634535423e-09*-1104349382
+                                end
+                            end
+                            if not(Vc[yf(yf('\253cVs&\242\190\141m\150\255hvh\28\247\177\151s\146','z\222\145\159\v\198\155\167\250\209'),yf('\154=q\189\146=\169\155\223\202','|\238\194\56\236'))])then
+                            else
+                                local af=Gd:FindFirstChild(yf('\154\251m\129\210Q\133\175\157\252f\130\207Y\136\175','\201\142\15\242\162\48\230\202'))
+                                if af then
+                                    af[yf('\5\223?\203\54','S\190')]=3724098858/2068943810
+                                end
+                            end
+                            if not(Vc[yf(yf('v\187\204l\236\188\178d\184\217G\217\177\190','\234\22~\143\167\180)'),yf('Dqv3\169\212C','\185\178\176'))])then
+                            else
+                                local Kf=Gd:FindFirstChild(yf('12yL\19\0\28}^\19','a^\24?~'))
+                                if Kf then
+                                    Kf[yf('!K\27_\18','w*')]=3667244292/2037357940
+                                end
+                            end
+                            if Vc[yf('\165w\208\128\176\191\135\165O\148k\203\157\134\172\146\187N\170','\196\25\164\233\227\207\230\210!')]then
+                                local Ef=Gd:FindFirstChild(yf('L|[\n\186\140\157px_\30\160\181\128q','\31\f:}\212\220\239'))
+                                if Ef then
+                                    Ef[yf('\234\56\208,\217','\188Y')]=-1.4434650656045129e-09*-1246999351
+                                end
+                            end
+                            if not(Vc[yf(yf('\242*M\133\185\55\14C\144H\246\aK\131\152#\t~\151B','3&Y\151\219\205\135\230g\\'),yf('\240\226W_\229\221f\198\186\170','P\128\55$\211'))])then
+                            else
+                                local hc=Gd:FindFirstChild(yf('\224\231\194Y\157\197\194D\198\255\216n\156\193\201\96','\180\144\173\r\244\168\167\a'))
+                                if hc then
+                                    hc[yf('\169\96\147t\154','\255\1')]=-1.0301570616258738e-09*-1747306374
+                                end
+                            end
+                            if Vc[yf('\214\48\253\157\nL\135\227\55\228\145\rO\137\213','\183^\137\244^;\232')]then
+                                local uc=Gd:FindFirstChild(yf('Q\f\169J\16h\30\149j\24g','\5{\198\30y'))
+                                if uc then
+                                    uc[yf(']!g5n','\v@')]=8.6023202777548146e-10*2092458711
+                                end
+                            end
+                            if Vc[yf('(\237Y\209\236&\236A\255\218 ','I\131-\184\175')]then
+                                local Pc=Gd:FindFirstChild(yf('\5K\154\n\28\223\15','f{\170'))
+                                if Pc then
+                                    Pc[yf('\153\26\163\14\170','\207{')]=-1.6690661965933358e-09*-1078447340
+                                end
+                            end
+                            if Vc[yf('G\5\1\208\233C\3\16\216\207','&ku\185\171')]then
+                                local vg=Gd:FindFirstChild(yf('\31\224Sa\5x\28\231Rh\rh$',']\133;\4d\28'))
+                                if vg then
+                                    vg[yf('85\2!\v','nT')]=1.5049336578716079e-09*1196066013
+                                end
+                            end
+                            if not(Vc[yf(yf('+9\153\24&$%\140\22\6.','\236+\190\187\158'),yf('27\199\129i','\148K'))])then
+                            else
+                                local Vd=Gd:FindFirstChild(yf('\162\132;\166\141,\163','\231\202i'))
+                                if Vd then
+                                    Vd[yf('\252U\198A\207','\170\52')]=-1990750316.4000001/-737314932
+                                end
+                            end
+                            if not(Vc[yf(yf('\160\3\147d\160M~\174\25\163h\145Pw\167','>\164\250,\176j\222'),yf('1ri\239\248;\1','\206\187t'))])then
+                            else
+                                local ac=Gd:FindFirstChild(yf("\'\24$\\\233\29\30,t\232\26",'tpK3\157'))
+                                if not(ac)then
+                                else
+                                    ac[yf('E\167\127\179v','\19\198')]=2617862256/1454367920
+                                end
+                            end
+                        end
+                        local Ac=Tc:FindFirstChild(yf('!\t\235\aL\19m\14\54\209#\\\rj','gF\189J9\127\25'))
+                        if Ac then
+                            local eb=Ac:FindFirstChild(yf('\129+\96\152\206\16\129\51n\155\222\a','\210G\15\239\171t'))
+                            if not(eb and(Vc[yf(yf("0\24\52\228\6\50\2M\'\b\16\228$\"\31Q",'Yv4>?\227\250.'),yf('\169\2\210\146\202\173\51+',"\161\25\166\'"))]or Vc[yf(yf('5\185\154\139\179|\250\2\54\247\5\49\165\173\138\129b\242\16\50\255\21','\235x3\21v\253\242\252\211\28\249'),yf('\229\31t\185\181\183\215 \234\174\210','Z\176\169N#'))]or Vc[yf(yf('\21\202L-\155~\217\220N$\214W0\173m\204\194O\26','-\247\175\249\198\50x\250V'),yf("\210H]\27\133\'\n\247\253",'\139\27\202\166'))]))then
+                            else
+                                eb:Destroy()
+                            end
+                            if Vc[yf('d\215\245\227\184\144=\200\232v\210\232\228\175\153>\201\235c','\5\185\129\138\235\252\\\188\141')]then
+                                local Wg=Ac:FindFirstChild(yf('\232\140^S\199C\157\210\142lS\195D\131\200',"\187\224?\'\162\48\246"))
+                                if not(Wg)then
+                                else
+                                    Wg:Destroy()
+                                end
+                            end
+                            if Vc[yf('\255\28.\166\251\177\210\238\216\29,\140\210\165\212\230\251','\158rZ\207\186\196\166\129')]then
+                                local ad=Ac:FindFirstChild(yf('c>\191\184\188,6\23|\153\163\169obA','$K\218\203\200\29\5'))
+                                if not(ad)then
+                                else
+                                    ad:Destroy()
+                                end
+                            end
+                        end
+                    end
+                end
+            end
+            if Vc[yf('\243\237G\230\178f\244\159\228\253c\230\144v\233\131','\146\152\51\137\224\3\153\240')]then
+                for Ae,xe in Nb[yf('^\239r^\237\96','7\159\19')](F:GetPlayers())do
+                    local Kg=xe:FindFirstChild(yf('\23\173\251\197\"\179\221\201.','G\193\154\188'))
+                    if not(Kg)then
+                    else
+                        local Jc=Kg:FindFirstChild(yf('\28\168\17\30\218:\172\14\23\224\1','H\205|n\181'))
+                        if Jc then
+                            local e=Jc:FindFirstChild(yf('\211i\152\162\233\178\211A\198\170\173\186','\226\17\169\218\216\202'))
+                            if not(e)then
+                            else
+                                e:Destroy()
+                            end
+                        end
+                    end
+                end
+            end
+            if not(Vc[yf(yf('8\243#\244\187\217R 0\233\19\248\148\201P-','R{\223t\214\144\169l'),yf('X\142zZsDm\148','Sh\242\179'))])then
+                if not(c)then
+                else
+                    c[yf('\203}\31\197\215q\19\204','\131\24~\169')]=Yf
+                    c[yf('Nw\239D\185\224\169\142\129Kg\226\\\131\224\160\130\128t','\6\18\142(\234\144\204\235\229')]=Zf
+                end
+            else
+                if not c then
+                    local B,bc=Nb[yf('\234\54\251\57\246','\154U')](function()
+                        return Nb[yf('\150\139\b\145\135\v\129','\228\238y')](qe[yf('\141an\169fn','\204\18\29')][yf('n\245B\236T',"\'\129")][yf('\210gB\244kR','\159\2&')][yf('\135t$\162r-','\196\27J')])
+                    end)
+                    if not(B and bc)then
+                    else
+                        c=bc
+                        Yf=bc[yf('\17\208\250%\r\220\246,','Y\181\155I')]
+                        Zf=bc[yf('\208.\15\152/\2\227\16\174\213>\2\128\21\2\234\28\175\234','\152Kn\244|r\134u\202')]
+                    end
+                end
+                if c then
+                    c[yf('>\214\180d\"\218\184m','v\179\213\b')]=-2002994495- -2002994495
+                    c[yf('\229\249\204\143\14a+\189\31\224\233\193\151\52a\"\177\30\223','\173\156\173\227]\17N\216{')]=6.9132473977783249e-10*1446498212
+                end
+            end;
+            Nb[yf('\128\240\135\250','\244\145')][yf('\162\204\188\217','\213\173')](4.9435603551932691e-11*2022833602)
+        end
+    end
+end)
+if not(not Nb[yf(yf('D\\','\231'),yf('\139','w'))][yf(yf('\188\216\221\127o\154\149\131\151\142\232\201vN\157\136\129\155','\227\201\226\225)\199\219J\244'),yf('\221\225tY\192\170\0\5\207',"\196\133\'\171"))])then
+else
+    Nb[yf('sk',',')][yf('\242\184a\170ZU\230\159\220\185H\168yE\227\157\208',"\180\205\r\198\24\'\143\248")]=false
+    Nb[yf('\n\18','U')][yf('\246\48\54\r[\30\247\b|\222\182\209\49#3_\6\207\bu\209\177','\184_D\96:r\187a\27\182\194')]={[yf('\177\3v\140/\135\31z\152\52','\243q\31\235G')]=Nb[yf('\182{\188\127','\209\26')]:GetService(yf('\6{\136g>{\129h','J\18\239\15'))[yf('/k\144\220\198\25w\156\200\221','m\25\249\187\174')],[yf('\132i\211i\172Q\213g\162','\199\5\188\n')]=Nb[yf('\b\211\2\215','o\178')]:GetService(yf('G\210\213b\127\210\220m','\v\187\178\n'))[yf('\18N$\238:v\"\224\52','Q\"K\141')],[yf('\14<\2\r=\1','HSe')]=Nb[yf('\"{(\127','E\26')]:GetService(yf('B&llz&ec','\14O\v\4'))[yf('\219\254\249\216\255\250','\157\145\158')],[yf('m\207\185\197\2\158y\203\183\195\f\133Y','*\163\214\167c\242')]=Nb[yf('e\20o\16','\2u')]:GetService(yf('R\18\50\178j\18;\189','\30{U\218'))[yf('z\170\184\200B\129n\174\182\206L\154N','=\198\215\170#\237')],[yf("\18\167\183:\175\187\'",'S\202\213')]=Nb[yf('\186\176\176\180','\221\209')]:GetService(yf('\132R\218\249\188R\211\246','\200;\189\145'))[yf('\220P\4\244X\b\233','\157=f')]}
+    local function hd()
+        local _f=Nb[yf('=\250\55\254','Z\155')]:GetService(yf('\144G\172\221\168G\165\210','\220.\203\181'))
+        for Mf,x in Nb[yf('\178\15\252\178\r\238','\219\127\157')]({yf('\240\198\135\249\54\194\210\229\158\232\50\233','\180\163\247\141^\141'),yf('\16\147\243\163\3\16G!\142\250\175\5:G=','S\252\159\204qS('),yf('\165\240\146\238','\231\156'),yf('\137\175\149\29\218\184\179\157\0\204','\200\219\248r\169')})do
+            local Bg=_f:FindFirstChild(x)
+            if Bg then
+                Bg:Destroy()
+            end
+        end
+    end
+    local Qb=Nb[yf('7\157=\153','P\252')]:GetService(yf('\196\220\242\127\252\220\251p','\136\181\149\23'));
+    Qb[yf('\228}[\201r_\195','\167\21:')]:Connect(function(wa)
+        if not(Nb[yf(yf(';#','\r'),yf('\221','\180'))][yf(yf('O\237\"y8?\30\130a\236\v{\27/\27\128m','{%\232\254\136v\192\218'),yf('\148\50\57V\20\180(\130','\230\143\159\189'))])then
+            if wa==yf('/E\241\153(\25Y\253\141\51','m7\152\254@')then
+                Nb[yf('um','*')][yf('k\4\211\236B\26\236m\f\187\14L\5\198\210F\2\212m\5\180\t','%k\161\129#v\160\4k\211z')][yf('\153\210\174\16I\175\206\162\4R','\219\160\199w!')]=Qb[yf('/\169\207\217\176\25\181\195\205\171','m\219\166\190\216')]
+            elseif not(wa==yf(yf('\141\138\151a\165\178\145o\171','\172\20t\223'),yf('\159=q\18','\253\207')))then
+                if wa==yf('\2\160\192\1\161\195','D\207\167')then
+                    Nb[yf('\166\190','\249')][yf('\150k;-\143\238\209\198\157P~\177j.\19\139\246\233\198\148_y','\216\4I@\238\130\157\175\250\56\n')][yf("\138\249$\137\248\'",'\204\150C')]=Qb[yf('\96\183\201c\182\202','&\216\174')]
+                elseif not(wa==yf(yf('\6kq\246\52\255\18o\127\240:\228\50','\132(\\Rr0'),yf('\152|C\155t\162',']S\1')))then
+                    if not(wa==yf(yf('\135\153\215\175\145\219\178','p\254\245'),yf('>\130\200','\136')))then
+                    else
+                        Nb[yf('\215\207','\136')][yf('\197:\242\239++\231\230\227\149\178\226;\231\209/3\223\230\234\154\181','\139U\128\130JG\171\143\132\253\198')][yf('\4\216:,\208\54\49','E\181X')]=Qb[yf(')\153\3\1\145\15\28','h\244a')]
+                    end
+                else
+                    Nb[yf('\192\216','\159')][yf('1aI\255\129\196\233\209KI\229\22\96\\\193\133\220\209\209BF\226','\127\14;\146\224\168\165\184,!\145')][yf(':A\197Io\220.E\203Oa\199\14','}-\170+\14\176')]=Qb[yf('\248\49\193\198y\225\236\53\207\192w\250\204','\191]\174\164\24\141')]
+                end
+            else
+                Nb[yf('\138\146','\213')][yf('D\148\1\173+\242>Z3_\183c\149\20\147/\234\6Z:P\176','\n\251s\192J\158r3T7\195')][yf('\134\173\3\149\174\149\5\155\160','\197\193l\246')]=Qb[yf('?\207\236\229\23\247\234\235\25','|\163\131\134')]
+            end
+        else
+            if wa==yf('\127\190\187\210\238I\162\183\198\245','=\204\210\181\134')then
+                Qb[yf('\173^v\137J\155Bz\157Q','\239,\31\238\"')]=1057996129/1057996129
+            elseif wa==yf('\181s\f\51\157K\n=\147','\246\31cP')then
+                Qb[yf('\185\183\4\164\145\143\2\170\159','\250\219k\199')]=-1718432065+1718432077
+            elseif not(wa==yf(yf('\156\244\197\159\245\198','\177\250\221'),yf('J@^','!')))then
+                if wa==yf('\211\138C\22(\173\199\142M\16&\182\231','\148\230,tI\193')then
+                    Qb[yf('${H\238\235\143\48\127F\232\229\148\16',"c\23\'\140\138\227")]=false
+                elseif wa==yf('[\220\200s\212\196n','\26\177\170')then
+                    Qb[yf('8l\26\16d\22\r','y\1x')]=Nb[yf('\158[\4\178F[','\221\52h')][yf('*\227\203!\195\227\14','L\145\164')](1411404847+-1411404669,249635775506/1402448177,1479828766+-1479828588)
+                end
+            else
+                Qb[yf('B\134\3A\135\0','\4\233d')]=-0.00059668915931586819*-1318178800
+            end;
+            hd()
+        end
+    end);
+    Nb[yf('\159\30\152\20','\235\127')][yf('\230{\244|\251','\149\v')](function()
+        while true do
+            if Nb[yf('\2\26',']')][yf('IP\182[q\2@ngQ\159YR\18Elk','\15%\218\55\51p)\t')]then
+                hd()
+            end;
+            Nb[yf('\235\t\236\3','\159h')][yf('\192\194\222\215','\183\163')](6.4188015632760131e-11*1557923220)
+        end
+    end)
+    local function pb()
+        if Nb[yf('VN','\t')][yf('\240]n\255\27_l\226\222\\G\253\56Oi\224\210','\182(\2\147Y-\5\133')]then
+            Qb[yf('\211\217\168\v\188\229\197\164\31\167','\145\171\193l\212')]=1133845418/1133845418
+            Qb[yf('\242.#S\218\22%]\212','\177BL0')]=-15940774896/-1328397908
+            Qb[yf('\16\166?\19\167<','V\201X')]=-7847248272012/-9976884
+            Qb[yf('*\166i\152e\194>\162g\158k\217\30','m\202\6\250\4\174')]=false
+            Qb[yf("\250\'\177\210/\189\207",'\187J\211')]=Nb[yf('d8\142H%\209',"\'W\226")][yf('\225\206\149\234\238\189\197','\135\188\250')](-1390804239- -1390804417,1339624008+-1339623830,-1009666677- -1009666855);
+            hd()
+        else
+            Qb[yf('\226D\6\214b\212X\n\194y','\160\54o\177\n')]=Nb[yf('\249\225','\166')][yf('[\3\214\214C\16Z\6\205\al|\2\195\232G\bb\6\196\bk','\21l\164\187\"|\22o\170o\24')][yf('\135\166\138\148\\\177\186\134\128G','\197\212\227\243\52')]
+            Qb[yf('\4\182\144\131,\142\150\141\"','G\218\255\224')]=Nb[yf('\176\168','\239')][yf('\192r!Bc\176\209\201\208\207\216\231s4|g\168\233\201\217\192\223','\142\29S/\2\220\157\160\183\167\172')][yf('W\249vh\127\193pfq','\20\149\25\v')]
+            Qb[yf('T\197ZW\196Y','\18\170=')]=Nb[yf('\229\253','\186')][yf('-=9\182\138\254\176\130m\183y\n<,\136\142\230\136\130d\184~','cRK\219\235\146\252\235\n\223\r')][yf('\2\143\180\1\142\183','D\224\211')]
+            Qb[yf('\231\163\20\238\144\206\243\167\26\232\158\213\211','\160\207{\140\241\162')]=Nb[yf('\251\227','\164')][yf("\228\20\176\240r\205\'-\216\232\179\195\21\165\206v\213\31-\209\231\180",'\170{\194\157\19\161kD\191\128\199')][yf('\237\197\208\196\27j\249\193\222\194\21q\217','\170\169\191\166z\6')]
+            Qb[yf('\238\30_\198\22S\219','\175s=')]=Nb[yf('}e','\"')][yf('\222\143\180BL\166\219|R\252\a\249\142\161|H\190\227|[\243\0','\144\224\198/-\202\151\21\53\148s')][yf('\0L1(D=5','A!S')]
+        end
+    end
+    local Ja=false;
+    Nb[yf('P\0B\aM','#p')](function()
+        while Nb[yf('\247\127\233j','\128\30')]()do
+            if Nb[yf('\172\180','\243')][yf('M\b\145\136\243\194f7c\t\184\138\208\210c5o','\v}\253\228\177\176\15P')]~=Ja then
+                pb()
+                Ja=Nb[yf('tl','+')][yf('\252\153\247i\170\178\rs\210\152\222k\137\162\bq\222','\186\236\155\5\232\192d\20')]
+            end
+        end
+    end)
+    Nb[yf(')1','v')][yf('\222SA/#R\223>M\236cU&\2U\194<A','\152&-Ca \182Y%')]=true
+end;
+Nb[yf('\242\194\245\200','\134\163')][yf(')\158;\153\52','Z\238')](function()
+    while true do
+        if pa()then
+            xd()
+        end;
+        Nb[yf('\239W\232]','\155\54')][yf('\189\19\163\6','\202r')](163706252.20000002/818531261)
+    end
+end)
+local function If()
+    if pa()then
+        xd()
+    end
+end;
+If();
+Nd[yf('\183\161\3\196\139\166\a\215\139','\255\196b\182')]:Connect(function()
+    if Vc[yf('\177G\225\141\253\192\185\\\211\142\215\223','\208\50\149\226\190\175')]and pa()then
+        local gc,Kd,Xf=Sd[yf('mJ\189\4XT\155\bT','=&\220}')]:FindFirstChild(yf(')\136\148\n\188\180','d\233\253'))and Sd[yf('A[\187\155tE\157\151x','\17\55\218\226')][yf('\193H4\226|\20','\140)]')]:FindFirstChild(yf('O\a\249\30\255S\236.a\v\228\19\255I\240\31',"\14e\144r\150\'\149m"))and Sd[yf('W\fl\155b\18J\151n','\a\96\r\226')][yf(']\217e~\237E','\16\184\f')][yf('\28\v\160!\254X\a\n\50\a\189,\254B\27;',']i\201M\151,~I')]:FindFirstChild(yf('\221&\225!\250','\142N'))and Sd[yf('\209\53C\248\228+e\244\232','\129Y\"\129')][yf('\190\50\231\157\6\199','\243S\142')][yf('(\219\18\21\238\186{\156\6\215\15\24\238\160g\173','i\185{y\135\206\2\223')][yf('\18\193.\198\53','A\169')]:FindFirstChild(yf('b\234\52S\229\48R','!\130U')),Sd[yf('\26\196\178\"/\218\148.#','J\168\211[')]:FindFirstChild(yf('\175\238e\140\218E','\226\143\f'))and Sd[yf('\29\51\a\138(-!\134$','M_f\243')][yf('\248N/\219z\15','\181/F')]:FindFirstChild(yf('r*\20/\172\235\56\3\\&\t\"\172\241$2','3H}C\197\159A@'))and Sd[yf("\159\'\141\204\170\57\171\192\166",'\207K\236\181')][yf('\149\49\181\182\5\149','\216P\220')][yf('\200~\201\196\205g\245<\230r\212\201\205}\233\r','\137\28\160\168\164\19\140\127')]:FindFirstChild(yf('\164C\132\153J\154','\246&\246'))and Sd[yf('\238\241{\178\219\239]\190\215','\190\157\26\203')][yf('B\146[a\166{','\15\243\50')][yf('\246\179\0K\223\180\234\200\216\191\29F\223\174\246\249',"\183\209i\'\182\192\147\139")][yf('x\182\240E\191\238','*\211\130')]:FindFirstChild(yf('\1\"\162\48-\166\49','BJ\195')),Sd[yf('\130ywh\183gQd\187','\210\21\22\17')]:FindFirstChild(yf("\4\138{\'\190[",'I\235\18'))and Sd[yf('T\17\254\53a\15\216\57m','\4}\159L')][yf('\128^,\163j\f','\205?E')]:FindFirstChild(yf('\221u\134k\237(G\186\243y\155f\237\50[\139','\156\23\239\a\132\\>\249'))and Sd[yf('\3\212\233\250\54\202\207\246:','S\184\136\131')][yf('\235\144\220\200\164\252','\166\241\181')][yf('\23>\4\\\168\236\227\5\57\50\25Q\168\246\255\52','V\\m0\193\152\154F')]:FindFirstChild(yf('\178\159\128\188\151\140','\250\254\244'))and Sd[yf('\5\233c\21\48\247E\25<','U\133\2l')][yf('\5L\183&x\151','H-\222')][yf('n\183\160\23\243ILd@\187\189\26\243SPU',"/\213\201{\154=5\'")][yf('O)/A!#','\aH[')]:FindFirstChild(yf('\136\219\144\185\212\148\184','\203\179\241'))
+        local gf,L,z,Na=gc and gc:IsA(yf('\223\31\141\207\199\27\151\222\231','\139z\245\187'))and gc[yf('}\162Q\179',')\199')],Kd and Kd:IsA(yf('\252\158\134(\228\154\156\57\196','\168\251\254\\'))and Kd[yf('\139\149\167\132','\223\240')],Xf and Xf:IsA(yf('IE\149\138QA\143\155q','\29 \237\254'))and Xf[yf('\237\181\193\164','\185\208')],true
+        if gf and gf==yf('\\','o')then
+            Na=false
+        end
+        if L and L==yf('c','P')then
+            Na=false
+        end
+        if z and z==yf('>','\15')then
+            Na=false
+        end
+        if not(Na)then
+        else
+            local fc=Nb[yf('~\161t\165','\25\192')]:GetService(yf('\154\15\178\249\250\211\165\18\173\14\145\225\252\194\165\1\173','\200j\194\149\147\176\196f'))[yf('1\146\24\t\145\25\15','|\253|')][yf('\220?z\229\53|\249','\146Z\14')][yf('\133\145gR\202\178\177|X\208\163','\215\244\n=\190')];
+            fc:FireServer(yf('\166q|\176\178\244\170\129C{\152\189\233\177\138','\243\2\25\241\209\128\197'),yf('\5V\n\f\0U\n\18','F9cb'))
+        end;
+        Nb[yf('2\247\53\253','F\150')][yf('\b\252\22\233','\127\157')](113526702.5+-113526702)
+    end
+end);
+Nd[yf('\237\144t$\r\160\236\129\127\48\24\183\219','\191\245\26@h\210')]:Connect(function(Bc)
+    if Vc[yf('X\181&7<R\\=L^\183\17\56\48Uc(M',';\211TVQ7\15M)')]and Sd[yf('\30\177\188:<\186\169-/',']\217\221H')]and Sd[yf('^\210\183\135|\217\162\144o','\29\186\214\245')]:FindFirstChild(yf("5\28\159\147[\'\150\184/\6\157\134e)\141\168",'}i\242\242\53H\255\220'))then
+        local ib,da=Sd[yf('\204\159\226\243\238\148\247\228\253','\143\247\131\129')][yf('\225c\177W\r\235y\181\251y\179B3\229b\165','\169\22\220\54c\132\16\209')],Sd[yf('\252u\211\252\222~\198\235\205','\191\29\178\142')][yf('\195l\150\209\229v\146\212','\139\25\251\176')][yf('\27\193\178\241\193t$\203\167\224\236r8','V\174\196\148\133\29')]
+        if not(da[yf(yf('eYDNALVDM','\4^g\f'),yf('\216\230\176\172','\244\128'))]>-2.3306514682859847*-714443481+(-1745416923- -80298175))then
+        else
+            ib[yf('\22\164\184\52\143\175','U\226\202')]=ib[yf('?\144\199\29\187\208','|\214\181')]+da*Vc[yf('B\191k\139\50\215Y\130D\188}\188>\222\127\151','!\217\25\234_\178\n\242')]*Bc
+        end
+    end
+end)
+local ue=1420763131-1420763131;
+Nd[yf('\187\16\53\22\178m\186\1>\2\167z\141','\233u[r\215\31')]:Connect(function(Gf)
+    if Vc[yf(';\167\142\250\53\186\177\223\24','Z\206\227\152')]then
+        ue=(ue+Gf*(-26077247460/-289747194))%(-1013485441+1013485801)
+        local Ge=Nb[yf('\192\130u\236\159*','\131\237\25')][yf('jk\181aQ\137Z','\f\25\218')](ue/(-548990165- -548990525),-86263848- -86263849,-1300687577/-1300687577)
+        ma[yf('\166\185\137\185\151','\229\214')]=Ge
+    else
+        ma[yf('\v\130$\130:','H\237')]=Nb[yf('\25v\199\53k\152','Z\25\171')][yf('!*8','O')](-496617200+496617201,-855308783- -855308784,-34075291- -34075292)
+    end
+    if not(Vc[yf(yf('\196\5N\221o\202\169\138\243:J\204i\220\131\160','\249#\187/:\234c\219'),yf('\222\v\201R\184\16\221\220','\130DQ\194'))])then
+        Hf[yf('\212M\153\235F\134\231','\130$\234')]=false
+    else
+        Hf[yf('\aG\216\56L\199\52','Q.\171')]=true
+        local Fc=Vc[yf('\142A%\22\128\\\14;\185','\239(Ht')]
+        Hf[yf('\237p\196|','\190\25')]=Nb[yf('{\184G\145\28','.\252')][yf('&-?','H')](0/1631284092,Fc*(1.8126295328854963e-09*1103369422),-1544103647- -1544103647,Fc*(1375915243-1375915241))
+        Hf[yf('\v\149\6\248/\147\26\255','[\250u\145')]=Nb[yf('B\24~1%','\23\\')][yf('~ug','\16')](777166285.5/1554332571,-Fc,4.0837223854812758e-10*1224373140,-Fc)
+    end
+end)
+if Vc[yf('z*\159\157\148V|,\148\190\175Tl','\tB\240\234\198\57')]then
+    nb()
+end
